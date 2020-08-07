@@ -1,0 +1,15 @@
+ManifestFileVersion: 0
+CRC: 977006410
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: shaders
+      Dependencies: {}
+    Info_1:
+      Name: textures
+      Dependencies: {}
+    Info_2:
+      Name: c0001
+      Dependencies:
+        Dependency_0: shaders
+        Dependency_1: textures

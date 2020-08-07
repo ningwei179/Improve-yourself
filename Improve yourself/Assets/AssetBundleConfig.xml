@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AssetBundleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ABList ABName="c0001" AssetName="C0001.prefab" Path="Assets/GameData/Prefabs/C0001.prefab" Crc="2337105686">
+    <ABDependce>textures</ABDependce>
+    <ABDependce>shaders</ABDependce>
+  </ABList>
+  <ABList ABName="shaders" AssetName="Hero-Battle.shader" Path="Assets/GameData/Shaders/Hero-Battle.shader" Crc="3448524930" />
+  <ABList ABName="textures" AssetName="TopMatcap11.png" Path="Assets/GameData/Textures/TopMatcap11.png" Crc="220477938" />
+</AssetBundleConfig>
