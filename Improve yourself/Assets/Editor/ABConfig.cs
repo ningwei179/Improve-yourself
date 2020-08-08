@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Xml.Serialization;
+/// <summary>
+/// unity Assets序列化
+/// 添加这个可以创建unity 序列化文件
+/// </summary>
 [CreateAssetMenu(fileName = "ABConfig",menuName = "CreateABConfig"), DefaultExecutionOrder(0)]
 public class ABConfig : ScriptableObject
 {

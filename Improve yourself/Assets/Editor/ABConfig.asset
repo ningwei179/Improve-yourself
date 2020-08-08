@@ -19,3 +19,5 @@ MonoBehaviour:
     Path: Assets/GameData/Shaders
   - ABName: textures
     Path: Assets/GameData/Textures
+  - ABName: assetbundleconfig
+    Path: Assets/GameData/Data/ABData

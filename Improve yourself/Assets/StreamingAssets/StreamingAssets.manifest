@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 977006410
+CRC: 1969170610
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,6 +9,9 @@ AssetBundleManifest:
       Name: textures
       Dependencies: {}
     Info_2:
+      Name: assetbundleconfig
+      Dependencies: {}
+    Info_3:
       Name: c0001
       Dependencies:
         Dependency_0: shaders

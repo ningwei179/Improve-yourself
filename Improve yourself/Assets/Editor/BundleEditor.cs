@@ -264,7 +264,9 @@ public class BundleEditor
             abBase.Path = "";
         }
 
-        string bytePath = m_BundleTargetPath + "/AssetBundleConfig.bytes";
+        //提前在这个路径下创建一个2进制文件，这个是要打到AB包里面用的
+        //不提前创建，前面搜集所有要打包的文件和文件夹的时候就会漏掉它
+        string bytePath ="Assets/GameData/Data/AssetBundleConfig.bytes";
         //创建一个文件流对象
         FileStream fs = new FileStream(bytePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
         //二进制序列化对象
@@ -324,7 +326,11 @@ public class BundleEditor
     {
         for (int i = 0; i < m_AllFileAB.Count; i++)
         {
-            if (path == m_AllFileAB[i] || path.Contains(m_AllFileAB[i]))
+            //后面的剔除要加判断是因为某些情况会多余剔除
+            //例：Assets/GameData/Test        
+            //例：Assets/GameData/TestTT/a.prefab
+            //解决文件夹相似造成的错误删除
+            if (path == m_AllFileAB[i] || (path.Contains(m_AllFileAB[i]) && (path.Replace(m_AllFileAB[i],"")[0] == '/')))
                 return true;
         }
 

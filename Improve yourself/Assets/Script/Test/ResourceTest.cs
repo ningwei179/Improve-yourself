@@ -23,15 +23,55 @@ public class ResourceTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        XmlSerilizeTest();
+        //XmlSerilizeTest();
 
-        DeXmlSerilizerTest();
+        //DeXmlSerilizerTest();
 
-        BinarySerilizeTest();
+        //BinarySerilizeTest();
 
-        DeBinarySerilizeTest();
+        //DeBinarySerilizeTest();
 
-        ReadTestAssets();
+        //ReadTestAssets();
+
+        TestLoadAB();
+    }
+
+    /// <summary>
+    /// 测试加载ab包
+    /// </summary>
+    void TestLoadAB()
+    {
+        AssetBundle config = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/assetbundleconfig");
+        TextAsset textAsset = config.LoadAsset<TextAsset>("AssetBundleConfig");
+        //创建一个内存流
+        MemoryStream stream = new MemoryStream(textAsset.bytes);
+        //二进制序列化对象
+        BinaryFormatter bf = new BinaryFormatter();
+
+        AssetBundleConfig abConfig = (AssetBundleConfig)bf.Deserialize(stream);
+        //关闭内存流
+        stream.Close();
+
+        string path = "Assets/GameData/Prefabs/C0001.prefab";
+        uint crc = Crc32.GetCrc32(path);
+
+        ABBase abBase = null;
+        for (int i = 0; i < abConfig.ABList.Count; i++)
+        {
+            if (abConfig.ABList[i].Crc == crc)
+            {
+                abBase = abConfig.ABList[i];
+            }
+        }
+
+        for (int i = 0; i < abBase.ABDependce.Count; i++)
+        {
+            AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + abBase.ABDependce[i]);
+        }
+
+        AssetBundle role = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + abBase.ABName);
+        GameObject rolePrefab = role.LoadAsset<GameObject>("C0001");
+        Instantiate(rolePrefab);
     }
 
     /// <summary>

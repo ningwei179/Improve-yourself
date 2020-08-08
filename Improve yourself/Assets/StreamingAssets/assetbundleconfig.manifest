@@ -1,16 +1,16 @@
 ManifestFileVersion: 0
-CRC: 3242384693
+CRC: 3131227708
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 24916596c6343b1e28f78b5960fe049e
+    Hash: ec4304a993cbd4b32c63a66b6a129182
   TypeTreeHash:
     serializedVersion: 2
-    Hash: f19fbf085e00d23fbc8d6cf7b345590b
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
 HashAppended: 0
 ClassTypes:
-- Class: 28
+- Class: 49
   Script: {instanceID: 0}
 Assets:
-- Assets/C1156/Texture/C1156_01_D_256.tga
+- Assets/GameData/Data/ABData/AssetBundleConfig.bytes
 Dependencies: []

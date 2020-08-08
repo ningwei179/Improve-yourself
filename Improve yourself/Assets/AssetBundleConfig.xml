@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AssetBundleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ABList ABName="assetbundleconfig" AssetName="AssetBundleConfig.bytes" Path="Assets/GameData/Data/ABData/AssetBundleConfig.bytes" Crc="3433850972" />
   <ABList ABName="c0001" AssetName="C0001.prefab" Path="Assets/GameData/Prefabs/C0001.prefab" Crc="2337105686">
     <ABDependce>textures</ABDependce>
     <ABDependce>shaders</ABDependce>
