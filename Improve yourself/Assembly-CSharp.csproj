@@ -61,7 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\AssetBundleConfig.cs" />
+    <Compile Include="Assets\Script\AssetBundleManager.cs" />
+    <Compile Include="Assets\Script\ClassObjectPool.cs" />
     <Compile Include="Assets\Script\CRC32.cs" />
+    <Compile Include="Assets\Script\DoubleLinkedList.cs" />
+    <Compile Include="Assets\Script\GameStart.cs" />
+    <Compile Include="Assets\Script\ObjectManager.cs" />
+    <Compile Include="Assets\Script\ResourceManager.cs" />
+    <Compile Include="Assets\Script\Singleton.cs" />
     <Compile Include="Assets\Script\Test\AssetsSerilize.cs" />
     <Compile Include="Assets\Script\Test\LoadFromFileExample.cs" />
     <Compile Include="Assets\Script\Test\ResourceTest.cs" />

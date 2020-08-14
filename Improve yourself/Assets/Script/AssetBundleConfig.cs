@@ -18,9 +18,9 @@ public class ABBase
     [XmlAttribute("Crc")]
     public uint Crc { get; set; }       //将资源文件路径转换成Crc
     [XmlAttribute("ABName")]
-    public string ABName;               //AB包名
+    public string ABName;               //该资源坐在的AB包名称
     [XmlAttribute("AssetName")]
-    public string AssetName;            //资源名称
+    public string AssetName;            //该资源的名称
     [XmlElement("ABDependce")]
     public List<string> ABDependce { get; set; }    //这个资源依赖的其他资源包名列表
 }

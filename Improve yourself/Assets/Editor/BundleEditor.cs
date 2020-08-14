@@ -266,7 +266,7 @@ public class BundleEditor
 
         //提前在这个路径下创建一个2进制文件，这个是要打到AB包里面用的
         //不提前创建，前面搜集所有要打包的文件和文件夹的时候就会漏掉它
-        string bytePath ="Assets/GameData/Data/AssetBundleConfig.bytes";
+        string bytePath = "Assets/GameData/Data/ABData/AssetBundleConfig.bytes";
         //创建一个文件流对象
         FileStream fs = new FileStream(bytePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
         //二进制序列化对象

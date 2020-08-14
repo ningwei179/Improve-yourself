@@ -1,16 +1,16 @@
 ManifestFileVersion: 0
-CRC: 1989193033
+CRC: 770260904
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9f493e34f45c858dbc8adad454d0d5a7
+    Hash: f7b06336f4e46c6a4c375060bfbf7769
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
 HashAppended: 0
 ClassTypes:
-- Class: 49
+- Class: 83
   Script: {instanceID: 0}
 Assets:
-- Assets/GameData/Data/ABData/AssetBundleConfig.bytes
+- Assets/GameData/Sounds/music_battle.mp3
 Dependencies: []

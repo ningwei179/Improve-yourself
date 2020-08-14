@@ -6,5 +6,6 @@
     <ABDependce>shaders</ABDependce>
   </ABList>
   <ABList ABName="shaders" AssetName="Hero-Battle.shader" Path="Assets/GameData/Shaders/Hero-Battle.shader" Crc="3448524930" />
+  <ABList ABName="sounds" AssetName="music_battle.mp3" Path="Assets/GameData/Sounds/music_battle.mp3" Crc="3462996725" />
   <ABList ABName="textures" AssetName="TopMatcap11.png" Path="Assets/GameData/Textures/TopMatcap11.png" Crc="220477938" />
 </AssetBundleConfig>
