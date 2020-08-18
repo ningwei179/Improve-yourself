@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\ABConfig.cs" />
     <Compile Include="Assets\Editor\BundleEditor.cs" />
+    <Compile Include="Assets\Editor\OfflineDataEditor.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Improve/Improve yourself/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

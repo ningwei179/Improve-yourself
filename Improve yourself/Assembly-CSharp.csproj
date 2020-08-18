@@ -67,6 +67,9 @@
     <Compile Include="Assets\Script\DoubleLinkedList.cs" />
     <Compile Include="Assets\Script\GameStart.cs" />
     <Compile Include="Assets\Script\ObjectManager.cs" />
+    <Compile Include="Assets\Script\OfflineData\EffectOfflineData.cs" />
+    <Compile Include="Assets\Script\OfflineData\OfflineData.cs" />
+    <Compile Include="Assets\Script\OfflineData\UIOfflineData.cs" />
     <Compile Include="Assets\Script\ResourceManager.cs" />
     <Compile Include="Assets\Script\Singleton.cs" />
     <Compile Include="Assets\Script\Test\AssetsSerilize.cs" />

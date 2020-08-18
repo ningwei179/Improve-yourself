@@ -132,19 +132,19 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         {
             ABBase abBase = abConfig.ABList[i];
 
-            AssetBundleInfo assetBundleInfo = new AssetBundleInfo();
-            assetBundleInfo.m_Crc = abBase.Crc;
-            assetBundleInfo.m_AssetName = abBase.AssetName;
-            assetBundleInfo.m_ABName = abBase.ABName;
-            assetBundleInfo.m_DependceAssetBundle = abBase.ABDependce;
+            AssetBundleInfo abInfo = new AssetBundleInfo();
+            abInfo.m_Crc = abBase.Crc;
+            abInfo.m_AssetName = abBase.AssetName;
+            abInfo.m_ABName = abBase.ABName;
+            abInfo.m_DependceAssetBundle = abBase.ABDependce;
 
-            if (m_AssetBundleInfoDic.ContainsKey(assetBundleInfo.m_Crc))
+            if (m_AssetBundleInfoDic.ContainsKey(abInfo.m_Crc))
             {
-                Debug.LogError("重复的Crc : 资源名：" + assetBundleInfo.m_AssetName + " ab包名：" + assetBundleInfo.m_ABName);
+                Debug.LogError("重复的Crc : 资源名：" + abInfo.m_AssetName + " ab包名：" + abInfo.m_ABName);
             }
             else
             {
-                m_AssetBundleInfoDic.Add(assetBundleInfo.m_Crc, assetBundleInfo);
+                m_AssetBundleInfoDic.Add(abInfo.m_Crc, abInfo);
             }
         }
 
@@ -152,39 +152,39 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     }
 
     /// <summary>
-    /// 加载AssetBundle，存储到AssetBundleInfo中,
+    /// 加载AssetBundle，存储到AssetBundleInfo.m_AssetBundle中,
     /// </summary>
     /// <param name="crc">AssetBundle的crc标记</param>
     /// <returns></returns>
     public AssetBundleInfo LoadAssetBundleInfo(uint crc)
     {
-        AssetBundleInfo assetBundleInfo = null;
+        AssetBundleInfo abInfo = null;
 
-        if (!m_AssetBundleInfoDic.TryGetValue(crc, out assetBundleInfo) || assetBundleInfo == null)
+        if (!m_AssetBundleInfoDic.TryGetValue(crc, out abInfo) || abInfo == null)
         {
             Debug.LogError("bundle字典中没有找到item，或者找到了item是空，crc :" + crc);
-            return assetBundleInfo;
+            return abInfo;
         }
 
         //如果这个assetbundle资源块里面的资源不是空的
-        if (assetBundleInfo.m_AssetBundle != null)
+        if (abInfo.m_AssetBundle != null)
         {
-            return assetBundleInfo;
+            return abInfo;
         }
 
         //加载该资源块中的资源
-        assetBundleInfo.m_AssetBundle = LoadAssetBundle(assetBundleInfo.m_ABName);
+        abInfo.m_AssetBundle = LoadAssetBundle(abInfo.m_ABName);
 
         //加载该资源块中的资源所依赖的资源
-        if (assetBundleInfo.m_DependceAssetBundle != null)
+        if (abInfo.m_DependceAssetBundle != null)
         {
-            for (int i = 0; i < assetBundleInfo.m_DependceAssetBundle.Count; i++)
+            for (int i = 0; i < abInfo.m_DependceAssetBundle.Count; i++)
             {
-                LoadAssetBundle(assetBundleInfo.m_DependceAssetBundle[i]);
+                LoadAssetBundle(abInfo.m_DependceAssetBundle[i]);
             }
         }
 
-        return assetBundleInfo;
+        return abInfo;
     }
 
     /// <summary>
@@ -194,10 +194,10 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     /// <returns></returns>
     private AssetBundle LoadAssetBundle(string name)
     {
-        AssetBundleItem item = null;
+        AssetBundleItem abItem = null;
         uint crc = Crc32.GetCrc32(name);    //根据名称获取Crc值
 
-        if (!m_AssetBundleItemDic.TryGetValue(crc, out item))
+        if (!m_AssetBundleItemDic.TryGetValue(crc, out abItem))
         {
             AssetBundle assetBundle = null;
             string fullPath = Application.streamingAssetsPath + "/" + name;
@@ -213,41 +213,41 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
                 Debug.LogError("Load AssetBundle Error:" + fullPath);
             }
 
-            item = m_AssetBundleItemPool.Spawn(true);
-            item.assetBundle = assetBundle;
-            item.RefCount++;
-            m_AssetBundleItemDic.Add(crc,item);
+            abItem = m_AssetBundleItemPool.Spawn(true);
+            abItem.assetBundle = assetBundle;
+            abItem.RefCount++;
+            m_AssetBundleItemDic.Add(crc,abItem);
         }
         else
         {
-            item.RefCount++;
+            abItem.RefCount++;
         }
 
-        return item.assetBundle;
+        return abItem.assetBundle;
     }
 
     /// <summary>
     /// 释放一个资源块
     /// </summary>
-    /// <param name="item"></param>
-    public void ReleaseAssetBundle(AssetBundleInfo item)
+    /// <param name="abInfo"></param>
+    public void ReleaseAssetBundle(AssetBundleInfo abInfo)
     {
-        if (item == null)
+        if (abInfo == null)
         {
             return;
         }
 
         //先卸载依赖资源
-        if (item.m_DependceAssetBundle != null && item.m_DependceAssetBundle.Count > 0)
+        if (abInfo.m_DependceAssetBundle != null && abInfo.m_DependceAssetBundle.Count > 0)
         {
-            for (int i = 0; i < item.m_DependceAssetBundle.Count; i++)
+            for (int i = 0; i < abInfo.m_DependceAssetBundle.Count; i++)
             {
-                UnloadAssetBundle(item.m_DependceAssetBundle[i]);
+                UnloadAssetBundle(abInfo.m_DependceAssetBundle[i]);
             }
         }
 
         //再卸载这个资源
-        UnloadAssetBundle(item.m_ABName);
+        UnloadAssetBundle(abInfo.m_ABName);
     }
 
     /// <summary>
@@ -256,18 +256,18 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     /// <param name="name"></param>
     private void UnloadAssetBundle(string name)
     {
-        AssetBundleItem item = null;
+        AssetBundleItem abItem = null;
 
         uint crc = Crc32.GetCrc32(name); //根据名称获取Crc值
 
-        if (m_AssetBundleItemDic.TryGetValue(crc, out item) && item != null)
+        if (m_AssetBundleItemDic.TryGetValue(crc, out abItem) && abItem != null)
         {
-            item.RefCount--;
-            if (item.RefCount <= 0 && item.assetBundle!=null)
+            abItem.RefCount--;
+            if (abItem.RefCount <= 0 && abItem.assetBundle!=null)
             {
-                item.assetBundle.Unload(true);      //卸载掉AssetBundle
-                item.Rest();                        //重置这个对象
-                m_AssetBundleItemPool.Recycle(item);//回收到对象池子里
+                abItem.assetBundle.Unload(true);      //卸载掉AssetBundle
+                abItem.Rest();                        //重置这个对象
+                m_AssetBundleItemPool.Recycle(abItem);//回收到对象池子里
                 m_AssetBundleItemDic.Remove(crc);   //从字典中删除这个资源
             }
         }
