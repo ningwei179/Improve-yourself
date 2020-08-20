@@ -70,7 +70,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012247676160}
   - component: {fileID: 95000013561289862}
-  - component: {fileID: 114103201433475410}
   m_Layer: 9
   m_Name: C0001
   m_TagString: Untagged
@@ -118,58 +117,6 @@ Animator:
   m_HasTransformHierarchy: 0
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114103201433475410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012269274172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8a47c4410d7544e9844d1daded584f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Rigidbody: {fileID: 0}
-  m_Collider: {fileID: 0}
-  m_AllPoint:
-  - {fileID: 4000012247676160}
-  - {fileID: 4000014205305728}
-  - {fileID: 4000013581523134}
-  - {fileID: 4000010162184504}
-  - {fileID: 4000010964089580}
-  - {fileID: 4593178777558698047}
-  - {fileID: 8898334146435056544}
-  - {fileID: 3813760940858623712}
-  m_AllPointChildCount: 0700000000000000000000000000000000000000000000000000000000000000
-  m_AllPointActive: 0101010101010101
-  m_Pos:
-  - {x: 0, y: 0, z: 0}
-  - {x: -0, y: 0, z: 0}
-  - {x: -0.0000000011665571, y: 1.0976704, z: -0.026687667}
-  - {x: 0, y: 2.5, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 1.228, z: 0}
-  - {x: 0, y: 0, z: 0.6}
-  - {x: 0, y: 1.228, z: 0.6}
-  m_Scale:
-  - {x: 1, y: 1, z: 1}
-  - {x: 1.0000001, y: 1.0000001, z: 1}
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  m_Rot:
-  - {x: 0, y: 0, z: 0, w: 1}
-  - {x: -0.50244486, y: 0.4975431, z: 0.4975431, w: 0.50244486}
-  - {x: -0.5000007, y: 0.5000007, z: 0.49999928, w: -0.49999928}
-  - {x: -0, y: -0, z: -0, w: 1}
-  - {x: -0, y: -0, z: -0, w: 1}
-  - {x: 0, y: 0, z: 0, w: 1}
-  - {x: -0, y: -0, z: -0, w: 1}
-  - {x: -0, y: -0, z: -0, w: 1}
 --- !u!1 &1000013094739120
 GameObject:
   m_ObjectHideFlags: 0

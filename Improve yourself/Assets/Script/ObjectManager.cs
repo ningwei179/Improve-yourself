@@ -118,6 +118,23 @@ public class ObjectManager : Singleton<ObjectManager>
     }
 
     /// <summary>
+    /// 根据实例化对象直接获取离线数据
+    /// </summary>
+    /// <returns></returns>
+    public OfflineData FindOfflineData(GameObject obj)
+    {
+        OfflineData data = null;
+        ResourceObj resObj = null;
+        m_ResObjDic.TryGetValue(obj.GetInstanceID(), out resObj);
+        if (resObj != null)
+        {
+            data = resObj.m_offlineData;
+        }
+
+        return data;
+    }
+
+    /// <summary>
     /// 从对象池取出一个对象
     /// </summary>
     /// <param name="crc"></param>
@@ -136,6 +153,12 @@ public class ObjectManager : Singleton<ObjectManager>
             GameObject obj = resObj.m_CloneObj;
             if (!System.Object.ReferenceEquals(obj, null))
             {
+                //还原离线数据
+                if (!System.Object.ReferenceEquals(resObj.m_offlineData, null))
+                {
+                    resObj.m_offlineData.ResetProp();
+                }
+
                 resObj.m_Already = false;
 #if UNITY_EDITOR
                 if (obj.name.EndsWith("(Recycle)"))
@@ -240,6 +263,8 @@ public class ObjectManager : Singleton<ObjectManager>
             if (resObj.m_AssetBundleInfo.m_Obj != null)
             {
                 resObj.m_CloneObj = GameObject.Instantiate(resObj.m_AssetBundleInfo.m_Obj) as GameObject;
+
+                resObj.m_offlineData = resObj.m_CloneObj.GetComponent<OfflineData>();
             }
         }
 
@@ -335,6 +360,8 @@ public class ObjectManager : Singleton<ObjectManager>
         {
             //给ResourceObj的实例化对象赋值
             resObj.m_CloneObj = GameObject.Instantiate(resObj.m_AssetBundleInfo.m_Obj) as GameObject;
+
+            resObj.m_offlineData = resObj.m_CloneObj.GetComponent<OfflineData>();
         }
 
         //加载完成，就从正在加载的异步中移除

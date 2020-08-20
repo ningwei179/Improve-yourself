@@ -75,6 +75,9 @@
     <Compile Include="Assets\Script\Test\AssetsSerilize.cs" />
     <Compile Include="Assets\Script\Test\LoadFromFileExample.cs" />
     <Compile Include="Assets\Script\Test\ResourceTest.cs" />
+    <Compile Include="Assets\Script\UGUI\BaseItem.cs" />
+    <Compile Include="Assets\Script\UGUI\UIManager.cs" />
+    <Compile Include="Assets\Script\UGUI\Window.cs" />
     <None Include="Assets\AssetBundleConfig.xml" />
     <None Include="Assets\GameData\Shaders\Hero-Battle.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
