@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 458724517
+CRC: 3434526992
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,13 +9,25 @@ AssetBundleManifest:
       Name: textures
       Dependencies: {}
     Info_2:
-      Name: assetbundleconfig
-      Dependencies: {}
-    Info_3:
       Name: sounds
       Dependencies: {}
+    Info_3:
+      Name: particletest
+      Dependencies: {}
     Info_4:
+      Name: gamestart
+      Dependencies: {}
+    Info_5:
       Name: c0001
       Dependencies:
         Dependency_0: shaders
         Dependency_1: textures
+    Info_6:
+      Name: loadingpanel
+      Dependencies: {}
+    Info_7:
+      Name: menupanel
+      Dependencies: {}
+    Info_8:
+      Name: assetbundleconfig
+      Dependencies: {}

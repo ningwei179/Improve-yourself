@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1891222066
+CRC: 4271717314
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e85b801061c9e739178fc59bb8e0ec61
+    Hash: 1b39a8843f296bc62252506532844f76
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4ca06b135f803735410326e1e56c74c8
@@ -32,12 +32,12 @@ ClassTypes:
 - Class: 137
   Script: {instanceID: 0}
 Assets:
-- Assets/GameData/Prefabs/C0001.prefab
-- Assets/Units/C1166/Skin1/Materials/C1166_Skin1_01_D_256.mat
-- Assets/Units/C1166/Skin1/C1166_Skin1_LOD2.FBX
-- Assets/Units/C1166/Skin1/C1166_Skin1.controller
-- Assets/Units/C1166/Skin1/C1166_Skin1.FBX
-- Assets/Units/C1166/Skin1/Texture/C1166_Skin1_01_D_256.tga
+- Assets/GameData/Prefabs/Role/C0001.prefab
+- Assets/GameData/Modle/C1166/Skin1/Materials/C1166_Skin1_01_D_256.mat
+- Assets/GameData/Modle/C1166/Skin1/C1166_Skin1_LOD2.FBX
+- Assets/GameData/Modle/C1166/Skin1/C1166_Skin1.controller
+- Assets/GameData/Modle/C1166/Skin1/C1166_Skin1.FBX
+- Assets/GameData/Modle/C1166/Skin1/Texture/C1166_Skin1_01_D_256.tga
 Dependencies:
 - D:/Improve/Improve yourself/Assets/StreamingAssets/shaders
 - D:/Improve/Improve yourself/Assets/StreamingAssets/textures
