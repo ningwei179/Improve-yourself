@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 430850605
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: shaders
+      Dependencies: {}
+    Info_1:
+      Name: textures
+      Dependencies: {}
+    Info_2:
+      Name: sounds
+      Dependencies: {}
+    Info_3:
+      Name: uisprite
+      Dependencies: {}
+    Info_4:
+      Name: particletest
+      Dependencies: {}
+    Info_5:
+      Name: gamestart
+      Dependencies: {}
+    Info_6:
+      Name: c0001
+      Dependencies:
+        Dependency_0: shaders
+        Dependency_1: textures
+    Info_7:
+      Name: loadingpanel
+      Dependencies: {}
+    Info_8:
+      Name: menupanel
+      Dependencies: {}
+    Info_9:
+      Name: assetbundleconfig
+      Dependencies: {}

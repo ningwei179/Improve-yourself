@@ -1,0 +1,7 @@
+D:\Improve\Improve yourself_Server\Protocal\obj\Debug\Protocal.csprojAssemblyReference.cache
+D:\Improve\Improve yourself_Server\Protocal\obj\Debug\Protocal.csproj.CoreCompileInputs.cache
+D:\Improve\Improve yourself_Server\Protocal\obj\Debug\Protocal.csproj.CopyComplete
+D:\Improve\Improve yourself_Server\Protocal\obj\Debug\Protocal.dll
+D:\Improve\Improve yourself_Server\Protocal\obj\Debug\Protocal.pdb
+D:\Improve\Protocal.dll
+D:\Improve\Protocal.pdb

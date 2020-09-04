@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 671478744
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 37b523f26aacddfef7586f86eb1b269a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ea5a42e0fd8ea905efa7aa926a3b8944
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameData/UISprite/image2.png
+- Assets/GameData/UISprite/image1.png
+Dependencies: []
