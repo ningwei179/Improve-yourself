@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+/****************************************************
+	文件：EffectOfflineData.cs
+	作者：NingWei
+	日期：2020/09/07 11:32   	
+	功能：特效离线数据
+*****************************************************/
 using UnityEngine;
 
-/// <summary>
-/// 特效的离线数据
-/// </summary>
 public class EffectOfflineData : OfflineData
 {
     public ParticleSystem[] m_Particle; //粒子

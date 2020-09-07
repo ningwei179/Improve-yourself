@@ -1,6 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+/****************************************************
+	文件：ConStr.cs
+	作者：NingWei
+	日期：2020/09/07 11:31   	
+	功能：通用常量
+*****************************************************/
 
 public class ConStr
 {

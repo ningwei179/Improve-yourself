@@ -60,9 +60,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Data\Login\MessageContext_Login.cs" />
+    <Compile Include="Assets\Script\Data\MessageContext_Register.cs" />
     <Compile Include="Assets\Script\Game\GameStart.cs" />
     <Compile Include="Assets\Script\Manager\GameMapManager.cs" />
     <Compile Include="Assets\Script\NetWork\ClientSession.cs" />
+    <Compile Include="Assets\Script\NetWork\MessageDispatch.cs" />
+    <Compile Include="Assets\Script\NetWork\MessagePublisher.cs" />
     <Compile Include="Assets\Script\NetWork\NetWorkManager.cs" />
     <Compile Include="Assets\Script\UGUI\Panel\LoadingPanel.cs" />
     <Compile Include="Assets\Script\UGUI\Panel\MenuPanel.cs" />

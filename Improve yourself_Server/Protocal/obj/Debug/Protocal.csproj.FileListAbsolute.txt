@@ -5,3 +5,5 @@ D:\Improve\Improve yourself_Server\Protocal\obj\Debug\Protocal.dll
 D:\Improve\Improve yourself_Server\Protocal\obj\Debug\Protocal.pdb
 D:\Improve\Protocal.dll
 D:\Improve\Protocal.pdb
+D:\Improve\Improve yourself_Client\Assets\References\Protocal.dll
+D:\Improve\Improve yourself_Client\Assets\References\Protocal.pdb

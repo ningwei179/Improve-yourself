@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+/****************************************************
+	文件：OfflineData.cs
+	作者：NingWei
+	日期：2020/09/07 11:33   	
+	功能：离线数据
+*****************************************************/
+
 using UnityEngine;
 
-/// <summary>
-/// 离线数据
-/// </summary>
 public class OfflineData : MonoBehaviour
 {
     public Rigidbody m_Rigidbody;

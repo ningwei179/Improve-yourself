@@ -1,7 +1,11 @@
-using System.Collections;
+/****************************************************
+	文件：ABConfig.cs
+	作者：NingWei
+	日期：2020/09/07 11:35   	
+	功能：ABConfig 序列化文件
+*****************************************************/
 using System.Collections.Generic;
 using UnityEngine;
-using System.Xml.Serialization;
 /// <summary>
 /// unity Assets序列化
 /// 添加这个可以创建unity 序列化文件

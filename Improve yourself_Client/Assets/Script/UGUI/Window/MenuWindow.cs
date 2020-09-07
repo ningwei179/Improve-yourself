@@ -1,6 +1,12 @@
+/****************************************************
+	文件：MenuWindow.cs
+	作者：NingWei
+	日期：2020/09/07 11:31   	
+	功能：处理菜单界面的逻辑
+*****************************************************/
+
+using Protocal;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
-using UnityEngine.UI;
 
 public class MenuWindow : Window
 {
@@ -56,7 +62,12 @@ public class MenuWindow : Window
 
     void OnClickStart()
     {
-
+        NetMsg msg = new NetMsg();
+        msg.cmd = (int)CMD.Reqlogin;
+        msg.reqLogin = new ReqLogin();
+        msg.reqLogin.account = "10001";
+        msg.reqLogin.pass = "10001";
+        NetWorkManager.Instance.SendMsg(msg);
     }
 
     void OnClickLoad()

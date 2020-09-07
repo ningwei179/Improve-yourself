@@ -1,3 +1,9 @@
+/****************************************************
+	文件：GameStart.cs
+	作者：NingWei
+	日期：2020/09/07 11:28   	
+	功能：游戏启动类
+*****************************************************/
 using UnityEngine;
 
 public class GameStart : MonoBehaviour
@@ -52,6 +58,14 @@ public class GameStart : MonoBehaviour
     void Update()
     {
         UIManager.Instance.OnUpdate();
+
+        NetWorkManager.Instance.Update();
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            NetWorkManager.Instance.m_Client.session.SendMsg(new Protocal.NetMsg
+            {
+
+            });
+        }
     }
 
     private void OnApplicationQuit()

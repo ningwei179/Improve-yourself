@@ -1,6 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+/****************************************************
+	文件：Singleton.cs
+	作者：NingWei
+	日期：2020/09/07 11:32   	
+	功能：单例工厂
+*****************************************************/
 
 public class Singleton<T> where T:new()
 {

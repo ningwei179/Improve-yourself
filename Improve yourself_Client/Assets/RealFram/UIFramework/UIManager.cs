@@ -1,5 +1,10 @@
+/****************************************************
+	文件：UIManager.cs
+	作者：NingWei
+	日期：2020/09/07 11:34   	
+	功能：UI管理器
+*****************************************************/
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,9 +15,6 @@ public enum UIMsgID
 
 }
 
-/// <summary>
-/// UI管理器
-/// </summary>
 public class UIManager : Singleton<UIManager>
 {
     //UI节点

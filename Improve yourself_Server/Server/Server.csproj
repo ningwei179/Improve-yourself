@@ -33,8 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ServerSession.cs" />
-    <Compile Include="ServerStart.cs" />
+    <Compile Include="00Common\ServerRoot.cs" />
+    <Compile Include="01Service\01NetSvc\NetSvc.cs" />
+    <Compile Include="02System\01loginSys\loginSys.cs" />
+    <Compile Include="01Service\01NetSvc\ServerSession.cs" />
+    <Compile Include="00Common\ServerStart.cs" />
+    <Compile Include="03Cache\CacheSvc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +54,7 @@
     <Reference Include="PESocket">
       <HintPath>..\..\..\MyFile\PESocket-master\PESocket.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,3 +1,9 @@
+/****************************************************
+	文件：BundleEditor.cs
+	作者：NingWei
+	日期：2020/09/07 11:36   	
+	功能：打AB包
+*****************************************************/
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;

@@ -1,7 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+/****************************************************
+	文件：OfflineDataEditor.cs
+	作者：NingWei
+	日期：2020/09/07 13:06   	
+	功能：离线数据编辑
+*****************************************************/
 using UnityEditor;
+using UnityEngine;
 
 public class OfflineDataEditor
 {

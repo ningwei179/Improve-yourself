@@ -1,5 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+/****************************************************
+	文件：BaseItem.cs
+	作者：NingWei
+	日期：2020/09/07 11:34   	
+	功能：基础组件
+*****************************************************/
 using UnityEngine;
 
 public class BaseItem : MonoBehaviour

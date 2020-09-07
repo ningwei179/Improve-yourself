@@ -1,8 +1,11 @@
+/****************************************************
+	文件：UIOfflineData.cs
+	作者：NingWei
+	日期：2020/09/07 11:33   	
+	功能：UI离线数据
+*****************************************************/
 using UnityEngine;
 
-/// <summary>
-/// UI离线数据
-/// </summary>
 public class UIOfflineData : OfflineData
 {
     public Vector2[] m_AnchorMax;

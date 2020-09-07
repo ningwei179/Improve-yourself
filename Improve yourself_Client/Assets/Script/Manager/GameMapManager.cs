@@ -1,10 +1,14 @@
+/****************************************************
+	文件：GameMapManager.cs
+	作者：NingWei
+	日期：2020/09/07 11:28   	
+	功能：场景管理器
+*****************************************************/
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-/// <summary>
-/// 游戏场景管理器
-/// </summary>
+
 public class GameMapManager : Singleton<GameMapManager>
 {
     /// <summary>
