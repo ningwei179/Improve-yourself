@@ -60,8 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\RealFram\BaseFramework\ConStr.cs" />
-    <Compile Include="Assets\RealFram\BaseFramework\Singleton.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\BaseFrame\ConStr.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\BaseFrame\Singleton.cs" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Unity2018/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

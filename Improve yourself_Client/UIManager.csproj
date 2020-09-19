@@ -60,9 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\RealFram\UIFramework\BaseItem.cs" />
-    <Compile Include="Assets\RealFram\UIFramework\UIManager.cs" />
-    <Compile Include="Assets\RealFram\UIFramework\Window.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\UIFrame\BaseItem.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\UIFrame\UIManager.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\UIFrame\Window.cs" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Unity2018/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

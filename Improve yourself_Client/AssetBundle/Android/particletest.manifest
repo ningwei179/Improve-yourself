@@ -1,0 +1,34 @@
+ManifestFileVersion: 0
+CRC: 884916062
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6d6a19b27b6c45a780241164d41b7d09
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: da7cb1795100a1252641dc2c1a91d897
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 65ba7e65d3540ff41acffa98e811d746, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameData/Prefabs/Effect/ParticleTest.prefab
+Dependencies: []

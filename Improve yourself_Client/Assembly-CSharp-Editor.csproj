@@ -60,9 +60,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\RealFram.Editor\Editor\Resource\ABConfig.cs" />
-    <Compile Include="Assets\RealFram.Editor\Editor\Resource\BundleEditor.cs" />
-    <Compile Include="Assets\RealFram.Editor\Editor\Resource\OfflineDataEditor.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Config\DataEditor.cs" />
+    <Compile Include="Assets\FrameWork\Editor\FramConfig.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Resource\ABConfig.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Resource\BuildApp.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Resource\BundleEditor.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Resource\BundleHotFix.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Resource\OfflineDataEditor.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Tool\ScriptsInfoRecoder.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Tool\UnityToSVN.cs" />
+    <Compile Include="Assets\FrameWork\Editor\WindowsFile.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Improve/Improve yourself_Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -704,10 +711,6 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{B6813DE0-FFD8-8723-DA55-15EB9496F86D}</Project>
       <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
-      <Project>{7B711FAF-8B68-A369-241A-2AE811D263B7}</Project>
-      <Name>Assembly-CSharp-Editor-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="Resource.csproj">
       <Project>{6B4140F6-84A9-3D04-EE32-EEB27266E319}</Project>

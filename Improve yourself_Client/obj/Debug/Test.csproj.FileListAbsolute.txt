@@ -301,3 +301,5 @@ D:\Improve\Improve yourself_Client\obj\Debug\Test.csproj.CoreCompileInputs.cache
 D:\Improve\Improve yourself_Client\obj\Debug\Test.csproj.CopyComplete
 D:\Improve\Improve yourself_Client\obj\Debug\Test.dll
 D:\Improve\Improve yourself_Client\obj\Debug\Test.pdb
+D:\Improve\Improve yourself_Client\Temp\bin\Debug\PESocket.pdb
+D:\Improve\Improve yourself_Client\Temp\bin\Debug\Protocal.pdb

@@ -1,0 +1,65 @@
+ManifestFileVersion: 0
+CRC: 78940828
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d8eee8f5ccb02183ab1b8ea758dabda9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ea5a42e0fd8ea905efa7aa926a3b8944
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameData/UISprite/TaskIcon_603015.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000024.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000002.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000022.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000001.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000020.png
+- Assets/GameData/UISprite/TaskIcon_603003.png
+- Assets/GameData/UISprite/TaskIcon_603010.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000016.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000006.png
+- Assets/GameData/UISprite/TaskIcon_603008.png
+- Assets/GameData/UISprite/TaskIcon_603013.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000013.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000007.png
+- Assets/GameData/UISprite/TaskIcon_603012.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000008.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000019.png
+- Assets/GameData/UISprite/TaskIcon_603019.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000003.png
+- Assets/GameData/UISprite/TaskIcon_603005.png
+- Assets/GameData/UISprite/TaskIcon_603007.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000018.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000010.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000015.png
+- Assets/GameData/UISprite/TaskIcon_603002.png
+- Assets/GameData/UISprite/TaskIcon_603009.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000011.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000004.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000012.png
+- Assets/GameData/UISprite/TaskIcon_603020.png
+- Assets/GameData/UISprite/image2.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000009.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000017.png
+- Assets/GameData/UISprite/TaskIcon_603001.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000025.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000005.png
+- Assets/GameData/UISprite/image1.png
+- Assets/GameData/UISprite/TaskIcon_603016.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000021.png
+- Assets/GameData/UISprite/TaskIcon_603011.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000023.png
+- Assets/GameData/UISprite/TaskIcon_603006.png
+- Assets/GameData/UISprite/TaskIcon_603018.png
+- Assets/GameData/UISprite/EverydayTaskIcon_602000014.png
+- Assets/GameData/UISprite/TaskIcon_603014.png
+- Assets/GameData/UISprite/TaskIcon_603021.png
+- Assets/GameData/UISprite/TaskIcon_603004.png
+- Assets/GameData/UISprite/TaskIcon_603017.png
+Dependencies: []

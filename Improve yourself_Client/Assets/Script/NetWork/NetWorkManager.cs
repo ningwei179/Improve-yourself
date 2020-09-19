@@ -82,7 +82,7 @@ public class NetWorkManager : Singleton<NetWorkManager>
     }
 
     private void ProcessMsg(NetMsg msg) {
-        MessagePublisher.Instance.Distribute(msg);
+        
         if (msg.err != (int)ErrorCode.None)
         {
             switch ((ErrorCode)msg.err)
@@ -95,11 +95,6 @@ public class NetWorkManager : Singleton<NetWorkManager>
             }
             return;
         }
-        switch ((CMD)msg.cmd)
-        {
-            case CMD.RspLogin:
-
-                break;
-        }
+        MessagePublisher.Instance.Distribute(msg);
     }
 }

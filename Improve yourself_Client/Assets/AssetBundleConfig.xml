@@ -11,6 +11,52 @@
   <ABList ABName="shaders" AssetName="Hero-Battle.shader" Path="Assets/GameData/Shaders/Hero-Battle.shader" Crc="3448524930" />
   <ABList ABName="sounds" AssetName="music_battle.mp3" Path="Assets/GameData/Sounds/music_battle.mp3" Crc="3462996725" />
   <ABList ABName="textures" AssetName="TopMatcap11.png" Path="Assets/GameData/Textures/TopMatcap11.png" Crc="220477938" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000001.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000001.png" Crc="4047634533" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000002.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000002.png" Crc="3068295861" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000003.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000003.png" Crc="2340573957" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000004.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000004.png" Crc="966954773" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000005.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000005.png" Crc="79865509" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000006.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000006.png" Crc="1130552437" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000007.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000007.png" Crc="2114123205" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000008.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000008.png" Crc="4233257492" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000009.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000009.png" Crc="3241298852" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000010.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000010.png" Crc="125762160" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000011.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000011.png" Crc="975098816" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000012.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000012.png" Crc="2109647120" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000013.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000013.png" Crc="1088323744" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000014.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000014.png" Crc="4076756144" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000015.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000015.png" Crc="3483268352" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000016.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000016.png" Crc="2285768656" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000017.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000017.png" Crc="3042846304" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000018.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000018.png" Crc="923709873" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000019.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000019.png" Crc="175020033" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000020.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000020.png" Crc="2179631326" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000021.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000021.png" Crc="3163201902" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000022.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000022.png" Crc="4213889982" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000023.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000023.png" Crc="3326800398" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000024.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000024.png" Crc="1953115678" />
+  <ABList ABName="uisprite" AssetName="EverydayTaskIcon_602000025.png" Path="Assets/GameData/UISprite/EverydayTaskIcon_602000025.png" Crc="1225394094" />
   <ABList ABName="uisprite" AssetName="image1.png" Path="Assets/GameData/UISprite/image1.png" Crc="631644006" />
   <ABList ABName="uisprite" AssetName="image2.png" Path="Assets/GameData/UISprite/image2.png" Crc="1644586422" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603001.png" Path="Assets/GameData/UISprite/TaskIcon_603001.png" Crc="2103505321" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603002.png" Path="Assets/GameData/UISprite/TaskIcon_603002.png" Crc="985697145" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603003.png" Path="Assets/GameData/UISprite/TaskIcon_603003.png" Crc="127967945" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603004.png" Path="Assets/GameData/UISprite/TaskIcon_603004.png" Crc="3045097177" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603005.png" Path="Assets/GameData/UISprite/TaskIcon_603005.png" Crc="2296403817" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603006.png" Path="Assets/GameData/UISprite/TaskIcon_603006.png" Crc="3477089721" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603007.png" Path="Assets/GameData/UISprite/TaskIcon_603007.png" Crc="4062184457" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603008.png" Path="Assets/GameData/UISprite/TaskIcon_603008.png" Crc="1886426072" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603009.png" Path="Assets/GameData/UISprite/TaskIcon_603009.png" Crc="1292941928" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603010.png" Path="Assets/GameData/UISprite/TaskIcon_603010.png" Crc="2338065340" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603011.png" Path="Assets/GameData/UISprite/TaskIcon_603011.png" Crc="3057394188" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603012.png" Path="Assets/GameData/UISprite/TaskIcon_603012.png" Crc="4053555420" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603013.png" Path="Assets/GameData/UISprite/TaskIcon_603013.png" Crc="3439096172" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603014.png" Path="Assets/GameData/UISprite/TaskIcon_603014.png" Crc="2128391548" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603015.png" Path="Assets/GameData/UISprite/TaskIcon_603015.png" Crc="1136428236" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603016.png" Path="Assets/GameData/UISprite/TaskIcon_603016.png" Crc="69008924" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603017.png" Path="Assets/GameData/UISprite/TaskIcon_603017.png" Crc="964482988" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603018.png" Path="Assets/GameData/UISprite/TaskIcon_603018.png" Crc="3140239485" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603019.png" Path="Assets/GameData/UISprite/TaskIcon_603019.png" Crc="2253154765" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603020.png" Path="Assets/GameData/UISprite/TaskIcon_603020.png" Crc="231242002" />
+  <ABList ABName="uisprite" AssetName="TaskIcon_603021.png" Path="Assets/GameData/UISprite/TaskIcon_603021.png" Crc="816337058" />
 </AssetBundleConfig>

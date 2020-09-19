@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Plugins\Editor\ScriptsInfoRecoder.cs" />
     <Compile Include="Assets\Plugins\Editor\UnityToSVN.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Improve/Improve yourself_Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -694,13 +693,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Resource.csproj">
-      <Project>{6B4140F6-84A9-3D04-EE32-EEB27266E319}</Project>
-      <Name>Resource</Name>
-    </ProjectReference>
     <ProjectReference Include="Base.csproj">
       <Project>{7B048F25-A99B-36AB-5FC0-E3422924A85E}</Project>
       <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="Resource.csproj">
+      <Project>{6B4140F6-84A9-3D04-EE32-EEB27266E319}</Project>
+      <Name>Resource</Name>
     </ProjectReference>
     <ProjectReference Include="UIManager.csproj">
       <Project>{FF8C7C43-4467-8F52-DBDD-BC6B545B2739}</Project>

@@ -60,16 +60,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\RealFram\ResourceFramework\AssetBundleConfig.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\AssetBundleManager.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\ClassObjectPool.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\CRC32.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\DoubleLinkedList.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\ObjectManager.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\OfflineData\EffectOfflineData.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\OfflineData\OfflineData.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\OfflineData\UIOfflineData.cs" />
-    <Compile Include="Assets\RealFram\ResourceFramework\ResourceManager.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\AssetBundleConfig.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\AssetBundleManager.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\BinarySerializeOpt.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\ClassObjectPool.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\CRC32.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\DoubleLinkedList.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\DownLoad\ABMD5.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\DownLoad\DownLoadAssetBundle.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\DownLoad\DownLoadItem.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\DownLoad\HotPatchManager.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\DownLoad\ServerInfo.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\MD5Manager.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\ObjectManager.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\OfflineData\EffectOfflineData.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\OfflineData\OfflineData.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\OfflineData\UIOfflineData.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\ResourceFrame\ResourceManager.cs" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Unity2018/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

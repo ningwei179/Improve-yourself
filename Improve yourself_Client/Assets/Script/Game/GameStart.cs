@@ -29,6 +29,10 @@ public class GameStart : MonoBehaviour
         //初始化UI管理器
         UIManager.Instance.Init(transform);
 
+        //加载配置文件
+        LoadConfig();
+
+        //注册所有的UI
         RegisterAllUI();
     }
 
@@ -39,6 +43,10 @@ public class GameStart : MonoBehaviour
     {
         UIManager.Instance.Register<MenuWindow>(ConStr.MenuPanel);
         UIManager.Instance.Register<LoadingWindow>(ConStr.LoadingPanel);
+    }
+
+    void LoadConfig() {
+
     }
 
     // Start is called before the first frame update
