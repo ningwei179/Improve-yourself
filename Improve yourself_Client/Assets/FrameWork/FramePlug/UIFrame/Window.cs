@@ -32,7 +32,7 @@ public class Window
     //所有的Toggle
     protected List<Toggle> m_AllToggle = new List<Toggle>();
 
-    public virtual string PrefabPath()
+    public virtual string PrefabName()
     {
         return "";
     }

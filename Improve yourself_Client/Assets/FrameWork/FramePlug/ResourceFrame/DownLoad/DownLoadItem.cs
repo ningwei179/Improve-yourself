@@ -1,8 +1,12 @@
-﻿using System;
+/****************************************************
+	文件：DownLoadItem.cs
+	作者：NingWei
+	日期：2020/09/23 13:32   	
+	功能：从服务器下载资源的基类
+*****************************************************/
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 
 public abstract class DownLoadItem
 {
@@ -84,9 +88,9 @@ public abstract class DownLoadItem
         m_Url = url;
         m_SavePath = path;
         m_StartDownLoad = false;
-        m_FileNameWithoutExt = Path.GetFileNameWithoutExtension(m_Url);
-        m_FileExt = Path.GetExtension(m_Url);
-        m_FileName = string.Format("{0}{1}", m_FileNameWithoutExt, m_FileExt);
+        m_FileNameWithoutExt = Path.GetFileNameWithoutExtension(m_Url); //没有后缀的文件名称
+        m_FileExt = Path.GetExtension(m_Url);                           //文件名的后缀
+        m_FileName = string.Format("{0}{1}", m_FileNameWithoutExt, m_FileExt);  //带后缀的文件名称
         m_SaveFilePath = string.Format("{0}/{1}{2}", m_SavePath, m_FileNameWithoutExt, m_FileExt);
     }
 

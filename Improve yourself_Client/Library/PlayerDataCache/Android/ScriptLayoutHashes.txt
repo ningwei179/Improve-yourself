@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-D:/Improve/Improve yourself_Client/Assets/../BuildTarget/Android/Improve yourself_Android_2020_09_19_15_53.apk
+D:/Improve/Improve yourself_Client/Assets/../BuildTarget/Android/Improve yourself_Android_2020_09_22_10_18.apk
 SceneListBegin?
 Assets/GameData/Scenes/Start.unity
 Assets/GameData/Scenes/Empty.unity

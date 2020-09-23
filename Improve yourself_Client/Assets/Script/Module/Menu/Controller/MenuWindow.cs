@@ -12,9 +12,9 @@ public class MenuWindow : Window
 {
     private MenuPanel m_MainPanel;
 
-    public override string PrefabPath()
+    public override string PrefabName()
     {
-        return "Assets/GameData/Prefabs/UGUI/Panel/MenuPanel.prefab";
+        return "MenuPanel";
     }
 
     public override void Awake(params object[] paralist)

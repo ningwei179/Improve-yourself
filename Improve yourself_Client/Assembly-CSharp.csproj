@@ -66,6 +66,8 @@
     <Compile Include="Assets\Script\Data\XmlData\MonsterData.cs" />
     <Compile Include="Assets\Script\Game\GameStart.cs" />
     <Compile Include="Assets\Script\Manager\GameMapManager.cs" />
+    <Compile Include="Assets\Script\Module\HotFix\Controller\HotFixWindow.cs" />
+    <Compile Include="Assets\Script\Module\HotFix\View\HotFixPanel.cs" />
     <Compile Include="Assets\Script\Module\Loading\Controller\LoadingWindow.cs" />
     <Compile Include="Assets\Script\Module\Loading\View\LoadingPanel.cs" />
     <Compile Include="Assets\Script\Module\Menu\Controller\MenuWindow.cs" />

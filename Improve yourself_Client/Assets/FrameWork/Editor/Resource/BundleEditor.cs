@@ -48,7 +48,12 @@ public class BundleEditor
         Build();
     }
 
-
+    /// <summary>
+    /// 打AB包
+    /// </summary>
+    /// <param name="hotfix">是否是热更包</param>
+    /// <param name="abmd5Path">ab包md5文件路径</param>
+    /// <param name="hotCount">热更次数</param>
     public static void Build(bool hotfix = false, string abmd5Path = "", string hotCount = "1")
     {
         //清除所有字典或者list
@@ -179,6 +184,7 @@ public class BundleEditor
         abmd5.ABMD5List = new List<ABMD5Base>();
         for (int i = 0; i < files.Length; ++i)
         {
+            //过滤meta文件和mainfest文件
             if (!files[i].Name.EndsWith(".meta") && !files[i].Name.EndsWith(".manifest"))
             {
                 ABMD5Base abmd5Base = new ABMD5Base();
@@ -188,7 +194,9 @@ public class BundleEditor
                 abmd5.ABMD5List.Add(abmd5Base);
             }
         }
+
         string ABMD5Path = Application.dataPath + "/Resources/ABMD5.bytes";
+
         BinarySerializeOpt.BinarySerilize(ABMD5Path, abmd5);
         //将打包的版本拷贝到外部进行储存
         if (!Directory.Exists(m_VersionsMd5Path))
@@ -204,10 +212,10 @@ public class BundleEditor
     }
 
     /// <summary>
-    /// 
+    /// 读取AB包MD5文件，找出改变的ab包
     /// </summary>
-    /// <param name="abmd5Path"></param>
-    /// <param name="hotCount"></param>
+    /// <param name="abmd5Path">ab包md5文件路径</param>
+    /// <param name="hotCount">热更次数</param>
     static void ReadMd5Com(string abmd5Path, string hotCount)
     {
         m_PackedMD5.Clear();
@@ -220,12 +228,15 @@ public class BundleEditor
                 m_PackedMD5.Add(abmd5Base.Name, abmd5Base);
             }
         }
-
+        //搜集变化的AB包的list
         List<string> changeList = new List<string>();
+        //获取当前AB包目录下的所有的AB包文件
         DirectoryInfo directory = new DirectoryInfo(m_BundleTargetPath);
         FileInfo[] files = directory.GetFiles("*", SearchOption.AllDirectories);
+
         for (int i = 0; i < files.Length; ++i)
         {
+            //过滤meta文件和mainfest文件
             if (!files[i].Name.EndsWith(".meta") && !files[i].Name.EndsWith(".manifest"))
             {
                 string name = files[i].Name;
@@ -234,7 +245,7 @@ public class BundleEditor
                 //新打的ab包
                 if (!m_PackedMD5.ContainsKey(name))
                 {
-                    changeList.Add(name);
+                    changeList.Add(name);   
                 }
                 else
                 {
@@ -267,13 +278,14 @@ public class BundleEditor
 
         BuildApp.DeleteDir(m_HotPath);
 
+        //从AB包目录中，将变化的AB包拷贝到热更目录
         foreach (string str in changeList) {
             if (!str.EndsWith(".manifest")) {
                 File.Copy(m_BundleTargetPath + "/" + str, m_HotPath + "/" + str);
             }
         }
 
-        //生成服务器Patch
+        //生成服务器Patch文件
         DirectoryInfo directory = new DirectoryInfo(m_HotPath);
         FileInfo[] files = directory.GetFiles("*", SearchOption.AllDirectories);
         Pathces patches = new Pathces();

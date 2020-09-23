@@ -281,7 +281,16 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         if (!m_AssetBundleItemDic.TryGetValue(crc, out abItem))
         {
             AssetBundle assetBundle = null;
-            string fullPath = ABLoadPath + name;
+
+            //热更下来的AB包放在Application.persistentDataPath + "/DownLoad" 目录下
+
+            //打包到游戏包里的AB包放在Application.streamingAssetsPath 目录下
+
+            //所以要根据资源文件名称来判断是否是热更的AB包
+
+            string hotAbPath = HotPatchManager.Instance.ComputeABPath(name);
+
+            string fullPath = string.IsNullOrEmpty(hotAbPath)?ABLoadPath + name:hotAbPath;
 
             assetBundle = AssetBundle.LoadFromFile(fullPath);
 
@@ -361,8 +370,6 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     /// <returns></returns>
     private bool GetAssetBundleRequest(string name,out AssetBundleCreateRequest abRequest,out AssetBundle ab)
     {
-        //AssetBundleCreateRequest abRequest = null;  //异步加载请求
-
         abRequest = null;
         ab = null;
 
@@ -371,7 +378,14 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         //没有加载过这个AB包，创建异步加载请求
         if (!m_AssetBundleItemDic.TryGetValue(crc, out abItem))
         {
-            string fullPath = ABLoadPath + name;
+            //热更下来的AB包放在Application.persistentDataPath + "/DownLoad" 目录下
+            
+            //打包到游戏包里的AB包放在Application.streamingAssetsPath 目录下
+
+            //所以要根据资源文件名称来判断是否是热更的AB包
+            string hotAbPath = HotPatchManager.Instance.ComputeABPath(name);
+
+            string fullPath = string.IsNullOrEmpty(hotAbPath) ? ABLoadPath + name : hotAbPath;
 
             abRequest = AssetBundle.LoadFromFileAsync(fullPath);
 

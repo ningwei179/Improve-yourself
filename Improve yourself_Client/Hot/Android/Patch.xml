@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Pathces xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1">
-  <Files Name="Android" Url="http:127.0.0.1/AssetBundle/0.1/1/Android" Platform="Android" Md5="17bf909f448ef66319bfde759c615613" Size="1.78515625" />
-  <Files Name="uisprite" Url="http:127.0.0.1/AssetBundle/0.1/1/uisprite" Platform="Android" Md5="698a242eda0a2e826e0d7acb30c74349" Size="969.5293" />
-</Pathces>

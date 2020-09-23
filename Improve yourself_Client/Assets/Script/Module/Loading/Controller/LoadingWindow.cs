@@ -13,9 +13,9 @@ public class LoadingWindow : Window
 
     private string m_SceneName;
 
-    public override string PrefabPath()
+    public override string PrefabName()
     {
-        return "Assets/GameData/Prefabs/UGUI/Panel/LoadingPanel.prefab";
+        return "LoadingPanel";
     }
 
     public override void Awake(params object[] paralist)

@@ -24,6 +24,7 @@ public class BuildApp
     {
         //打ab包
         BundleEditor.NormalBuild();
+        //写入版本号
         SaveVersion(PlayerSettings.bundleVersion, PlayerSettings.applicationIdentifier);
         //生成可执行程序
         string abPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString()+"/";

@@ -1,6 +1,11 @@
-﻿using System;
+/****************************************************
+	文件：DownLoadAssetBundle.cs
+	作者：NingWei
+	日期：2020/09/23 13:28   	
+	功能：从服务器下载AssetBundle
+*****************************************************/
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 

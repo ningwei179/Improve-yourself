@@ -11,7 +11,7 @@ public class ConStr
 
     public const string MenuPanel = "MenuPanel";
     public const string LoadingPanel = "LoadingPanel";
-
+    public const string HotFixPanel = "HotFixPanel";
     #endregion
 
     #region 场景名称

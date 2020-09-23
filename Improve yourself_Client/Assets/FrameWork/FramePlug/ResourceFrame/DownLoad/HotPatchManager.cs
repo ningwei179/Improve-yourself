@@ -1,4 +1,10 @@
-﻿using System;
+/****************************************************
+	文件：HotPatchManager.cs
+	作者：NingWei
+	日期：2020/09/22 11:20   	
+	功能：热更新管理器
+*****************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,25 +16,28 @@ using UnityEngine.Networking;
 public class HotPatchManager :Singleton<HotPatchManager>
 {
     private MonoBehaviour m_Mono;
+    //解压后的资源存放路径
     private string m_UnPackPath = Application.persistentDataPath + "/Origin";
+    //从服务器下载的资源存放路径
     private string m_DownLoadPath = Application.persistentDataPath + "/DownLoad";
-    private string m_CurVersion;
-    public string CurVersion
-    {
-        get { return m_CurVersion; }
-    }
+    //当前版本
+    public string CurVersion { get; private set; }
+    //当前包名
     private string m_CurPackName;
+    #region 这俩个路径用来对比资源是否要热更
+    //服务器下载的需要热更资源的配置
     private string m_ServerXmlPath = Application.persistentDataPath + "/ServerInfo.xml";
+    //本地记录的需要热更资源的配置
     private string m_LocalXmlPath = Application.persistentDataPath + "/LocalInfo.xml";
+    //服务器上的所有版本信息
     private ServerInfo m_ServerInfo;
+    //本地的所有版本信息
     private ServerInfo m_LocalInfo;
+    //当前版本需要信息
     private VersionInfo m_GameVersion;
-    //当前热更Patches
-    private Pathces m_CurrentPatches;
-    public Pathces CurrentPatches
-    {
-        get { return m_CurrentPatches; }
-    }
+    //当前版本需要热更的信息
+    public Pathces CurrentPatches { get; private set; }
+    #endregion
     //所有热更的东西
     private Dictionary<string, Patch> m_HotFixDic = new Dictionary<string, Patch>();
     //所有需要下载的东西
@@ -222,31 +231,36 @@ public class HotPatchManager :Singleton<HotPatchManager>
     {
         m_TryDownCount = 0;
         m_HotFixDic.Clear();
+        //读取打包时记录的版本号
         ReadVersion();
         m_Mono.StartCoroutine(ReadXml(()=> 
         {
             if (m_ServerInfo == null)
             {
-                if (ServerInfoError != null)
-                {
-                    ServerInfoError();
-                }
+                ServerInfoError?.Invoke();
                 return;
             }
 
             foreach (VersionInfo version in  m_ServerInfo.GameVersion)
             {
-                if (version.Version == m_CurVersion)
+                //从服务器所有版信息中找到游戏的当前版本信息
+                if (version.Version == CurVersion)
                 {
                     m_GameVersion = version;
                     break;
                 }
             }
 
+            //从当前版本信息中,获取所有热更包信息
             GetHotAB();
+
+            //检查本地所有版本信息与服务器所有版本信息，看是否要更新本地的所有版本信息xml文件
             if (CheckLocalAndServerPatch())
             {
+                //计算要下载的资源
                 ComputeDownload();
+
+                //更新本地的所有版本信息xml文件
                 if (File.Exists(m_ServerXmlPath))
                 {
                     if (File.Exists(m_LocalXmlPath))
@@ -258,26 +272,27 @@ public class HotPatchManager :Singleton<HotPatchManager>
             }
             else
             {
+                //计算要下载的资源
                 ComputeDownload();
             }
+
             LoadFileCount = m_DownLoadList.Count;
             LoadSumSize = m_DownLoadList.Sum(x => x.Size);
-            if (hotCallBack != null)
-            {
-                hotCallBack(m_DownLoadList.Count > 0);
-            }
+            hotCallBack?.Invoke(m_DownLoadList.Count > 0);
         }));
     }
 
     /// <summary>
-    /// 检查本地热更信息与服务器热更信息比较
+    /// 检查本地所有版本信息与服务器所有版本信息，看是否要更新本地的所有版本信息xml文件
     /// </summary>
     /// <returns></returns>
     bool CheckLocalAndServerPatch()
     {
+        //没有本地所有版本信息xml文件，需要更新xml文件
         if (!File.Exists(m_LocalXmlPath))
             return true;
 
+        //读取本地所有版本信息，xml转换成类信息
         m_LocalInfo = BinarySerializeOpt.XmlDeserialize(m_LocalXmlPath, typeof(ServerInfo)) as ServerInfo;
 
         VersionInfo localGameVesion = null;
@@ -285,14 +300,15 @@ public class HotPatchManager :Singleton<HotPatchManager>
         {
             foreach (VersionInfo version in m_LocalInfo.GameVersion)
             {
-                if (version.Version == m_CurVersion)
+                //从本地所有版信息中找到游戏的当前版本信息
+                if (version.Version == CurVersion)
                 {
                     localGameVesion = version;
                     break;
                 }
             }
         }
-
+        //本地当前版本信息和服务器不一致，需要更新本地所有版本信息xml文件
         if (localGameVesion != null && m_GameVersion.Pathces != null && localGameVesion.Pathces != null && m_GameVersion.Pathces.Length > 0 && m_GameVersion.Pathces[m_GameVersion.Pathces.Length - 1].Version != localGameVesion.Pathces[localGameVesion.Pathces.Length - 1].Version)
             return true;
 
@@ -316,15 +332,21 @@ public class HotPatchManager :Singleton<HotPatchManager>
             string[] infoList = all[0].Split(';');
             if (infoList.Length >= 2)
             {
-                m_CurVersion = infoList[0].Split('|')[1];
+                CurVersion = infoList[0].Split('|')[1];
                 m_CurPackName = infoList[1].Split('|')[1];
             }
         }
     }
 
+    /// <summary>
+    /// 从服务器下载游戏的所有版本信息
+    /// </summary>
+    /// <param name="callBack"></param>
+    /// <returns></returns>
     IEnumerator ReadXml(Action callBack)
     {
         string xmlUrl = "http://127.0.0.1/ServerInfo.xml";
+
         UnityWebRequest webRequest = UnityWebRequest.Get(xmlUrl);
         webRequest.timeout = 30;
         yield return webRequest.SendWebRequest();
@@ -335,9 +357,11 @@ public class HotPatchManager :Singleton<HotPatchManager>
         }
         else
         {
+            //将从服务器下载的数据保存为热更资源配置xml
             FileTool.CreateFile(m_ServerXmlPath, webRequest.downloadHandler.data);
             if (File.Exists(m_ServerXmlPath))
             {
+                //将xml转换成服务器上的所有版本信息
                 m_ServerInfo = BinarySerializeOpt.XmlDeserialize(m_ServerXmlPath, typeof(ServerInfo)) as ServerInfo;
             }
             else
@@ -378,12 +402,15 @@ public class HotPatchManager :Singleton<HotPatchManager>
         m_DownLoadList.Clear();
         m_DownLoadDic.Clear();
         m_DownLoadMD5Dic.Clear();
+        //当前版本信息存在，热更补丁存在，热更补丁长度大于0
         if (m_GameVersion != null && m_GameVersion.Pathces != null && m_GameVersion.Pathces.Length > 0)
         {
-            m_CurrentPatches = m_GameVersion.Pathces[m_GameVersion.Pathces.Length - 1];
-            if (m_CurrentPatches.Files != null && m_CurrentPatches.Files.Count > 0)
+            //设定的当前版本最后一个热补丁信息，就是当前需要热更的补丁信息
+            CurrentPatches = m_GameVersion.Pathces[m_GameVersion.Pathces.Length - 1];
+
+            if (CurrentPatches.Files != null && CurrentPatches.Files.Count > 0)
             {
-                foreach (Patch patch in m_CurrentPatches.Files)
+                foreach (Patch patch in CurrentPatches.Files)
                 {
                     if ((Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) && patch.Platform.Contains("StandaloneWindows64"))
                     {
@@ -402,6 +429,10 @@ public class HotPatchManager :Singleton<HotPatchManager>
         }
     }
 
+    /// <summary>
+    /// 添加到下载列表
+    /// </summary>
+    /// <param name="patch"></param>
     void AddDownLoadList(Patch patch)
     {
         string filePath = m_DownLoadPath + "/" + patch.Name;
@@ -500,7 +531,9 @@ public class HotPatchManager :Singleton<HotPatchManager>
     /// <param name="callBack"></param>
     void VerifyMD5(List<DownLoadAssetBundle> downLoadAssets, Action callBack)
     {
+        //存储MD5码错误的补丁文件，这些要重新下载
         List<Patch> downLoadList = new List<Patch>();
+
         foreach (DownLoadAssetBundle downLoad in downLoadAssets)
         {
             string md5 = "";
@@ -517,7 +550,8 @@ public class HotPatchManager :Singleton<HotPatchManager>
                 }
             }
         }
-
+        
+        //全部文件都是正确的
         if (downLoadList.Count <= 0)
         {
             m_DownLoadMD5Dic.Clear();
@@ -542,10 +576,7 @@ public class HotPatchManager :Singleton<HotPatchManager>
                     allName += patch.Name + ";";
                 }
                 Debug.LogError("资源重复下载4次MD5校验都失败，请检查资源" + allName);
-                if (ItemError != null)
-                {
-                    ItemError(allName);
-                }
+                ItemError?.Invoke(allName);
             }
             else
             {

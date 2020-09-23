@@ -11,8 +11,12 @@ public class GameStart : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
-        //网络通信管理器
+        
+        //初始化网络通信管理器
         NetWorkManager.Instance.Init();
+
+        //初始化热更管理器
+        HotPatchManager.Instance.Init(this);
 
         //加载AssetBundle配置文件
         AssetBundleManager.Instance.LoadAssetBundleConfig();
@@ -43,6 +47,7 @@ public class GameStart : MonoBehaviour
     {
         UIManager.Instance.Register<MenuWindow>(ConStr.MenuPanel);
         UIManager.Instance.Register<LoadingWindow>(ConStr.LoadingPanel);
+        UIManager.Instance.Register<HotFixWindow>(ConStr.HotFixPanel);
     }
 
     void LoadConfig() {
