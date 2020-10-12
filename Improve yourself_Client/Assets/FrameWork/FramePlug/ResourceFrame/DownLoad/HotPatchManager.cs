@@ -21,9 +21,9 @@ public class HotPatchManager :Singleton<HotPatchManager>
     //从服务器下载的资源存放路径
     private string m_DownLoadPath = Application.persistentDataPath + "/DownLoad";
     //当前版本
-    public string CurVersion { get; private set; }
+    public string CurVersion;
     //当前包名
-    private string m_CurPackName;
+    public string m_CurPackName;
     #region 这俩个路径用来对比资源是否要热更
     //服务器下载的需要热更资源的配置
     private string m_ServerXmlPath = Application.persistentDataPath + "/ServerInfo.xml";
@@ -76,6 +76,8 @@ public class HotPatchManager :Singleton<HotPatchManager>
     public float UnPackSumSize { get; set; } = 0;
     //已解压大小
     public float AlreadyUnPackSize { get; set; } = 0;
+
+    private WaitForSeconds wait = new WaitForSeconds(3f);
 
     public void Init(MonoBehaviour mono)
     {
@@ -201,10 +203,8 @@ public class HotPatchManager :Singleton<HotPatchManager>
             unityWebRequest.Dispose();
         }
 
-        if (callBack != null)
-        {
-            callBack();
-        }
+        yield return wait;
+        callBack?.Invoke();
 
         StartUnPack = false;
     }
@@ -233,8 +233,7 @@ public class HotPatchManager :Singleton<HotPatchManager>
     {
         m_TryDownCount = 0;
         m_HotFixDic.Clear();
-        //读取打包时记录的版本号
-        ReadVersion();
+
         m_Mono.StartCoroutine(ReadXml(()=> 
         {
             if (m_ServerInfo == null)
@@ -318,36 +317,13 @@ public class HotPatchManager :Singleton<HotPatchManager>
     }
 
     /// <summary>
-    /// 读取打包时的版本
-    /// </summary>
-    void ReadVersion()
-    {
-        TextAsset versionTex = Resources.Load<TextAsset>("Version");
-        if (versionTex == null)
-        {
-            Debug.LogError("未读到本地版本！");
-            return;
-        }
-        string[] all = versionTex.text.Split('\n');
-        if (all.Length > 0)
-        {
-            string[] infoList = all[0].Split(';');
-            if (infoList.Length >= 2)
-            {
-                CurVersion = infoList[0].Split('|')[1];
-                m_CurPackName = infoList[1].Split('|')[1];
-            }
-        }
-    }
-
-    /// <summary>
     /// 从服务器下载游戏的所有版本信息
     /// </summary>
     /// <param name="callBack"></param>
     /// <returns></returns>
     IEnumerator ReadXml(Action callBack)
     {
-        string xmlUrl = FrameConstr.m_ServerIp + "ServerInfo.xml";
+        string xmlUrl = FrameConstr.m_ResServerIp + "ServerInfo.xml";
 
         UnityWebRequest webRequest = UnityWebRequest.Get(xmlUrl);
         webRequest.timeout = 30;
@@ -523,7 +499,70 @@ public class HotPatchManager :Singleton<HotPatchManager>
         }
 
         //MD5码校验,如果校验没通过，自动重新下载没通过的文件，重复下载计数，达到一定次数后，反馈某某文件下载失败
-        VerifyMD5(downLoadAssetBundles, callBack);
+
+        //存储MD5码错误的补丁文件，这些要重新下载
+        List<Patch> downLoadList = new List<Patch>();
+
+        foreach (DownLoadAssetBundle downLoad in downLoadAssetBundles)
+        {
+            string md5 = "";
+            if (m_DownLoadMD5Dic.TryGetValue(downLoad.FileName, out md5))
+            {
+                Debug.Log("下载的文件的MD5:" + MD5Manager.Instance.BuildFileMd5(downLoad.SaveFilePath));
+                Debug.Log("服务器上该文件的MD5:" + md5);
+                if (MD5Manager.Instance.BuildFileMd5(downLoad.SaveFilePath) != md5)
+                {
+                    Debug.Log(string.Format("此文件{0}MD5校验失败，即将重新下载", downLoad.FileName));
+                    Patch patch = FindPatchByGamePath(downLoad.FileName);
+                    if (patch != null)
+                    {
+                        downLoadList.Add(patch);
+                    }
+                }
+            }
+        }
+
+        //全部文件都是正确的
+        if (downLoadList.Count <= 0)
+        {
+            m_DownLoadMD5Dic.Clear();
+            if (callBack != null)
+            {
+                yield return wait;
+                StartDownload = false;
+                callBack();
+            }
+            if (LoadOver != null)
+            {
+                LoadOver();
+            }
+        }
+        else
+        {
+            if (m_TryDownCount >= DOWNLOADCOUNT)
+            {
+                string allName = "";
+                StartDownload = false;
+                foreach (Patch patch in downLoadList)
+                {
+                    allName += patch.Name + ";";
+                }
+                Debug.LogError("资源重复下载4次MD5校验都失败，请检查资源" + allName);
+                ItemError?.Invoke(allName);
+            }
+            else
+            {
+                m_TryDownCount++;
+                m_DownLoadMD5Dic.Clear();
+                foreach (Patch patch in downLoadList)
+                {
+                    m_DownLoadMD5Dic.Add(patch.Name, patch.Md5);
+                }
+                //自动重新下载校验失败的文件
+                m_Mono.StartCoroutine(StartDownLoadAB(callBack, downLoadList));
+            }
+        }
+
     }
 
     /// <summary>

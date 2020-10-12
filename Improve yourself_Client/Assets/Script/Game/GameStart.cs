@@ -14,6 +14,9 @@ public class GameStart : MonoSingleton<GameStart>
     {
         base.Awake();
         DontDestroyOnLoad(this);
+        //读取打包时的版本信息
+        ReadVersion();
+
         ////初始化网络通信管理器
         NetWorkManager.Instance.Init();
 
@@ -40,7 +43,7 @@ public class GameStart : MonoSingleton<GameStart>
     void Start()
     {
         //启动热更UI
-        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true);
+        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true,true);
     }
 
     public IEnumerator StartGame(Image image, Text text)
@@ -77,6 +80,30 @@ public class GameStart : MonoSingleton<GameStart>
     void LoadConfig()
     {
         
+    }
+
+    /// <summary>
+    /// 读取打包时的版本
+    /// </summary>
+    void ReadVersion()
+    {
+        TextAsset versionTex = Resources.Load<TextAsset>("Version");
+        if (versionTex == null)
+        {
+            Debug.LogError("未读到本地版本！");
+            return;
+        }
+        string[] all = versionTex.text.Split('\r');
+        if (all.Length > 0)
+        {
+            string[] infoList = all[0].Split(';');
+            if (infoList.Length >= 2)
+            {
+                HotPatchManager.Instance.CurVersion = infoList[0].Split('|')[1];
+                HotPatchManager.Instance.m_CurPackName = infoList[1].Split('|')[1];
+                AssetBundleManager.Instance.Encrypt = infoList[2].Split('|')[1].Equals("True");
+            }
+        }
     }
 
     // Update is called once per frame

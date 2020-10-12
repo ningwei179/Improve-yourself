@@ -163,6 +163,9 @@ public class AssetBundleItem
 
 public class AssetBundleManager : Singleton<AssetBundleManager>
 {
+    //AB包是否是加密过的,默认是加密过的,
+    public bool Encrypt = false;
+
     protected string m_ABConfigABName = "assetbundleconfig";
     /// <summary>
     /// assetbundle资源信息和crc的映射表
@@ -188,7 +191,11 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     {
         get
         {
+#if UNITY_ANDROID
+            return Application.persistentDataPath + "/Origin/";
+#else
             return Application.streamingAssetsPath + "/";
+#endif
         }
     }
 
@@ -202,8 +209,8 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         if (!ResourceManager.Instance.m_LoadFromAssetBundle)
             return false;
 #endif
-        
-        string configPath = ABLoadPath + m_ABConfigABName;
+        //初始化时候的ab配置文件在streamingAssets文件夹中
+        string configPath = Application.streamingAssetsPath + "/" + m_ABConfigABName;
         //非初始化，检查热更后进来的
         if (!isInit)
         {
@@ -220,10 +227,19 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
                 }
             }
         }
-        byte[] bytes = AES.AESFileByteDecrypt(configPath, "Improve");
-
         m_AssetBundleInfoDic.Clear();
-        configAB = AssetBundle.LoadFromMemory(bytes);
+
+        //加密后的ab包要先解密，才能加载
+        if (Encrypt)
+        {
+            byte[] bytes = AES.AESFileByteDecrypt(configPath, FrameConstr.m_ABSecretKey);
+            
+            configAB = AssetBundle.LoadFromMemory(bytes);
+        }
+        else {
+            configAB = AssetBundle.LoadFromFile(configPath);
+        }
+
         TextAsset textAsset = configAB.LoadAsset<TextAsset>(m_ABConfigABName);
         if (textAsset == null)
         {
@@ -316,9 +332,16 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
             string fullPath = string.IsNullOrEmpty(hotAbPath)?ABLoadPath + name:hotAbPath;
 
-            byte[] bytes = AES.AESFileByteDecrypt(fullPath, "Improve");
+            //加密后的ab包要先解密，才能加载
+            if (Encrypt)
+            {
+                byte[] bytes = AES.AESFileByteDecrypt(fullPath, FrameConstr.m_ABSecretKey);
 
-            assetBundle = AssetBundle.LoadFromMemory(bytes);
+                assetBundle = AssetBundle.LoadFromMemory(bytes);
+            }
+            else {
+                assetBundle = AssetBundle.LoadFromFile(fullPath);
+            }
 
             if (assetBundle == null)
             {
@@ -413,7 +436,17 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
             string fullPath = string.IsNullOrEmpty(hotAbPath) ? ABLoadPath + name : hotAbPath;
 
-            abRequest = AssetBundle.LoadFromFileAsync(fullPath);
+            //加密后的ab包要先解密，才能加载，但是异步的时候感觉就没有异步的效果了额
+            if (Encrypt)
+            {
+                byte[] bytes = AES.AESFileByteDecrypt(fullPath, FrameConstr.m_ABSecretKey);
+
+                abRequest = AssetBundle.LoadFromMemoryAsync(bytes);
+            }
+            else
+            {
+                abRequest = AssetBundle.LoadFromFileAsync(fullPath);
+            }
 
             abItem = m_AssetBundleItemPool.Spawn(true);
             abItem.RefCount++;

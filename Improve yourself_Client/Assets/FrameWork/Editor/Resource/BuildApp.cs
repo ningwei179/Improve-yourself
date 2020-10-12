@@ -19,13 +19,30 @@ public class BuildApp
     public static string m_IOSPath = Application.dataPath + "/../BuildTarget/IOS/";
     public static string m_WindowsPath = Application.dataPath + "/../BuildTarget/Windows/";
 
+    [MenuItem("Build/加密标准包")]
+    public static void BuildEncryptApp()
+    {
+        Build(true);
+    }
+
     [MenuItem("Build/标准包")]
-    public static void Build()
+    public static void BuildNormalApp()
+    {
+        Build(false);
+    }
+
+    public static void Build(bool encrypt = false)
     {
         //打ab包
-        BundleEditor.NormalBuild();
+        if (encrypt)
+        {
+            BundleEditor.EncryptionBuild();
+        }
+        else {
+            BundleEditor.NormalBuild();
+        }
         //写入版本号
-        SaveVersion(PlayerSettings.bundleVersion, PlayerSettings.applicationIdentifier);
+        SaveVersion(PlayerSettings.bundleVersion, PlayerSettings.applicationIdentifier, encrypt);
         //生成可执行程序
         string abPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString()+"/";
         Copy(abPath, Application.streamingAssetsPath);
@@ -48,6 +65,7 @@ public class BuildApp
         }
 
         BuildPipeline.BuildPlayer(FindEnableEditorrScenes(), savePath, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
+        //删除
         //DeleteDir(Application.streamingAssetsPath);
     }
 
@@ -56,8 +74,8 @@ public class BuildApp
     /// </summary>
     /// <param name="version"></param>
     /// <param name="package"></param>
-    static void SaveVersion(string version, string package) {
-        string content = "Version|" + version + ";PackageName|" + package + ";";
+    static void SaveVersion(string version, string package,bool encrypt = false) {
+        string content = "Version|" + version + ";PackageName|" + package + ";Encryption|"+encrypt;
         string savePath = Application.dataPath + "/Resources/Version.txt";
         string oneLine = "";
         string all = "";

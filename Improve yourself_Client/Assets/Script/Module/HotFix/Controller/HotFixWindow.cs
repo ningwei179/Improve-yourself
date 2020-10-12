@@ -27,24 +27,23 @@ public class HotFixWindow : Window
         m_Panel.m_InfoPanel.SetActive(false);
         HotPatchManager.Instance.ServerInfoError += ServerInfoError;
         HotPatchManager.Instance.ItemError += ItemError;
-        HotFix();
-        //#if UNITY_EDITOR
-        //        StartOnFinish();
-        //#else
-        //        if (HotPatchManager.Instance.ComputeUnPackFile())
-        //        {
-        //            m_Panel.m_SliderTopText.text = "解压中...";
-        //            HotPatchManager.Instance.StartUnackFile(()=> 
-        //            {
-        //                m_SumTime = 0;
-        //                HotFix();
-        //            });
-        //        }
-        //        else
-        //        {
-        //            HotFix();
-        //        }
-        //#endif
+#if UNITY_EDITOR
+        StartOnFinish();
+#else
+        if (HotPatchManager.Instance.ComputeUnPackFile())
+        {
+            m_Panel.m_SliderTopText.text = "解压中...";
+            HotPatchManager.Instance.StartUnackFile(() =>
+            {
+                m_SumTime = 0;
+                HotFix();
+            });
+        }
+        else
+        {
+            HotFix();
+        }
+#endif
     }
 
     /// <summary>
@@ -175,7 +174,14 @@ public class HotFixWindow : Window
             m_SumTime += Time.deltaTime;
             m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetUnpackProgress();
             float speed = (HotPatchManager.Instance.AlreadyUnPackSize / 1024.0f) / m_SumTime;
-            m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+            if (m_Panel.m_HotFixProgress.fillAmount == 1)
+            {
+                m_Panel.m_SliderTopText.text = "解压完成";
+                m_Panel.m_SpeedText.text = "";
+            }
+            else {
+                m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+            }
         }
 
         if (HotPatchManager.Instance.StartDownload)
@@ -183,7 +189,15 @@ public class HotFixWindow : Window
             m_SumTime += Time.deltaTime;
             m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetProgress();
             float speed = (HotPatchManager.Instance.GetLoadSize() / 1024.0f) / m_SumTime;
-            m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+            if (m_Panel.m_HotFixProgress.fillAmount == 1)
+            {
+                m_Panel.m_SliderTopText.text = "下载完成";
+                m_Panel.m_SpeedText.text = "";
+            }
+            else
+            {
+                m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+            }
         }
     }
 }

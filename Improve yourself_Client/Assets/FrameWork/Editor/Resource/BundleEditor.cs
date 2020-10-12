@@ -42,19 +42,6 @@ public class BundleEditor
     //储存读取来的MD5信息
     private static Dictionary<string, ABMD5Base> m_PackedMD5 = new Dictionary<string, ABMD5Base>();
 
-
-    [MenuItem("测试/测试加密")]
-    public static void TestEnc()
-    {
-        AES.AESFileEncrypt(Application.dataPath + "/GameData/Data/Xml/ServerInfo.xml", "Improve");
-    }
-
-    [MenuItem("测试/测试解密")]
-    public static void TestDec()
-    {
-        AES.AESFileDecrypt(Application.dataPath + "/GameData/Data/Xml/ServerInfo.xml", "Improve");
-    }
-
     [MenuItem("Tools/加密AB包")]
     public static void EncryptAB()
     {
@@ -64,7 +51,7 @@ public class BundleEditor
         {
             if (!files[i].Name.EndsWith("meta") && !files[i].Name.EndsWith(".manifest"))
             {
-                AES.AESFileEncrypt(files[i].FullName, "Improve");
+                AES.AESFileEncrypt(files[i].FullName, FrameConstr.m_ABSecretKey);
             }
         }
         Debug.Log("加密完成！");
@@ -79,7 +66,7 @@ public class BundleEditor
         {
             if (!files[i].Name.EndsWith("meta") && !files[i].Name.EndsWith(".manifest"))
             {
-                AES.AESFileDecrypt(files[i].FullName, "Improve");
+                AES.AESFileDecrypt(files[i].FullName, FrameConstr.m_ABSecretKey);
             }
         }
         Debug.Log("解密完成！");
@@ -91,13 +78,20 @@ public class BundleEditor
         Build();
     }
 
+    [MenuItem("Tools/打加密包")]
+    public static void EncryptionBuild()
+    {
+        Build(true);
+    }
+
     /// <summary>
     /// 打AB包
     /// </summary>
+    /// <param name="hotfix">是否是加密包</param>
     /// <param name="hotfix">是否是热更包</param>
     /// <param name="abmd5Path">ab包md5文件路径</param>
     /// <param name="hotCount">热更次数</param>
-    public static void Build(bool hotfix = false, string abmd5Path = "", string hotCount = "1")
+    public static void Build(bool encrypt = false, bool hotfix = false, string abmd5Path = "", string hotCount = "1")
     {
         //清除所有字典或者list
 
@@ -190,7 +184,7 @@ public class BundleEditor
         }
 
         //执行打包代码
-        BuildAssetBundle();
+        BuildAssetBundle(encrypt);
 
         //打完AB包后，把设置的AssetBundle的名字强制删除，避免meta文件被更改了
         string[] oldABNames = AssetDatabase.GetAllAssetBundleNames();
@@ -341,7 +335,7 @@ public class BundleEditor
             patch.Name = files[i].Name;
             patch.Size = files[i].Length / 1024.0f;
             patch.Platform = EditorUserBuildSettings.activeBuildTarget.ToString();
-            patch.Url = FrameConstr.m_ServerIp + "AssetBundle/" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
+            patch.Url = FrameConstr.m_ResServerIp + "AssetBundle/" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
             patches.Files.Add(patch);
         }
         BinarySerializeOpt.Xmlserialize(m_HotPath + "/Patch.xml", patches);
@@ -377,9 +371,8 @@ public class BundleEditor
     /// <summary>
     /// 打包assetBundle
     /// </summary>
-    static void BuildAssetBundle()
+    static void BuildAssetBundle(bool encrypt = false)
     {
-
         if (!Directory.Exists(m_BundleTargetPath))
         {
             Directory.CreateDirectory(m_BundleTargetPath);
@@ -404,7 +397,8 @@ public class BundleEditor
 
         DeleteMainfest();
         //加密AB包
-        EncryptAB();
+        if(encrypt)
+            EncryptAB();
     }
 
     static void DeleteMainfest()

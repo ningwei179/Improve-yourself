@@ -51,8 +51,17 @@ public class BundleHotFix : EditorWindow
         {
             if (!string.IsNullOrEmpty(md5Path) && md5Path.EndsWith(".bytes"))
             {
-                BundleEditor.Build(true, md5Path, hotCount);
+                BundleEditor.Build(false,true, md5Path, hotCount);
             }
         }
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("开始打加密热更包", GUILayout.Width(100), GUILayout.Height(50)))
+        {
+            if (!string.IsNullOrEmpty(md5Path) && md5Path.EndsWith(".bytes"))
+            {
+                BundleEditor.Build(true, true, md5Path, hotCount);
+            }
+        }
+        GUILayout.EndHorizontal();
     }
 }

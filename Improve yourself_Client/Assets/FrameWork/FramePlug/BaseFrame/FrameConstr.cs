@@ -8,5 +8,13 @@
 
 public class FrameConstr
 {
-    public const string m_ServerIp = "http://127.0.0.1/";
+    /// <summary>
+    /// AB包的加密秘钥
+    /// </summary>
+    public const string m_ABSecretKey = "Improve";
+
+    /// <summary>
+    /// 资源服务器地址
+    /// </summary>
+    public const string m_ResServerIp = "http://127.0.0.1/";
 }
