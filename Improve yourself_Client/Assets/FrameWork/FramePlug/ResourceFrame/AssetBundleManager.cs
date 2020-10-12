@@ -179,6 +179,11 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     /// </summary>
     internal ClassObjectPool<AssetBundleItem> m_AssetBundleItemPool = ObjectManager.Instance.GetOrCreateClassPool<AssetBundleItem>(500);
 
+    /// <summary>
+    /// AB包配置文件
+    /// </summary>
+    AssetBundle configAB;
+
     protected string ABLoadPath
     {
         get
@@ -191,15 +196,34 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     /// 加载AB配置表
     /// </summary>
     /// <returns></returns>
-    public bool LoadAssetBundleConfig()
+    public bool LoadAssetBundleConfig(bool isInit = true)
     {
 #if UNITY_EDITOR
         if (!ResourceManager.Instance.m_LoadFromAssetBundle)
             return false;
 #endif
-        m_AssetBundleInfoDic.Clear();
+        
         string configPath = ABLoadPath + m_ABConfigABName;
-        AssetBundle configAB = AssetBundle.LoadFromFile(configPath);
+        //非初始化，检查热更后进来的
+        if (!isInit)
+        {
+            //热更完毕后检查配置文件是否热更了
+            string hotABPath = HotPatchManager.Instance.ComputeABPath(m_ABConfigABName);
+            if (string.IsNullOrEmpty(hotABPath))
+                return true;
+            else {
+                //文件改变了，卸载本地的ab包，从热更路径下下载新的ab包
+                if (configAB != null)
+                {
+                    configAB.Unload(true);
+                    configPath = hotABPath;
+                }
+            }
+        }
+        byte[] bytes = AES.AESFileByteDecrypt(configPath, "Improve");
+
+        m_AssetBundleInfoDic.Clear();
+        configAB = AssetBundle.LoadFromMemory(bytes);
         TextAsset textAsset = configAB.LoadAsset<TextAsset>(m_ABConfigABName);
         if (textAsset == null)
         {
@@ -292,7 +316,9 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
             string fullPath = string.IsNullOrEmpty(hotAbPath)?ABLoadPath + name:hotAbPath;
 
-            assetBundle = AssetBundle.LoadFromFile(fullPath);
+            byte[] bytes = AES.AESFileByteDecrypt(fullPath, "Improve");
+
+            assetBundle = AssetBundle.LoadFromMemory(bytes);
 
             if (assetBundle == null)
             {

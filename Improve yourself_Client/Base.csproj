@@ -60,7 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FrameWork\FramePlug\BaseFrame\ConStr.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\BaseFrame\AES.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\BaseFrame\FrameConstr.cs" />
+    <Compile Include="Assets\FrameWork\FramePlug\BaseFrame\MonoSingleton.cs" />
     <Compile Include="Assets\FrameWork\FramePlug\BaseFrame\Singleton.cs" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Unity2018/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

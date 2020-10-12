@@ -9,28 +9,28 @@ using UnityEngine;
 
 public class LoadingWindow : Window
 {
-    private LoadingPanel m_LoadingPanel;
+    private LoadingPanel m_Panel;
 
     private string m_SceneName;
 
     public override string PrefabName()
     {
-        return "LoadingPanel";
+        return "LoadingPanel.prefab";
     }
 
     public override void Awake(params object[] paralist)
     {
-        m_LoadingPanel = GameObject.GetComponent<LoadingPanel>();
+        m_Panel = GameObject.GetComponent<LoadingPanel>();
         m_SceneName = paralist[0] as string;
     }
 
     public override void OnUpdate()
     {
-        if (m_LoadingPanel == null)
+        if (m_Panel == null)
             return;
 
-        m_LoadingPanel.m_Slider.value = GameMapManager.LoadingProgress / 100.0f;
-        m_LoadingPanel.m_Text.text = string.Format("{0}%", GameMapManager.LoadingProgress);
+        m_Panel.m_Slider.value = GameMapManager.LoadingProgress / 100.0f;
+        m_Panel.m_Text.text = string.Format("{0}%", GameMapManager.LoadingProgress);
 
         if (GameMapManager.LoadingProgress >= 100)
         {

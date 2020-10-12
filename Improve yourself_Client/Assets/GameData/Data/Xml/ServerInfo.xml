@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServerInfo>
+<GameVersion Version = "0.1">
+<Pathces Version="1" Des="优化了menu界面">
+  <Files Name="Android" Url="http://127.0.0.1/AssetBundle/0.1/1/Android" Platform="Android" Md5="163205a2a3b809966741142998e76c01" Size="1.85449219" />
+  <Files Name="menupanel" Url="http://127.0.0.1/AssetBundle/0.1/1/menupanel" Platform="Android" Md5="15cbaad7eb8d6b60a0f28efb8751ae91" Size="10.6572266" />
+</Pathces>
+</GameVersion>
+</ServerInfo>

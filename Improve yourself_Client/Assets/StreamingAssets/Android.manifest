@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 286692532
+CRC: 1811436007
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -26,11 +26,18 @@ AssetBundleManifest:
         Dependency_0: shaders
         Dependency_1: textures
     Info_7:
+      Name: hotfixpanel
+      Dependencies:
+        Dependency_0: uisprite
+    Info_8:
       Name: loadingpanel
       Dependencies: {}
-    Info_8:
+    Info_9:
       Name: menupanel
       Dependencies: {}
-    Info_9:
+    Info_10:
+      Name: popuppanel
+      Dependencies: {}
+    Info_11:
       Name: assetbundleconfig
       Dependencies: {}

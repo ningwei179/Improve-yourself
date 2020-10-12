@@ -26,6 +26,21 @@ public class Window
     /// </summary>
     public string Name { get; set; }
 
+    /// <summary>
+    /// 是否是Resource加载的
+    /// </summary>
+    public bool Resource { get; set; } = false;
+
+    /// <summary>
+    /// 是否是热更的
+    /// </summary>
+    public bool IsHotFix { get; set; } = false;
+
+    /// <summary>
+    /// 热更的类名
+    /// </summary>
+    public string HotFixClassName { get; set; }
+
     //所有的Button
     protected List<Button> m_AllButton = new List<Button>();
 

@@ -10,19 +10,19 @@ using UnityEngine;
 
 public class MenuWindow : Window
 {
-    private MenuPanel m_MainPanel;
+    private MenuPanel m_Panel;
 
     public override string PrefabName()
     {
-        return "MenuPanel";
+        return "MenuPanel.prefab";
     }
 
     public override void Awake(params object[] paralist)
     {
-        m_MainPanel = GameObject.GetComponent<MenuPanel>();
-        AddButtonClickListener(m_MainPanel.m_StartButton, OnClickStart);
-        AddButtonClickListener(m_MainPanel.m_LoadButton, OnClickLoad);
-        AddButtonClickListener(m_MainPanel.m_ExitButton, OnClickExit);
+        m_Panel = GameObject.GetComponent<MenuPanel>();
+        AddButtonClickListener(m_Panel.m_StartButton, OnClickStart);
+        AddButtonClickListener(m_Panel.m_LoadButton, OnClickLoad);
+        AddButtonClickListener(m_Panel.m_ExitButton, OnClickExit);
         ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image1.png", (string resourcePath, Object obj, object param1, object param2, object param3) =>
         {
             if (obj != null)
@@ -30,7 +30,7 @@ public class MenuWindow : Window
                 Sprite sp = obj as Sprite;
                 if (sp != null)
                 {
-                    m_MainPanel.Test1.sprite = sp;
+                    m_Panel.Test1.sprite = sp;
                     Debug.Log("图片1加载出来了");
                 }
 
@@ -44,7 +44,7 @@ public class MenuWindow : Window
                 Sprite sp = obj as Sprite;
                 if (sp != null)
                 {
-                    m_MainPanel.Test2.sprite = sp;
+                    m_Panel.Test2.sprite = sp;
                     Debug.Log("图片2加载出来了");
                 }
             }

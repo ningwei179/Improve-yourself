@@ -28,10 +28,10 @@ public class BinarySerializeOpt
             {
                 using (StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
                 {
-                    //XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-                    //namespaces.Add(string.Empty, string.Empty);
+                    XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+                    namespaces.Add(string.Empty, string.Empty);
                     XmlSerializer xs = new XmlSerializer(obj.GetType());
-                    xs.Serialize(sw, obj);
+                    xs.Serialize(sw, obj, namespaces);
                 }
             }
             return true;

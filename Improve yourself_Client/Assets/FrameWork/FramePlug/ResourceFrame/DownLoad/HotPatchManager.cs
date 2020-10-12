@@ -108,6 +108,8 @@ public class HotPatchManager :Singleton<HotPatchManager>
     }
 
     /// <summary>
+    /// Android平台不能直接通过FileStream从streamingAssetsPath加载文件，
+    /// 所以将streamingAssetsPath路径下的文件拷贝到其他文件夹
     /// 计算需要解压的文件
     /// </summary>
     /// <returns></returns>
@@ -345,7 +347,7 @@ public class HotPatchManager :Singleton<HotPatchManager>
     /// <returns></returns>
     IEnumerator ReadXml(Action callBack)
     {
-        string xmlUrl = "http://127.0.0.1/ServerInfo.xml";
+        string xmlUrl = FrameConstr.m_ServerIp + "ServerInfo.xml";
 
         UnityWebRequest webRequest = UnityWebRequest.Get(xmlUrl);
         webRequest.timeout = 30;
@@ -539,6 +541,8 @@ public class HotPatchManager :Singleton<HotPatchManager>
             string md5 = "";
             if (m_DownLoadMD5Dic.TryGetValue(downLoad.FileName, out md5))
             {
+                Debug.Log("下载的文件的MD5:" + MD5Manager.Instance.BuildFileMd5(downLoad.SaveFilePath));
+                Debug.Log("服务器上该文件的MD5:" + md5);
                 if (MD5Manager.Instance.BuildFileMd5(downLoad.SaveFilePath) != md5)
                 {
                     Debug.Log(string.Format("此文件{0}MD5校验失败，即将重新下载", downLoad.FileName));

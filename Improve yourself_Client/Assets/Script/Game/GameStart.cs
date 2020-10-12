@@ -4,67 +4,79 @@
 	日期：2020/09/07 11:28   	
 	功能：游戏启动类
 *****************************************************/
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameStart : MonoBehaviour
+public class GameStart : MonoSingleton<GameStart>
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         DontDestroyOnLoad(this);
-        
-        //初始化网络通信管理器
+        ////初始化网络通信管理器
         NetWorkManager.Instance.Init();
 
-        //初始化热更管理器
-        HotPatchManager.Instance.Init(this);
-
-        //加载AssetBundle配置文件
+        //初始化AB配置表
         AssetBundleManager.Instance.LoadAssetBundleConfig();
-        
+
         //初始化资源管理器
         ResourceManager.Instance.Init(this);
 
         //初始化对象管理器
         ObjectManager.Instance.Init(transform.Find("ResourcePoolTrs"), transform.Find("SceneTrs"));
 
-        //初始化场景管理器
-        GameMapManager.Instance.Init(this);
+        //初始化热更管理器
+        HotPatchManager.Instance.Init(this);
 
         //初始化UI管理器
         UIManager.Instance.Init(transform);
 
-        //加载配置文件
-        LoadConfig();
-
         //注册所有的UI
-        RegisterAllUI();
-    }
-
-    /// <summary>
-    /// 注册所有的UI
-    /// </summary>
-    void RegisterAllUI()
-    {
-        UIManager.Instance.Register<MenuWindow>(ConStr.MenuPanel);
-        UIManager.Instance.Register<LoadingWindow>(ConStr.LoadingPanel);
-        UIManager.Instance.Register<HotFixWindow>(ConStr.HotFixPanel);
-    }
-
-    void LoadConfig() {
-
+        UIRegister.Instance.RegisterAllUI();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //实例化对象预加载
-        //ObjectManager.Instance.PreLoadGameObject(ConStr.Role, 5);
+        //启动热更UI
+        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true);
+    }
 
-        ////非实例化资源预加载
-        //ResourceManager.Instance.PreloadRes(ConStr.MenuSound);
+    public IEnumerator StartGame(Image image, Text text)
+    {
+        image.fillAmount = 0;
+        yield return null;
 
-        //加载Menu场景
-        GameMapManager.Instance.LoadScene(ConStr.MenuScene);
+        text.text = "加载本地数据... ...";
+
+        //热更完成后检查下AB配置表，这个文件可能被热更了
+        AssetBundleManager.Instance.LoadAssetBundleConfig(false);
+
+        image.fillAmount = 0.1f;
+        yield return null;
+        text.text = "加载dll... ...";
+        //ILRuntimeManager.Instance.Init();
+        image.fillAmount = 0.2f;
+        yield return null;
+        text.text = "加载数据表... ...";
+        //加载配置文件
+        LoadConfig();
+        image.fillAmount = 0.7f;
+        yield return null;
+        text.text = "加载配置... ...";
+        image.fillAmount = 0.9f;
+        yield return null;
+        text.text = "初始化地图... ...";
+        //初始化场景管理器
+        GameMapManager.Instance.Init(this);
+        image.fillAmount = 1f;
+        yield return null;
+    }
+
+    void LoadConfig()
+    {
+        
     }
 
     // Update is called once per frame
@@ -79,6 +91,11 @@ public class GameStart : MonoBehaviour
 
             });
         }
+    }
+
+    void FixedUpdate()
+    {
+        TimerController.Instance.fixedUpdate();
     }
 
     private void OnApplicationQuit()

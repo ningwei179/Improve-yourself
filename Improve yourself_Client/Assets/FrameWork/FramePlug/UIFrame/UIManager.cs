@@ -153,11 +153,12 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     /// <param name="name"></param>
     /// <param name="bTop"></param>
+    /// <param name="resource"></param>
     /// <param name="para1"></param>
     /// <param name="para2"></param>
     /// <param name="para3"></param>
     /// <returns></returns>
-    public Window PopUpWindow(string name,bool bTop = true,params object [] paramList)
+    public Window PopUpWindow(string name,bool bTop = true, bool resource = false, params object [] paramList)
     {
         Window wnd = FindWindowByName<Window>(name);
         if (wnd == null)
@@ -165,15 +166,34 @@ public class UIManager : Singleton<UIManager>
             System.Type tp = null;
             if (m_RegisterDic.TryGetValue(name, out tp))
             {
-                wnd = System.Activator.CreateInstance(tp) as Window;
+                //if (resource)
+                //{
+                    wnd = System.Activator.CreateInstance(tp) as Window;
+                //}
+                //else
+                //{
+                    //string hotName = "HotFix." + name.Replace("Panel.prefab", "Ui");
+                    //wnd = ILRuntimeManager.Instance.ILRunAppDomain.Instantiate<Window>(hotName);
+                    //wnd.IsHotFix = true;
+                    //wnd.HotFixClassName = hotName;
+                //}
             }
             else
             {
                 Debug.LogError("找不到窗口对应的脚本，窗口名称是："+name);
                 return null;
             }
-
-            GameObject wndObj = ObjectManager.Instance.InstantiateObject(m_UIPrefabPath + wnd.PrefabName()+ ".prefab", false, false);
+            GameObject wndObj = null;
+            if (resource)
+            {
+                //从resource加载UI
+                wndObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(wnd.PrefabName().Replace(".prefab", ""))) as GameObject;
+            }
+            else {
+                //从AssetBundle加载UI
+                wndObj = ObjectManager.Instance.InstantiateObject(m_UIPrefabPath + wnd.PrefabName(), false, false);
+            }
+            
             if (wndObj == null)
             {
                 Debug.Log("创建窗口Prefagb失败："+name);
@@ -189,15 +209,14 @@ public class UIManager : Singleton<UIManager>
             wnd.GameObject = wndObj;
             wnd.Transform = wndObj.transform;
             wnd.Name = name;
-            wnd.Awake(paramList);
             wndObj.transform.SetParent(m_WindowRoot,false);
-
             //置顶的UI
             if (bTop)
             {
                 wndObj.transform.SetAsLastSibling();
             }
 
+            wnd.Awake(paramList);
             wnd.OnShow(paramList);
         }
         else
@@ -234,14 +253,23 @@ public class UIManager : Singleton<UIManager>
                 m_WindowDic.Remove(wnd.Name);
             }
 
-            if (destory)
+            ///从AssetBundel加载的
+            if (!wnd.Resource)
             {
-                ObjectManager.Instance.ReleaseObject(wnd.GameObject,0,true);
+                if (destory)
+                {
+                    ObjectManager.Instance.ReleaseObject(wnd.GameObject, 0, true);
+                }
+                else
+                {
+                    ObjectManager.Instance.ReleaseObject(wnd.GameObject, recycleParent: false);
+                }
             }
-            else
-            {
-                ObjectManager.Instance.ReleaseObject(wnd.GameObject,recycleParent:false);
+            else {
+                //从Resource加载的
+                GameObject.Destroy(wnd.GameObject);
             }
+            
 
             wnd.GameObject = null;
             wnd = null;
@@ -262,10 +290,10 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// 切换到唯一窗口
     /// </summary>
-    public void SwitchStateByName(string name,bool bTop = true,params object [] paralist)
+    public void SwitchStateByName(string name, bool bTop = true, bool resource = false,params object [] paralist)
     {
         CloseAllWindow();
-        PopUpWindow(name, bTop, paralist);
+        PopUpWindow(name, bTop, resource, paralist);
     }
 
     /// <summary>

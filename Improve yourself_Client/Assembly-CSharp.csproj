@@ -62,6 +62,10 @@
   <ItemGroup>
     <Compile Include="Assets\FrameWork\FramePlug\ConfigFrame\ConfigManager.cs" />
     <Compile Include="Assets\FrameWork\FramePlug\ConfigFrame\ExcelBase.cs" />
+    <Compile Include="Assets\Script\Common\CommonEnum.cs" />
+    <Compile Include="Assets\Script\Common\ConStr.cs" />
+    <Compile Include="Assets\Script\Common\Timer.cs" />
+    <Compile Include="Assets\Script\Common\TimerController.cs" />
     <Compile Include="Assets\Script\Data\XmlData\BuffData.cs" />
     <Compile Include="Assets\Script\Data\XmlData\MonsterData.cs" />
     <Compile Include="Assets\Script\Game\GameStart.cs" />
@@ -72,12 +76,17 @@
     <Compile Include="Assets\Script\Module\Loading\View\LoadingPanel.cs" />
     <Compile Include="Assets\Script\Module\Menu\Controller\MenuWindow.cs" />
     <Compile Include="Assets\Script\Module\Menu\View\MenuPanel.cs" />
+    <Compile Include="Assets\Script\Module\PopUp\Controller\PopUpWindow.cs" />
+    <Compile Include="Assets\Script\Module\PopUp\PopUpUtil.cs" />
+    <Compile Include="Assets\Script\Module\PopUp\View\PopUpPanel.cs" />
+    <Compile Include="Assets\Script\Module\UIRegister.cs" />
     <Compile Include="Assets\Script\NetWork\ClientSession.cs" />
     <Compile Include="Assets\Script\NetWork\MessageContext_Register.cs" />
     <Compile Include="Assets\Script\NetWork\MessageDispatch.cs" />
     <Compile Include="Assets\Script\NetWork\MessagePublisher.cs" />
     <Compile Include="Assets\Script\NetWork\NetMessage\MessageContext_Login.cs" />
     <Compile Include="Assets\Script\NetWork\NetWorkManager.cs" />
+    <None Include="Assets\GameData\Data\Xml\ServerInfo.xml" />
     <None Include="Assets\Resources\Version.txt" />
     <None Include="Assets\AssetBundleConfig.xml" />
     <None Include="Assets\GameData\Shaders\Hero-Battle.shader" />

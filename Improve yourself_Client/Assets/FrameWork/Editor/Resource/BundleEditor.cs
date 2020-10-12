@@ -42,6 +42,49 @@ public class BundleEditor
     //储存读取来的MD5信息
     private static Dictionary<string, ABMD5Base> m_PackedMD5 = new Dictionary<string, ABMD5Base>();
 
+
+    [MenuItem("测试/测试加密")]
+    public static void TestEnc()
+    {
+        AES.AESFileEncrypt(Application.dataPath + "/GameData/Data/Xml/ServerInfo.xml", "Improve");
+    }
+
+    [MenuItem("测试/测试解密")]
+    public static void TestDec()
+    {
+        AES.AESFileDecrypt(Application.dataPath + "/GameData/Data/Xml/ServerInfo.xml", "Improve");
+    }
+
+    [MenuItem("Tools/加密AB包")]
+    public static void EncryptAB()
+    {
+        DirectoryInfo directory = new DirectoryInfo(m_BundleTargetPath);
+        FileInfo[] files = directory.GetFiles("*", SearchOption.AllDirectories);
+        for (int i = 0; i < files.Length; i++)
+        {
+            if (!files[i].Name.EndsWith("meta") && !files[i].Name.EndsWith(".manifest"))
+            {
+                AES.AESFileEncrypt(files[i].FullName, "Improve");
+            }
+        }
+        Debug.Log("加密完成！");
+    }
+
+    [MenuItem("Tools/解密AB包")]
+    public static void DecrptyAB()
+    {
+        DirectoryInfo directory = new DirectoryInfo(m_BundleTargetPath);
+        FileInfo[] files = directory.GetFiles("*", SearchOption.AllDirectories);
+        for (int i = 0; i < files.Length; i++)
+        {
+            if (!files[i].Name.EndsWith("meta") && !files[i].Name.EndsWith(".manifest"))
+            {
+                AES.AESFileDecrypt(files[i].FullName, "Improve");
+            }
+        }
+        Debug.Log("解密完成！");
+    }
+
     [MenuItem("Tools/打AB包")]
     public static void NormalBuild()
     {
@@ -290,6 +333,7 @@ public class BundleEditor
         FileInfo[] files = directory.GetFiles("*", SearchOption.AllDirectories);
         Pathces patches = new Pathces();
         patches.Version = 1;
+        patches.Des = "";
         patches.Files = new List<Patch>();
         for (int i = 0; i < files.Length; ++i) {
             Patch patch = new Patch();
@@ -297,7 +341,7 @@ public class BundleEditor
             patch.Name = files[i].Name;
             patch.Size = files[i].Length / 1024.0f;
             patch.Platform = EditorUserBuildSettings.activeBuildTarget.ToString();
-            patch.Url = "http:127.0.0.1/AssetBundle/" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
+            patch.Url = FrameConstr.m_ServerIp + "AssetBundle/" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
             patches.Files.Add(patch);
         }
         BinarySerializeOpt.Xmlserialize(m_HotPath + "/Patch.xml", patches);
@@ -356,6 +400,23 @@ public class BundleEditor
         else
         {
             Debug.Log("AssetBundle 打包完毕");
+        }
+
+        DeleteMainfest();
+        //加密AB包
+        EncryptAB();
+    }
+
+    static void DeleteMainfest()
+    {
+        DirectoryInfo directoryInfo = new DirectoryInfo(m_BundleTargetPath);
+        FileInfo[] files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
+        for (int i = 0; i < files.Length; i++)
+        {
+            if (files[i].Name.EndsWith(".manifest"))
+            {
+                File.Delete(files[i].FullName);
+            }
         }
     }
 
