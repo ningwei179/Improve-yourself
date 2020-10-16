@@ -43,7 +43,7 @@ public class GameStart : MonoSingleton<GameStart>
     void Start()
     {
         //启动热更UI
-        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true,true);
+        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true,UISource.Resources);
     }
 
     public IEnumerator StartGame(Image image, Text text)
@@ -59,7 +59,8 @@ public class GameStart : MonoSingleton<GameStart>
         image.fillAmount = 0.1f;
         yield return null;
         text.text = "加载dll... ...";
-        //ILRuntimeManager.Instance.Init();
+        //初始化ILRuntime热更管理器
+        ILRuntimeManager.Instance.Init();
         image.fillAmount = 0.2f;
         yield return null;
         text.text = "加载数据表... ...";

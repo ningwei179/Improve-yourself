@@ -15,6 +15,13 @@ public enum UIMsgID
 
 }
 
+public enum UISource
+{
+    Resources,          //从resource加载
+    AssetBundle,        //从AssetBundle加载
+    Addressable         //从Addressable加载
+}
+
 public class UIManager : Singleton<UIManager>
 {
     //UI节点
@@ -158,7 +165,7 @@ public class UIManager : Singleton<UIManager>
     /// <param name="para2"></param>
     /// <param name="para3"></param>
     /// <returns></returns>
-    public Window PopUpWindow(string name,bool bTop = true, bool resource = false, params object [] paramList)
+    public Window PopUpWindow(string name, bool bTop = true, UISource resource = UISource.AssetBundle, params object[] paramList)
     {
         Window wnd = FindWindowByName<Window>(name);
         if (wnd == null)
@@ -168,63 +175,78 @@ public class UIManager : Singleton<UIManager>
             {
                 //if (resource)
                 //{
-                    wnd = System.Activator.CreateInstance(tp) as Window;
+                wnd = System.Activator.CreateInstance(tp) as Window;
                 //}
                 //else
                 //{
-                    //string hotName = "HotFix." + name.Replace("Panel.prefab", "Ui");
-                    //wnd = ILRuntimeManager.Instance.ILRunAppDomain.Instantiate<Window>(hotName);
-                    //wnd.IsHotFix = true;
-                    //wnd.HotFixClassName = hotName;
+                //string hotName = "HotFix." + name.Replace("Panel.prefab", "Ui");
+                //wnd = ILRuntimeManager.Instance.ILRunAppDomain.Instantiate<Window>(hotName);
+                //wnd.IsHotFix = true;
+                //wnd.HotFixClassName = hotName;
                 //}
             }
             else
             {
-                Debug.LogError("找不到窗口对应的脚本，窗口名称是："+name);
+                Debug.LogError("找不到窗口对应的脚本，窗口名称是：" + name);
                 return null;
             }
             GameObject wndObj = null;
-            if (resource)
+            if (resource == UISource.Resources)
             {
                 //从resource加载UI
                 wndObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(wnd.PrefabName().Replace(".prefab", ""))) as GameObject;
+                InitPrefab(wnd, wndObj, name, bTop, paramList);
             }
-            else {
+            else if (resource == UISource.AssetBundle)
+            {
                 //从AssetBundle加载UI
-                wndObj = ObjectManager.Instance.InstantiateObject(m_UIPrefabPath + wnd.PrefabName(), false, false);
+                //wndObj = ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + wnd.PrefabName(), false, false);
+                InitPrefab(wnd, wndObj, name, bTop, paramList);
             }
-            
-            if (wndObj == null)
+            else if (resource == UISource.Addressable)
             {
-                Debug.Log("创建窗口Prefagb失败："+name);
-                return null;
+                //从Addressables加载UI
+                //Addressables.InstantiateAsync(m_UIPrefabPath + wnd.PrefabName()).Completed += op =>
+                //{
+                //    wndObj = op.Result;
+                //    InitPrefab(wnd, wndObj, name, bTop, paramList);
+                //};
             }
-
-            if (!m_WindowDic.ContainsKey(name))
-            {
-                m_WindowList.Add(wnd);
-                m_WindowDic.Add(name, wnd);
-            }
-
-            wnd.GameObject = wndObj;
-            wnd.Transform = wndObj.transform;
-            wnd.Name = name;
-            wndObj.transform.SetParent(m_WindowRoot,false);
-            //置顶的UI
-            if (bTop)
-            {
-                wndObj.transform.SetAsLastSibling();
-            }
-
-            wnd.Awake(paramList);
-            wnd.OnShow(paramList);
         }
         else
         {
-            ShowWindow(wnd, bTop,paramList);
+            ShowWindow(wnd, bTop, paramList);
         }
 
         return wnd;
+    }
+
+    void InitPrefab(Window wnd, GameObject wndObj, string name, bool bTop = true, params object[] paramList)
+    {
+        if (wndObj == null)
+        {
+            Debug.Log("创建窗口Prefagb失败：" + name);
+            return;
+        }
+
+        if (!m_WindowDic.ContainsKey(name))
+        {
+            m_WindowList.Add(wnd);
+            m_WindowDic.Add(name, wnd);
+        }
+
+        wnd.GameObject = wndObj;
+        wnd.Transform = wndObj.transform;
+        wnd.Name = name;
+        wndObj.transform.SetParent(m_WindowRoot, false);
+        //置顶的UI
+        if (bTop)
+        {
+            wndObj.transform.SetAsLastSibling();
+        }
+
+        wnd.Awake(paramList);
+        wnd.OnShow(paramList);
     }
 
     /// <summary>
@@ -290,7 +312,7 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// 切换到唯一窗口
     /// </summary>
-    public void SwitchStateByName(string name, bool bTop = true, bool resource = false,params object [] paralist)
+    public void SwitchStateByName(string name, bool bTop = true, UISource resource = UISource.AssetBundle,params object [] paralist)
     {
         CloseAllWindow();
         PopUpWindow(name, bTop, resource, paralist);

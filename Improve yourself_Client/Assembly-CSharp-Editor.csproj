@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -68,6 +68,7 @@
     <Compile Include="Assets\FrameWork\Editor\Resource\BundleHotFix.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\OfflineDataEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Tool\ScriptsInfoRecoder.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Tool\ToolsEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Tool\UnityToSVN.cs" />
     <Compile Include="Assets\FrameWork\Editor\WindowsFile.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
@@ -324,6 +325,15 @@
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntim.Mono.Cecil">
+      <HintPath>D:/Improve/Improve yourself_Client/Assets/Dependencies/ILRuntim.Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
+      <HintPath>D:/Improve/Improve yourself_Client/Assets/Dependencies/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
+      <HintPath>D:/Improve/Improve yourself_Client/Assets/Dependencies/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
     <Reference Include="PESocket">
       <HintPath>D:/Improve/Improve yourself_Client/Assets/References/PESocket.dll</HintPath>
@@ -711,18 +721,6 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{B6813DE0-FFD8-8723-DA55-15EB9496F86D}</Project>
       <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="Resource.csproj">
-      <Project>{6B4140F6-84A9-3D04-EE32-EEB27266E319}</Project>
-      <Name>Resource</Name>
-    </ProjectReference>
-    <ProjectReference Include="Base.csproj">
-      <Project>{7B048F25-A99B-36AB-5FC0-E3422924A85E}</Project>
-      <Name>Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="UIManager.csproj">
-      <Project>{FF8C7C43-4467-8F52-DBDD-BC6B545B2739}</Project>
-      <Name>UIManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

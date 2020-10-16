@@ -5,6 +5,9 @@
     <ABDependce>shaders</ABDependce>
   </ABList>
   <ABList ABName="gamestart" AssetName="GameStart.prefab" Path="Assets/GameData/Prefabs/GameStart.prefab" Crc="661067300" />
+  <ABList ABName="hotfix" AssetName="HotFix.dll.mdb" Path="Assets/GameData/Data/HotFix/HotFix.dll.mdb" Crc="1877353806" />
+  <ABList ABName="hotfix" AssetName="HotFix.dll.txt" Path="Assets/GameData/Data/HotFix/HotFix.dll.txt" Crc="1857181117" />
+  <ABList ABName="hotfix" AssetName="HotFix.pdb.txt" Path="Assets/GameData/Data/HotFix/HotFix.pdb.txt" Crc="2923483500" />
   <ABList ABName="loadingpanel" AssetName="LoadingPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/LoadingPanel.prefab" Crc="968375833" />
   <ABList ABName="menupanel" AssetName="MenuPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/MenuPanel.prefab" Crc="2681775694" />
   <ABList ABName="particletest" AssetName="ParticleTest.prefab" Path="Assets/GameData/Prefabs/Effect/ParticleTest.prefab" Crc="2693189025" />
