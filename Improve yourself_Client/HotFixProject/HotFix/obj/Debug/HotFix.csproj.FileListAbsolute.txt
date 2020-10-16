@@ -1,6 +1,0 @@
-D:\Improve\Improve yourself_Client\Assets\GameData\Data\HotFix\HotFix.dll
-D:\Improve\Improve yourself_Client\Assets\GameData\Data\HotFix\HotFix.pdb
-D:\Improve\Improve yourself_Client\HotFixProject\HotFix\obj\Debug\HotFix.csprojAssemblyReference.cache
-D:\Improve\Improve yourself_Client\HotFixProject\HotFix\obj\Debug\HotFix.csproj.CoreCompileInputs.cache
-D:\Improve\Improve yourself_Client\HotFixProject\HotFix\obj\Debug\HotFix.dll
-D:\Improve\Improve yourself_Client\HotFixProject\HotFix\obj\Debug\HotFix.pdb

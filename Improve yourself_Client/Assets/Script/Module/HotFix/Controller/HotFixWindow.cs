@@ -27,9 +27,9 @@ public class HotFixWindow : Window
         m_Panel.m_InfoPanel.SetActive(false);
         HotPatchManager.Instance.ServerInfoError += ServerInfoError;
         HotPatchManager.Instance.ItemError += ItemError;
-#if UNITY_EDITOR
-        StartOnFinish();
-#else
+//#if UNITY_EDITOR
+//        StartOnFinish();
+//#else
         if (HotPatchManager.Instance.ComputeUnPackFile())
         {
             m_Panel.m_SliderTopText.text = "解压中...";
@@ -43,7 +43,7 @@ public class HotFixWindow : Window
         {
             HotFix();
         }
-#endif
+//#endif
     }
 
     /// <summary>

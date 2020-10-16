@@ -1,7 +1,20 @@
-Improve yourself/Library/
-Improve yourself/ProjectSettings/
-Improve yourself/Logs/
-Improve yourself/obj/Debug/
-Improve yourself/Packages/
-Improve yourself/Temp/
-Improve yourself/.vs/
+Improve yourself_Client/.vs
+Improve yourself_Client/Library
+Improve yourself_Client/Logs
+Improve yourself_Client/obj
+Improve yourself_Client/AssetBundle
+Improve yourself_Client/BuildTarget
+Improve yourself_Client/Hot
+Improve yourself_Client/Version
+Improve yourself_Client/Improve yourself_Client.sln
+Improve yourself_Client/HotFixProject/HotFix/.vs
+Improve yourself_Client/HotFixProject/HotFix/Library
+Improve yourself_Client/HotFixProject/HotFix/Logs
+Improve yourself_Client/HotFixProject/HotFix/obj
+Improve yourself_Client/HotFixProject/HotFix/HotFix.sln
+Improve yourself_Server/.vs
+Improve yourself_Server/Server/bin
+Improve yourself_Server/Server/obj
+Improve yourself_Server/Protocal/obj
+*.csproj
+
