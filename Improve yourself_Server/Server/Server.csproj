@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PESocket">
-      <HintPath>..\..\..\MyFile\PESocket-master\PESocket.dll</HintPath>
+      <HintPath>..\..\PESocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

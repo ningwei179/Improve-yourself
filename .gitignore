@@ -2,6 +2,7 @@ Improve yourself_Client/.vs
 Improve yourself_Client/Library
 Improve yourself_Client/Logs
 Improve yourself_Client/obj
+Improve yourself_Client/Temp
 Improve yourself_Client/AssetBundle
 Improve yourself_Client/BuildTarget
 Improve yourself_Client/Hot
@@ -17,4 +18,3 @@ Improve yourself_Server/Server/bin
 Improve yourself_Server/Server/obj
 Improve yourself_Server/Protocal/obj
 *.csproj
-
