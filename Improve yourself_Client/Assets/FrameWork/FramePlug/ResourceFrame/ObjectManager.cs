@@ -296,7 +296,7 @@ public class ObjectManager : Singleton<ObjectManager>
     /// <param name="param3"></param>
     /// <param name="bClear"></param>
     public long InstantiateObjectAsync(string path, OnAsyncFinish dealFinish, LoadResPriority priority, bool setSceneObj = false,
-        object param1 = null, object param2 = null, object param3 = null, bool bClear = true)
+         bool bClear = true, params object[] paramList)
     {
         if (string.IsNullOrEmpty(path))
             return 0;
@@ -314,7 +314,7 @@ public class ObjectManager : Singleton<ObjectManager>
 
             if (dealFinish != null)
             {
-                dealFinish(path, resObj.m_CloneObj, param1, param2, param3);
+                dealFinish(path, resObj.m_CloneObj, paramList);
             }
 
             return resObj.m_Guid;
@@ -329,9 +329,7 @@ public class ObjectManager : Singleton<ObjectManager>
         resObj.m_SetSceneParent = setSceneObj;
         resObj.m_bClear = bClear;
         resObj.m_DealFinish = dealFinish;
-        resObj.m_Param1 = param1;
-        resObj.m_Param2 = param2;
-        resObj.m_Param3 = param3;
+        resObj.m_Params = paramList;
 
         //调用ResourceManager的异步加载接口
         ResourceManager.Instance.AsyncLoadResource(path, resObj, OnLoadResObjFinish, priority);
@@ -346,7 +344,7 @@ public class ObjectManager : Singleton<ObjectManager>
     /// <param name="param1">参数1</param>
     /// <param name="param2">参数2</param>
     /// <param name="param3">参数3</param>
-    void OnLoadResObjFinish(string path, ResourceObj resObj, object param1 = null, object param2 = null, object param3 = null)
+    void OnLoadResObjFinish(string path, ResourceObj resObj, params object[] paramList)
     {
         if (resObj == null)
             return;
@@ -384,7 +382,7 @@ public class ObjectManager : Singleton<ObjectManager>
                 m_ResObjDic.Add(tempID, resObj);
             }
 
-            resObj.m_DealFinish(path, resObj.m_CloneObj, resObj.m_Param1, resObj.m_Param2, resObj.m_Param3);
+            resObj.m_DealFinish(path, resObj.m_CloneObj, resObj.m_Params);
         }
     }
 

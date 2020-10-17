@@ -49,9 +49,7 @@ public class ResourceObj
     /// <summary>
     /// 回调参数
     /// </summary>
-    public object m_Param1 = null;
-    public object m_Param2 = null;
-    public object m_Param3 = null;
+    public object[] m_Params = null;
 
     //离线数据
     public OfflineData m_offlineData = null;
@@ -66,9 +64,7 @@ public class ResourceObj
         m_Already = false;
         m_SetSceneParent = false;
         m_DealFinish = null;
-        m_Param1 = null;
-        m_Param2 = null;
-        m_Param3 = null;
+        m_Params = null;
         m_offlineData = null;
     }
 }
@@ -142,17 +138,13 @@ public class AsynCallBack
     /// <summary>
     /// 回调参数
     /// </summary>
-    public object m_Param1 = null;
-    public object m_Param2 = null;
-    public object m_Param3 = null;
+    public object[] m_Params = null;
 
     public void Reset()
     {
         m_DealFinish = null;
         m_DealResObjFinish = null;
-        m_Param1 = null;
-        m_Param2 = null;
-        m_Param3 = null;
+        m_Params = null;
         m_ResObj = null;
     }
 }
@@ -165,7 +157,7 @@ public class AsynCallBack
 /// <param name="param1"></param>
 /// <param name="param2"></param>
 /// <param name="param3"></param>
-public delegate void OnAsyncFinish(string path, Object obj, object param1, object param2, object param3);
+public delegate void OnAsyncFinish(string path, Object obj, params object[] paramList);
 
 /// <summary>
 /// 实例化对象异步加载完成的回调
@@ -175,7 +167,7 @@ public delegate void OnAsyncFinish(string path, Object obj, object param1, objec
 /// <param name="param1"></param>
 /// <param name="param2"></param>
 /// <param name="param3"></param>
-public delegate void OnAsyncResObjFinish(string path, ResourceObj obj, object param1, object param2, object param3);
+public delegate void OnAsyncResObjFinish(string path, ResourceObj obj, params object[] paramList);
 #endregion
 
 
@@ -802,7 +794,7 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <summary>
     /// 异步资源加载，外部直接调用，（仅仅加载不需要实例化的资源，例如Texture和音频之类的）
     /// </summary>
-    public void AsyncLoadResource(string path, OnAsyncFinish dealFinish, LoadResPriority priority,bool isSprite = false, object param1 = null, object param2 = null, object param3 = null, uint crc = 0)
+    public void AsyncLoadResource(string path, OnAsyncFinish dealFinish, LoadResPriority priority,bool isSprite = false, uint crc = 0, params object[] paramList)
     {
         if (crc == 0)
         {
@@ -812,7 +804,7 @@ public class ResourceManager : Singleton<ResourceManager>
         AssetBundleInfo abInfo = GetCacheAssetBundleInfo(crc);
         if (abInfo != null)
         {
-            dealFinish?.Invoke(path, abInfo.m_Obj, param1, param2, param3);
+            dealFinish?.Invoke(path, abInfo.m_Obj, paramList);
             return;
         }
 
@@ -836,9 +828,7 @@ public class ResourceManager : Singleton<ResourceManager>
         //往回调列表里面添加回调
         AsynCallBack callBack = m_AsynCallBackPool.Spawn(true);
         callBack.m_DealFinish = dealFinish;
-        callBack.m_Param1 = param1;
-        callBack.m_Param2 = param2;
-        callBack.m_Param3 = param3;
+        callBack.m_Params = paramList;
 
         //往这个异步加载单位的回调列表中添加一个回调
         //可能多个地方加载同一份资源，这样做只加载一次资源，
@@ -849,7 +839,7 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <summary>
     /// 异步资源加载，针对ObjectManager的，（需要实例化对象的异步加载）
     /// </summary>
-    public void AsyncLoadResource(string path, ResourceObj resObj, OnAsyncResObjFinish dealFinish, LoadResPriority priority, object param1 = null, object param2 = null, object param3 = null, uint crc = 0)
+    public void AsyncLoadResource(string path, ResourceObj resObj, OnAsyncResObjFinish dealFinish, LoadResPriority priority,uint crc = 0, params object[] paramList)
     {
         AssetBundleInfo abInfo = GetCacheAssetBundleInfo(resObj.m_Crc);
         if (abInfo != null)
@@ -857,7 +847,7 @@ public class ResourceManager : Singleton<ResourceManager>
             resObj.m_AssetBundleInfo = abInfo;
             if (dealFinish != null)
             {
-                dealFinish(path, resObj, param1, param2, param3);
+                dealFinish(path, resObj, paramList);
             }
 
             return;
@@ -880,9 +870,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
         //往回调列表里面添加回调
         AsynCallBack callBack = m_AsynCallBackPool.Spawn(true);
-        callBack.m_Param1 = param1;
-        callBack.m_Param2 = param2;
-        callBack.m_Param3 = param3;
+        callBack.m_Params = paramList;
 
         callBack.m_DealResObjFinish = dealFinish;
         callBack.m_ResObj = resObj;
@@ -993,7 +981,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
                         tempResObj.m_AssetBundleInfo = abInfo;
 
-                        callBack.m_DealResObjFinish(loadintItem.m_Path, tempResObj, callBack.m_Param1, callBack.m_Param2, callBack.m_Param3);
+                        callBack.m_DealResObjFinish(loadintItem.m_Path, tempResObj, callBack.m_Params);
 
                         callBack.m_DealResObjFinish = null;
 
@@ -1003,7 +991,7 @@ public class ResourceManager : Singleton<ResourceManager>
                     //非实例化对象的回调
                     if (callBack != null && callBack.m_DealFinish != null)
                     {
-                        callBack.m_DealFinish(loadintItem.m_Path,obj,callBack.m_Param1, callBack.m_Param2, callBack.m_Param3);
+                        callBack.m_DealFinish(loadintItem.m_Path,obj,callBack.m_Params);
                         callBack.m_DealFinish = null;
                     }
 

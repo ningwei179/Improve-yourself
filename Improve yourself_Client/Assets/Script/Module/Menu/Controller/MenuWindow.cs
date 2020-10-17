@@ -23,7 +23,7 @@ public class MenuWindow : Window
         AddButtonClickListener(m_Panel.m_StartButton, OnClickStart);
         AddButtonClickListener(m_Panel.m_LoadButton, OnClickLoad);
         AddButtonClickListener(m_Panel.m_ExitButton, OnClickExit);
-        ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image1.png", (string resourcePath, Object obj, object param1, object param2, object param3) =>
+        ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image1.png", (string resourcePath, Object obj, object [] paramArr) =>
         {
             if (obj != null)
             {
@@ -37,7 +37,7 @@ public class MenuWindow : Window
             }
         }, LoadResPriority.RES_MIDDLE,true);
 
-        ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image2.png", (string resourcePath, Object obj, object param1, object param2, object param3) =>
+        ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image2.png", (string resourcePath, Object obj, object[] paramArr) =>
         {
             if (obj != null)
             {

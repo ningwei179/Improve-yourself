@@ -195,13 +195,15 @@ public class UIManager : Singleton<UIManager>
             {
                 //从resource加载UI
                 wndObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(wnd.PrefabName().Replace(".prefab", ""))) as GameObject;
-                InitPrefab(wnd, wndObj, name, bTop, paramList);
+                InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
             }
             else if (resource == UISource.AssetBundle)
             {
                 //从AssetBundle加载UI
-                //wndObj = ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + wnd.PrefabName(), false, false);
-                InitPrefab(wnd, wndObj, name, bTop, paramList);
+                ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + wnd.PrefabName(), (string path, UnityEngine.Object obj,object [] paramArr) => {
+                    wndObj = obj as GameObject;
+                    InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
+                }, LoadResPriority.RES_HIGHT, false, false);
             }
             else if (resource == UISource.Addressable)
             {
@@ -221,7 +223,7 @@ public class UIManager : Singleton<UIManager>
         return wnd;
     }
 
-    void InitPrefab(Window wnd, GameObject wndObj, string name, bool bTop = true, params object[] paramList)
+    void InitPrefab(Window wnd, GameObject wndObj, string name,UISource resource = UISource.AssetBundle,  bool bTop = true, params object[] paramList)
     {
         if (wndObj == null)
         {
@@ -238,6 +240,7 @@ public class UIManager : Singleton<UIManager>
         wnd.GameObject = wndObj;
         wnd.Transform = wndObj.transform;
         wnd.Name = name;
+        wnd.Resource = resource;
         wndObj.transform.SetParent(m_WindowRoot, false);
         //置顶的UI
         if (bTop)
@@ -276,7 +279,7 @@ public class UIManager : Singleton<UIManager>
             }
 
             ///从AssetBundel加载的
-            if (!wnd.Resource)
+            if (wnd.Resource == UISource.AssetBundle)
             {
                 if (destory)
                 {
@@ -287,11 +290,14 @@ public class UIManager : Singleton<UIManager>
                     ObjectManager.Instance.ReleaseObject(wnd.GameObject, recycleParent: false);
                 }
             }
-            else {
+            else if(wnd.Resource == UISource.Addressable) {
+
+            }
+            else if (wnd.Resource == UISource.Resources)
+            {
                 //从Resource加载的
                 GameObject.Destroy(wnd.GameObject);
             }
-            
 
             wnd.GameObject = null;
             wnd = null;

@@ -29,7 +29,7 @@ public class Window
     /// <summary>
     /// 是否是Resource加载的
     /// </summary>
-    public bool Resource { get; set; } = false;
+    public UISource Resource { get; set; } = UISource.AssetBundle;
 
     /// <summary>
     /// 是否是热更的
@@ -122,13 +122,13 @@ public class Window
         if (image == null)
             return;
 
-        ResourceManager.Instance.AsyncLoadResource(path, (string resPath, Object obj, object param1, object param2, object param3) =>
+        ResourceManager.Instance.AsyncLoadResource(path, (string resPath, Object obj, object []paramArr) =>
         {
             if (obj != null)
             {
                 Sprite m_Sp = obj as Sprite;
-                Image m_Imgae = param1 as Image;
-                bool m_SetNativeSize = (bool)param2;
+                Image m_Imgae = paramArr[0] as Image;
+                bool m_SetNativeSize = (bool)paramArr[1];
 
                 if (m_Imgae.sprite != null)
                     m_Imgae.sprite = null;
@@ -138,7 +138,7 @@ public class Window
                 if (m_SetNativeSize)
                     image.SetNativeSize();
             }
-        },LoadResPriority.RES_MIDDLE,image,setNativeSize,true);
+        }, LoadResPriority.RES_MIDDLE,true,0,image,setNativeSize);
     }
 
     /// <summary>
