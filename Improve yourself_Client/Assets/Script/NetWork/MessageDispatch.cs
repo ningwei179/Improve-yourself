@@ -6,7 +6,7 @@
 *****************************************************/
 
 
-using Protocal;
+using IYProtocal;
 
 public class MessageDispatch : Singleton<MessageDispatch>
 {

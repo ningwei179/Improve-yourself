@@ -4,8 +4,8 @@
 	日期：2020/09/07 13:59   	
 	功能：网络服务处
 *****************************************************/
-using PENet;
-using Protocal;
+using IYNet;
+using IYProtocal;
 using System.Collections.Generic;
 
 public class MsgPack {
@@ -35,10 +35,10 @@ public class NetSvc
 
     public void Init()
     {
-        PESocket<ServerSession, NetMsg> server = new PESocket<ServerSession, NetMsg>();
+        IYSocket<ServerSession, NetMsg> server = new IYSocket<ServerSession, NetMsg>();
         server.StartAsServer(IPCfg.srvIP, IPCfg.srvPort);
 
-        Common.log("NetSvc Init Done");
+        IYCommon.IYSocketLog("NetSvc Init Done");
     }
 
     public void AddMsgQue(ServerSession session,NetMsg msg) {
@@ -49,7 +49,7 @@ public class NetSvc
 
     public void Update() {
         if (msgPackQue.Count > 0) {
-            Common.log("PackCount:" + msgPackQue.Count);
+            IYCommon.IYSocketLog("PackCount:" + msgPackQue.Count);
             lock (obj) {
                 MsgPack msgPack = msgPackQue.Dequeue();
                 HandOutMsg(msgPack);

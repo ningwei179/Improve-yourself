@@ -5,22 +5,24 @@
 	功能：ServerSession
 *****************************************************/
 
-using Protocal;
+using IYNet;
+using IYProtocal;
 
-public class ServerSession : PENet.PESession<NetMsg> {
+public class ServerSession:IYSession<NetMsg>{
+    public int sessionID = 0;
 
     protected override void OnConnected() {
-        Common.log("Client Connect");
+        IYCommon.IYSocketLog("Client Connect");
     }
 
     protected override void OnReciveMsg(NetMsg msg)
     {
-        Common.log("RcvPack CMD:"+((CMD)msg.cmd).ToString());
-        NetSvc.Instance.AddMsgQue(this,msg);
+        IYCommon.IYSocketLog("RcvPack CMD:" + ((CMD)msg.cmd).ToString());
+        NetSvc.Instance.AddMsgQue(this, msg);
     }
 
     protected override void OnDisConnected()
     {
-        Common.log("Client DisConnected");
+        IYCommon.IYSocketLog("Client DisConnected");
     }
 }

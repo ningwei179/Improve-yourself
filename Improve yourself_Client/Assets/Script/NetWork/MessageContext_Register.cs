@@ -6,7 +6,7 @@
 *****************************************************/
 
 
-using Protocal;
+using IYProtocal;
 /// <summary>
 /// 服务器返回的消息内容
 /// </summary>

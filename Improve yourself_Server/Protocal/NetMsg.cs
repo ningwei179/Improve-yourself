@@ -4,13 +4,13 @@
 	日期：2020/09/04 15:04   	
 	功能：协议数据
 *****************************************************/
-using PENet;
+using IYNet;
 using System;
 
-namespace Protocal
+namespace IYProtocal
 {
     [Serializable]
-    public class NetMsg:PEMsg
+    public class NetMsg : IYMsg
     {
         public ReqLogin reqLogin;
         public RspLogin rspLogin;

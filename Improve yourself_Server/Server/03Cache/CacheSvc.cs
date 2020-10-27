@@ -5,7 +5,7 @@
 	功能：
 *****************************************************/
 
-using Protocal;
+using IYProtocal;
 using System.Collections.Generic;
 
 public class CacheSvc
@@ -27,7 +27,7 @@ public class CacheSvc
 
     public void Init()
     {
-        Common.log("CacheSvc Init Done");
+        IYCommon.IYSocketLog("CacheSvc Init Done");
     }
 
     public bool IsAcctOnLine(string acct) {

@@ -46,10 +46,12 @@ public class GameStart : MonoSingleton<GameStart>
         UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true,UISource.Resources);
     }
 
+    WaitForSeconds wait3f = new WaitForSeconds(0.3f);
+
     public IEnumerator StartGame(Image image, Text text)
     {
         image.fillAmount = 0;
-        yield return null;
+        yield return wait3f;
 
         text.text = "加载本地数据... ...";
 
@@ -57,20 +59,20 @@ public class GameStart : MonoSingleton<GameStart>
         AssetBundleManager.Instance.LoadAssetBundleConfig(false);
 
         image.fillAmount = 0.1f;
-        yield return null;
+        yield return wait3f;
         text.text = "加载dll... ...";
         //初始化ILRuntime热更管理器
         //ILRuntimeManager.Instance.Init();
         image.fillAmount = 0.2f;
-        yield return null;
+        yield return wait3f;
         text.text = "加载数据表... ...";
         //加载配置文件
         LoadConfig();
         image.fillAmount = 0.7f;
-        yield return null;
+        yield return wait3f;
         text.text = "加载配置... ...";
         image.fillAmount = 0.9f;
-        yield return null;
+        yield return wait3f;
         text.text = "初始化地图... ...";
         //初始化场景管理器
         GameMapManager.Instance.Init(this);
@@ -114,7 +116,7 @@ public class GameStart : MonoSingleton<GameStart>
 
         NetWorkManager.Instance.Update();
         if (Input.GetKeyDown(KeyCode.Space)) {
-            NetWorkManager.Instance.m_Client.session.SendMsg(new Protocal.NetMsg
+            NetWorkManager.Instance.m_Client.session.SendMsg(new IYProtocal.NetMsg
             {
 
             });

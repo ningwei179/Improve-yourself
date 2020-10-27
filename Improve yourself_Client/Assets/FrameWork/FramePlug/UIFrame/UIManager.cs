@@ -223,6 +223,75 @@ public class UIManager : Singleton<UIManager>
         return wnd;
     }
 
+    /// <summary>
+    /// 打开窗口
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="bTop"></param>
+    /// <param name="resource"></param>
+    /// <param name="para1"></param>
+    /// <param name="para2"></param>
+    /// <param name="para3"></param>
+    /// <returns></returns>
+    public Window PopUpWindowAsync(string name, bool bTop = true, UISource resource = UISource.AssetBundle, Action callBack = null, params object[] paramList)
+    {
+        Window wnd = FindWindowByName<Window>(name);
+        if (wnd == null)
+        {
+            System.Type tp = null;
+            if (m_RegisterDic.TryGetValue(name, out tp))
+            {
+                //if (resource)
+                //{
+                wnd = System.Activator.CreateInstance(tp) as Window;
+                //}
+                //else
+                //{
+                //string hotName = "HotFix." + name.Replace("Panel.prefab", "Ui");
+                //wnd = ILRuntimeManager.Instance.ILRunAppDomain.Instantiate<Window>(hotName);
+                //wnd.IsHotFix = true;
+                //wnd.HotFixClassName = hotName;
+                //}
+            }
+            else
+            {
+                Debug.LogError("找不到窗口对应的脚本，窗口名称是：" + name);
+                return null;
+            }
+            GameObject wndObj = null;
+            if (resource == UISource.Resources)
+            {
+                //从resource加载UI
+                wndObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(wnd.PrefabName().Replace(".prefab", ""))) as GameObject;
+                InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
+            }
+            else if (resource == UISource.AssetBundle)
+            {
+                //从AssetBundle加载UI
+                ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + wnd.PrefabName(), (string path, UnityEngine.Object obj, object[] paramArr) =>
+                {
+                    wndObj = obj as GameObject;
+                    InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
+                }, LoadResPriority.RES_HIGHT, false, false);
+            }
+            else if (resource == UISource.Addressable)
+            {
+                //从Addressables加载UI
+                //Addressables.InstantiateAsync(m_UIPrefabPath + wnd.PrefabName()).Completed += op =>
+                //{
+                //    wndObj = op.Result;
+                //    InitPrefab(wnd, wndObj, name, bTop, paramList);
+                //};
+            }
+        }
+        else
+        {
+            ShowWindow(wnd, bTop, paramList);
+        }
+
+        return wnd;
+    }
+
     void InitPrefab(Window wnd, GameObject wndObj, string name,UISource resource = UISource.AssetBundle,  bool bTop = true, params object[] paramList)
     {
         if (wndObj == null)
@@ -250,6 +319,19 @@ public class UIManager : Singleton<UIManager>
 
         wnd.Awake(paramList);
         wnd.OnShow(paramList);
+    }
+
+    /// <summary>
+    /// 是否存在Window
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public bool ExisWindow(string name) {
+        if (m_WindowDic.ContainsKey(name))
+        {
+            return true;
+        }
+        return false;
     }
 
     /// <summary>

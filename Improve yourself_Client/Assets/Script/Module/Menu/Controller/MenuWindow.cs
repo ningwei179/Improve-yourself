@@ -5,7 +5,7 @@
 	功能：处理菜单界面的逻辑
 *****************************************************/
 
-using Protocal;
+using IYProtocal;
 using UnityEngine;
 
 public class MenuWindow : Window

@@ -87,16 +87,6 @@ public class HotFixWindow : Window
         });
     }
 
-    public override void OnClose()
-    {
-        base.OnClose();
-        HotPatchManager.Instance.ServerInfoError -= ServerInfoError;
-        HotPatchManager.Instance.ItemError -= ItemError;
-
-        //加载场景
-        GameMapManager.Instance.LoadScene(ConStr.MenuScene);
-    }
-
     void ServerInfoError() {
         PopUpUtil.OpenPopUpX("服务器列表获取失败", "服务器列表获取失败，请检查网络链接是否正常？尝试重新下载！", CheckVersion, Application.Quit);
     }
@@ -162,7 +152,11 @@ public class HotFixWindow : Window
     IEnumerator OnFinish()
     {
         yield return GameStart.Instance.StartCoroutine(GameStart.Instance.StartGame(m_Panel.m_HotFixProgress, m_Panel.m_SliderTopText));
-        UIManager.Instance.CloseWindow(this);
+        HotPatchManager.Instance.ServerInfoError -= ServerInfoError;
+        HotPatchManager.Instance.ItemError -= ItemError;
+
+        //加载场景
+        GameMapManager.Instance.LoadScene(ConStr.MenuScene);
     }
 
     public override void OnUpdate()

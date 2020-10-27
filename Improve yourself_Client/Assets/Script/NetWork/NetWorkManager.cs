@@ -5,13 +5,13 @@
 	功能：网络通信相关
 *****************************************************/
 
-using Protocal;
+using IYProtocal;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class NetWorkManager : Singleton<NetWorkManager> 
 {
-    public PENet.PESocket<ClientSession, NetMsg> m_Client;
+    public IYNet.IYSocket<ClientSession, NetMsg> m_Client;
 
     private static readonly string obj = "lock";
 
@@ -23,7 +23,7 @@ public class NetWorkManager : Singleton<NetWorkManager>
     /// <param name="mono"></param>
     public void Init()
     {
-        m_Client = new PENet.PESocket<ClientSession, NetMsg>();
+        m_Client = new IYNet.IYSocket<ClientSession, NetMsg>();
         
         m_Client.SetLog(true, (string msg, int lv) => {
             switch (lv) {
@@ -72,7 +72,7 @@ public class NetWorkManager : Singleton<NetWorkManager>
     public void Update() {
         if (msgQue.Count > 0)
         {
-            Common.log("PackCount:" + msgQue.Count);
+            IYCommon.IYSocketLog("PackCount:" + msgQue.Count);
             lock (obj)
             {
                 NetMsg msg = msgQue.Dequeue();

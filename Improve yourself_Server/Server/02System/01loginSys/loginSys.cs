@@ -5,7 +5,7 @@
 	功能：登录模块
 *****************************************************/
 
-using Protocal;
+using IYProtocal;
 
 public class loginSys
 {
@@ -25,7 +25,7 @@ public class loginSys
     public void Init()
     {
         cacheSvc = CacheSvc.Instance;
-        Common.log("login Init Done");
+        IYCommon.IYSocketLog("login Init Done");
     }
 
     public void ReqLogin(MsgPack msgPack) {

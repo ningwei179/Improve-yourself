@@ -5,24 +5,24 @@
 	功能：客户端Session
 *****************************************************/
 
-using PENet;
-using Protocal;
+using IYNet;
+using IYProtocal;
 
-public class ClientSession : PESession<NetMsg> 
+public class ClientSession : IYSession<NetMsg> 
 {
     protected override void OnConnected()
     {
-        Common.log("Server Connect To Server Succ");
+        IYCommon.IYSocketLog("Server Connect To Server Succ");
     }
 
     protected override void OnReciveMsg(NetMsg msg)
     {
-        Common.log("RcvPack CMD:"+((CMD)msg.cmd).ToString());
+        IYCommon.IYSocketLog("RcvPack CMD:"+((CMD)msg.cmd).ToString());
         NetWorkManager.Instance.AddNetPkg(msg);
     }
 
     protected override void OnDisConnected()
     {
-        Common.log("Server DisConnected");
+        IYCommon.IYSocketLog("Server DisConnected");
     }
 }

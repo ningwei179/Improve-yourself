@@ -45,16 +45,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="IYSocket">
+      <HintPath>..\..\Dll\IYSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Protocal\Protocal.csproj">
       <Project>{196b2c6d-20de-4003-8bce-2f54ab14d0f4}</Project>
       <Name>Protocal</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="PESocket">
-      <HintPath>..\..\PESocket.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

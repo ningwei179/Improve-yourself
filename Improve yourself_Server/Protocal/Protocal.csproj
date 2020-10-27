@@ -31,13 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common.cs" />
+    <Compile Include="IYCommon.cs" />
     <Compile Include="NetMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="PESocket">
-      <HintPath>..\..\..\MyFile\PESocket-master\PESocket.dll</HintPath>
+    <Reference Include="IYSocket">
+      <HintPath>..\..\Dll\IYSocket.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

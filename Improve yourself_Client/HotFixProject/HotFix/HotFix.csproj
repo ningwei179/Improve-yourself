@@ -33,7 +33,6 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\Library\ScriptAssemblies\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,15 +43,15 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\Unity\Editor\Data\PlaybackEngines\windowsstandalonesupport\Variations\win64_nondevelopment_il2cpp\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\Unity2018\Editor\Data\PlaybackEngines\windowsstandalonesupport\Variations\win64_nondevelopment_il2cpp\Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\..\Unity\Editor\Data\PlaybackEngines\AndroidPlayer\Variations\il2cpp\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\Unity2018\Editor\Data\PlaybackEngines\AndroidPlayer\Variations\il2cpp\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\..\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\Standalone\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\..\Unity2018\Editor\Data\UnityExtensions\Unity\GUISystem\Standalone\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

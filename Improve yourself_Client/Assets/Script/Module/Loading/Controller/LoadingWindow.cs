@@ -22,6 +22,10 @@ public class LoadingWindow : Window
     {
         m_Panel = GameObject.GetComponent<LoadingPanel>();
         m_SceneName = paralist[0] as string;
+
+        if (UIManager.Instance.ExisWindow(ConStr.HotFixPanel)) {
+            UIManager.Instance.CloseWindow(ConStr.HotFixPanel);
+        }
     }
 
     public override void OnUpdate()
