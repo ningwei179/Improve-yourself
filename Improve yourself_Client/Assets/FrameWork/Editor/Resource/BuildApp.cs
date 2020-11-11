@@ -66,7 +66,7 @@ public class BuildApp
 
         BuildPipeline.BuildPlayer(FindEnableEditorrScenes(), savePath, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
         //删除
-        DeleteDir(Application.streamingAssetsPath);
+        //DeleteDir(Application.streamingAssetsPath);
     }
 
     /// <summary>

@@ -11,8 +11,8 @@ using System.IO;
 
 public class ToolsEditor
 {
-    private static string DLLPATH = "Assets/GameData/Data/HotFix/HotFix.dll";
-    private static string PDBPATH = "Assets/GameData/Data/HotFix/HotFix.pdb";
+    private static string DLLPATH = "Assets/GameData/Data/HotFix/HotFixProject.dll";
+    private static string PDBPATH = "Assets/GameData/Data/HotFix/HotFixProject.pdb";
 
     [MenuItem("Tools/修改热更dll为txt")]
     public static void ChangeDllName()
