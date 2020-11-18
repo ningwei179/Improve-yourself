@@ -29,7 +29,7 @@ public class Window
     /// <summary>
     /// 是否是Resource加载的
     /// </summary>
-    public UISource Resource { get; set; } = UISource.AssetBundle;
+    public AssetAddress Resource { get; set; } = AssetAddress.AssetBundle;
 
     /// <summary>
     /// 是否是热更的

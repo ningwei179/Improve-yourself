@@ -25,25 +25,40 @@ public class HotFixWindow : Window
         m_Panel.m_HotFixProgress.fillAmount = 0;
         m_Panel.m_SpeedText.text = string.Format("{0:F}M/S", 0);
         m_Panel.m_InfoPanel.SetActive(false);
-        HotPatchManager.Instance.ServerInfoError += ServerInfoError;
-        HotPatchManager.Instance.ItemError += ItemError;
-#if UNITY_EDITOR
-        StartOnFinish();
-#else
-        if (HotPatchManager.Instance.ComputeUnPackFile())
+        if (GameStart.Instance.UseAssetAddress == AssetAddress.Addressable)
         {
-            m_Panel.m_SliderTopText.text = "解压中...";
-            HotPatchManager.Instance.StartUnackFile(() =>
-            {
-                m_SumTime = 0;
-                HotFix();
-            });
+            AddressableUpdateManager.Instance.ServerInfoError += ServerInfoError;
+            AddressableUpdateManager.Instance.ItemError += ItemError;
         }
-        else
+        else { 
+            HotPatchManager.Instance.ServerInfoError += ServerInfoError;
+            HotPatchManager.Instance.ItemError += ItemError;
+        }
+
+        //#if UNITY_EDITOR
+        //        StartOnFinish();
+        //#else
+        if (GameStart.Instance.UseAssetAddress == AssetAddress.Addressable)
         {
+            AddressableUpdateManager.Instance.Init();
             HotFix();
         }
-#endif
+        else {
+            if (HotPatchManager.Instance.ComputeUnPackFile())
+            {
+                m_Panel.m_SliderTopText.text = "解压中...";
+                HotPatchManager.Instance.StartUnackFile(() =>
+                {
+                    m_SumTime = 0;
+                    HotFix();
+                });
+            }
+            else
+            {
+                HotFix();
+            }
+        }
+//#endif
     }
 
     /// <summary>
@@ -71,20 +86,39 @@ public class HotFixWindow : Window
     }
 
     void CheckVersion() {
-        HotPatchManager.Instance.CheckVersion((hot) =>
+        if (GameStart.Instance.UseAssetAddress != AssetAddress.Addressable)
         {
-            if (hot)
+            HotPatchManager.Instance.CheckVersion((hot) =>
             {
-                //提示玩家是否热更下载
-                PopUpUtil.OpenPopUpX("提示", string.Format("当前版本为{0},有{1:F}M大小热更包，是否确定下载？", HotPatchManager.Instance.CurVersion, HotPatchManager.Instance.LoadSumSize / 1024.0f), 
-                    OnClickStartDownLoad,
-                    OnClickCancleDownLoad);
-            }
-            else
+                if (hot)
+                {
+                    //提示玩家是否热更下载
+                    PopUpUtil.OpenPopUpX("提示", string.Format("当前版本为{0},有{1:F}M大小热更包，是否确定下载？", HotPatchManager.Instance.CurVersion, HotPatchManager.Instance.LoadSumSize / 1024.0f), 
+                        OnClickStartDownLoad,
+                        OnClickCancleDownLoad);
+                }
+                else
+                {
+                    StartOnFinish();
+                }
+            });
+        }
+        else {
+            AddressableUpdateManager.Instance.CheckVersion((hot) =>
             {
-                StartOnFinish();
-            }
-        });
+                if (hot)
+                {
+                    //提示玩家是否热更下载
+                    PopUpUtil.OpenPopUpX("提示", string.Format("当前版本为{0},有{1:F}M大小热更包，是否确定下载？", AddressableUpdateManager.Instance.CurVersion, AddressableUpdateManager.Instance.LoadSumSize / 1024.0f),
+                        OnClickStartDownLoad,
+                        OnClickCancleDownLoad);
+                }
+                else
+                {
+                    StartOnFinish();
+                }
+            });
+        }
     }
 
     void ServerInfoError() {
@@ -138,7 +172,13 @@ public class HotFixWindow : Window
         m_Panel.m_SliderTopText.text = "下载中...";
         m_Panel.m_InfoPanel.SetActive(true);
         m_Panel.m_HotContentText.text = HotPatchManager.Instance.CurrentPatches.Des;
-        GameStart.Instance.StartCoroutine(HotPatchManager.Instance.StartDownLoadAB(StartOnFinish));
+        if (GameStart.Instance.UseAssetAddress == AssetAddress.Addressable)
+        {
+            GameStart.Instance.StartCoroutine(AddressableUpdateManager.Instance.StartDownLoadAB(StartOnFinish));
+        }
+        else {
+            GameStart.Instance.StartCoroutine(HotPatchManager.Instance.StartDownLoadAB(StartOnFinish));
+        }
     }
 
     /// <summary>
@@ -163,34 +203,71 @@ public class HotFixWindow : Window
     {
         if (m_Panel == null)
             return;
-        if (HotPatchManager.Instance.StartUnPack)
+        if (GameStart.Instance.UseAssetAddress != AssetAddress.Addressable)
         {
-            m_SumTime += Time.deltaTime;
-            m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetUnpackProgress();
-            float speed = (HotPatchManager.Instance.AlreadyUnPackSize / 1024.0f) / m_SumTime;
-            if (m_Panel.m_HotFixProgress.fillAmount == 1)
+            if (HotPatchManager.Instance.StartUnPack)
             {
-                m_Panel.m_SliderTopText.text = "解压完成";
-                m_Panel.m_SpeedText.text = "";
+                m_SumTime += Time.deltaTime;
+                m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetUnpackProgress();
+                float speed = (HotPatchManager.Instance.AlreadyUnPackSize / 1024.0f) / m_SumTime;
+                if (m_Panel.m_HotFixProgress.fillAmount == 1)
+                {
+                    m_Panel.m_SliderTopText.text = "解压完成";
+                    m_Panel.m_SpeedText.text = "";
+                }
+                else
+                {
+                    m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+                }
             }
-            else {
-                m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+
+            if (HotPatchManager.Instance.StartDownload)
+            {
+                m_SumTime += Time.deltaTime;
+                m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetProgress();
+                float speed = (HotPatchManager.Instance.GetLoadSize() / 1024.0f) / m_SumTime;
+                if (m_Panel.m_HotFixProgress.fillAmount == 1)
+                {
+                    m_Panel.m_SliderTopText.text = "下载完成";
+                    m_Panel.m_SpeedText.text = "";
+                }
+                else
+                {
+                    m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+                }
             }
         }
-
-        if (HotPatchManager.Instance.StartDownload)
-        {
-            m_SumTime += Time.deltaTime;
-            m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetProgress();
-            float speed = (HotPatchManager.Instance.GetLoadSize() / 1024.0f) / m_SumTime;
-            if (m_Panel.m_HotFixProgress.fillAmount == 1)
+        else {
+            if (AddressableUpdateManager.Instance.StartUnPack)
             {
-                m_Panel.m_SliderTopText.text = "下载完成";
-                m_Panel.m_SpeedText.text = "";
+                m_SumTime += Time.deltaTime;
+                m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetUnpackProgress();
+                float speed = (HotPatchManager.Instance.AlreadyUnPackSize / 1024.0f) / m_SumTime;
+                if (m_Panel.m_HotFixProgress.fillAmount == 1)
+                {
+                    m_Panel.m_SliderTopText.text = "解压完成";
+                    m_Panel.m_SpeedText.text = "";
+                }
+                else
+                {
+                    m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+                }
             }
-            else
+
+            if (AddressableUpdateManager.Instance.StartDownload)
             {
-                m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+                m_SumTime += Time.deltaTime;
+                m_Panel.m_HotFixProgress.fillAmount = AddressableUpdateManager.Instance.GetProgress();
+                float speed = (AddressableUpdateManager.Instance.GetLoadSize() / 1024.0f) / m_SumTime;
+                if (m_Panel.m_HotFixProgress.fillAmount == 1)
+                {
+                    m_Panel.m_SliderTopText.text = "下载完成";
+                    m_Panel.m_SpeedText.text = "";
+                }
+                else
+                {
+                    m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
+                }
             }
         }
     }

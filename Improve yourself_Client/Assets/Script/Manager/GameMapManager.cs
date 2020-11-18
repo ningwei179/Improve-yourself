@@ -7,6 +7,9 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 public class GameMapManager : Singleton<GameMapManager>
@@ -74,47 +77,83 @@ public class GameMapManager : Singleton<GameMapManager>
 
         ClearCache();
         AlreadyLoadScene = false;
-        //为内存考虑，先加载一个空场景，顶掉当前运行的场景
-        AsyncOperation unloadScene = SceneManager.LoadSceneAsync(ConStr.EmptyScene, LoadSceneMode.Single);
-        while (unloadScene != null && unloadScene.isDone)
-        {
-            yield return endOfFrame;
-        }
-
         LoadingProgress = 0;
         int targetProgress = 0;
-        AsyncOperation asyncScene = SceneManager.LoadSceneAsync(name);
-        if (asyncScene != null && !asyncScene.isDone)
+        //为内存考虑，先加载一个空场景，顶掉当前运行的场景
+        if (GameStart.Instance.UseAssetAddress == AssetAddress.Addressable)
         {
-            asyncScene.allowSceneActivation = false;
-            while (asyncScene.progress<0.9f)
+            AsyncOperationHandle unloadScene = Addressables.LoadSceneAsync(name,LoadSceneMode.Single);
+            yield return unloadScene.IsDone;
+            AsyncOperationHandle asyncScene = Addressables.LoadSceneAsync(name);
+            if (asyncScene.Result != null && !asyncScene.IsDone)
             {
-                targetProgress = (int)asyncScene.progress *100;
-                yield return endOfFrame;
-                //平滑过渡
-                while (LoadingProgress< targetProgress)
+                while ( asyncScene.PercentComplete < 0.9f)
+                {
+                    targetProgress = (int)asyncScene.PercentComplete * 100;
+                    yield return endOfFrame;
+                    //平滑过渡
+                    while (LoadingProgress < targetProgress)
+                    {
+                        ++LoadingProgress;
+                        yield return endOfFrame;
+                    }
+                }
+
+                CurrentMapName = name;
+                //自行加载剩余的10%
+                targetProgress = 100;
+                while (LoadingProgress < targetProgress - 1)
                 {
                     ++LoadingProgress;
                     yield return endOfFrame;
                 }
-            }
 
-            CurrentMapName = name;
-            //自行加载剩余的10%
-            targetProgress = 100;
-            while (LoadingProgress < targetProgress-1)
+                LoadingProgress = 100;
+
+                AlreadyLoadScene = true;
+
+                LoadSceneOverCallBack?.Invoke();
+            }
+        }
+        else { 
+            AsyncOperation unloadScene = SceneManager.LoadSceneAsync(ConStr.EmptyScene, LoadSceneMode.Single);
+            while (unloadScene != null && unloadScene.isDone)
             {
-                ++LoadingProgress;
                 yield return endOfFrame;
             }
+            AsyncOperation asyncScene = SceneManager.LoadSceneAsync(name);
+            if (asyncScene != null && !asyncScene.isDone)
+            {
+                asyncScene.allowSceneActivation = false;
+                while (asyncScene.progress < 0.9f)
+                {
+                    targetProgress = (int)asyncScene.progress * 100;
+                    yield return endOfFrame;
+                    //平滑过渡
+                    while (LoadingProgress < targetProgress)
+                    {
+                        ++LoadingProgress;
+                        yield return endOfFrame;
+                    }
+                }
 
-            LoadingProgress = 100;
+                CurrentMapName = name;
+                //自行加载剩余的10%
+                targetProgress = 100;
+                while (LoadingProgress < targetProgress - 1)
+                {
+                    ++LoadingProgress;
+                    yield return endOfFrame;
+                }
 
-            asyncScene.allowSceneActivation = true;
+                LoadingProgress = 100;
 
-            AlreadyLoadScene = true;
+                asyncScene.allowSceneActivation = true;
 
-            LoadSceneOverCallBack?.Invoke();
+                AlreadyLoadScene = true;
+
+                LoadSceneOverCallBack?.Invoke();
+            }
         }
     }
 

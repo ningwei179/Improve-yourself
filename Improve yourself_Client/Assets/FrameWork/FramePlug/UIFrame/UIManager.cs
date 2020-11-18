@@ -7,19 +7,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 
 public enum UIMsgID
 {
     None = 0,
 
-}
-
-public enum UISource
-{
-    Resources,          //从resource加载
-    AssetBundle,        //从AssetBundle加载
-    Addressable         //从Addressable加载
 }
 
 public class UIManager : Singleton<UIManager>
@@ -165,7 +159,7 @@ public class UIManager : Singleton<UIManager>
     /// <param name="para2"></param>
     /// <param name="para3"></param>
     /// <returns></returns>
-    public Window PopUpWindow(string name, bool bTop = true, UISource resource = UISource.AssetBundle, params object[] paramList)
+    public Window PopUpWindow(string name, bool bTop = true, AssetAddress resource = AssetAddress.Addressable, params object[] paramList)
     {
         Window wnd = FindWindowByName<Window>(name);
         if (wnd == null)
@@ -191,13 +185,13 @@ public class UIManager : Singleton<UIManager>
                 return null;
             }
             GameObject wndObj = null;
-            if (resource == UISource.Resources)
+            if (resource == AssetAddress.Resources)
             {
                 //从resource加载UI
                 wndObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(wnd.PrefabName().Replace(".prefab", ""))) as GameObject;
                 InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
             }
-            else if (resource == UISource.AssetBundle)
+            else if (resource == AssetAddress.AssetBundle)
             {
                 //从AssetBundle加载UI
                 ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + wnd.PrefabName(), (string path, UnityEngine.Object obj,object [] paramArr) => {
@@ -205,14 +199,15 @@ public class UIManager : Singleton<UIManager>
                     InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
                 }, LoadResPriority.RES_HIGHT, false, false);
             }
-            else if (resource == UISource.Addressable)
+            else if (resource == AssetAddress.Addressable)
             {
                 //从Addressables加载UI
-                //Addressables.InstantiateAsync(m_UIPrefabPath + wnd.PrefabName()).Completed += op =>
-                //{
-                //    wndObj = op.Result;
-                //    InitPrefab(wnd, wndObj, name, bTop, paramList);
-                //};
+
+                Addressables.InstantiateAsync(m_UIPrefabPath + wnd.PrefabName()).Completed += op =>
+                {
+                    wndObj = op.Result;
+                    InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
+                };
             }
         }
         else
@@ -233,7 +228,7 @@ public class UIManager : Singleton<UIManager>
     /// <param name="para2"></param>
     /// <param name="para3"></param>
     /// <returns></returns>
-    public Window PopUpWindowAsync(string name, bool bTop = true, UISource resource = UISource.AssetBundle, Action callBack = null, params object[] paramList)
+    public Window PopUpWindowAsync(string name, bool bTop = true, AssetAddress resource = AssetAddress.AssetBundle, Action callBack = null, params object[] paramList)
     {
         Window wnd = FindWindowByName<Window>(name);
         if (wnd == null)
@@ -259,13 +254,13 @@ public class UIManager : Singleton<UIManager>
                 return null;
             }
             GameObject wndObj = null;
-            if (resource == UISource.Resources)
+            if (resource == AssetAddress.Resources)
             {
                 //从resource加载UI
                 wndObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(wnd.PrefabName().Replace(".prefab", ""))) as GameObject;
                 InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
             }
-            else if (resource == UISource.AssetBundle)
+            else if (resource == AssetAddress.AssetBundle)
             {
                 //从AssetBundle加载UI
                 ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + wnd.PrefabName(), (string path, UnityEngine.Object obj, object[] paramArr) =>
@@ -274,7 +269,7 @@ public class UIManager : Singleton<UIManager>
                     InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
                 }, LoadResPriority.RES_HIGHT, false, false);
             }
-            else if (resource == UISource.Addressable)
+            else if (resource == AssetAddress.Addressable)
             {
                 //从Addressables加载UI
                 //Addressables.InstantiateAsync(m_UIPrefabPath + wnd.PrefabName()).Completed += op =>
@@ -292,7 +287,7 @@ public class UIManager : Singleton<UIManager>
         return wnd;
     }
 
-    void InitPrefab(Window wnd, GameObject wndObj, string name,UISource resource = UISource.AssetBundle,  bool bTop = true, params object[] paramList)
+    void InitPrefab(Window wnd, GameObject wndObj, string name,AssetAddress resource = AssetAddress.AssetBundle,  bool bTop = true, params object[] paramList)
     {
         if (wndObj == null)
         {
@@ -361,7 +356,7 @@ public class UIManager : Singleton<UIManager>
             }
 
             ///从AssetBundel加载的
-            if (wnd.Resource == UISource.AssetBundle)
+            if (wnd.Resource == AssetAddress.AssetBundle)
             {
                 if (destory)
                 {
@@ -372,10 +367,10 @@ public class UIManager : Singleton<UIManager>
                     ObjectManager.Instance.ReleaseObject(wnd.GameObject, recycleParent: false);
                 }
             }
-            else if(wnd.Resource == UISource.Addressable) {
+            else if(wnd.Resource == AssetAddress.Addressable) {
 
             }
-            else if (wnd.Resource == UISource.Resources)
+            else if (wnd.Resource == AssetAddress.Resources)
             {
                 //从Resource加载的
                 GameObject.Destroy(wnd.GameObject);
@@ -400,7 +395,7 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// 切换到唯一窗口
     /// </summary>
-    public void SwitchStateByName(string name, bool bTop = true, UISource resource = UISource.AssetBundle,params object [] paralist)
+    public void SwitchStateByName(string name, bool bTop = true, AssetAddress resource = AssetAddress.AssetBundle,params object [] paralist)
     {
         CloseAllWindow();
         PopUpWindow(name, bTop, resource, paralist);

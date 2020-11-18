@@ -25,3 +25,5 @@ MonoBehaviour:
     Path: Assets/GameData/UISprite
   - ABName: hotfix
     Path: Assets/GameData/Data/HotFix
+  - ABName: scene
+    Path: Assets/GameData/Data/Scenes

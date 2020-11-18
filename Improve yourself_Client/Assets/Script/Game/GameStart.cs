@@ -8,29 +8,41 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 资产地址
+/// </summary>
+public enum AssetAddress
+{
+    Resources,          //从resource加载
+    AssetBundle,        //从AssetBundle加载
+    Addressable         //从Addressable加载
+}
+
 public class GameStart : MonoSingleton<GameStart>
 {
+    public AssetAddress UseAssetAddress = AssetAddress.Addressable;     //资源来源
+
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(this);
-        //读取打包时的版本信息
-        ReadVersion();
+
+        if (UseAssetAddress != AssetAddress.Addressable)
+        {
+            //读取打包时的版本信息
+            ReadVersion();
+            //初始化AB配置表
+            AssetBundleManager.Instance.LoadAssetBundleConfig();
+            //初始化资源管理器
+            ResourceManager.Instance.Init(this);
+            //初始化对象管理器
+            ObjectManager.Instance.Init(transform.Find("ResourcePoolTrs"), transform.Find("SceneTrs"));
+            //初始化热更管理器
+            HotPatchManager.Instance.Init(this);
+        }
 
         ////初始化网络通信管理器
         NetWorkManager.Instance.Init();
-
-        //初始化AB配置表
-        AssetBundleManager.Instance.LoadAssetBundleConfig();
-
-        //初始化资源管理器
-        ResourceManager.Instance.Init(this);
-
-        //初始化对象管理器
-        ObjectManager.Instance.Init(transform.Find("ResourcePoolTrs"), transform.Find("SceneTrs"));
-
-        //初始化热更管理器
-        HotPatchManager.Instance.Init(this);
 
         //初始化UI管理器
         UIManager.Instance.Init(transform);
@@ -43,7 +55,7 @@ public class GameStart : MonoSingleton<GameStart>
     void Start()
     {
         //启动热更UI
-        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true,UISource.Resources);
+        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true,AssetAddress.Resources);
     }
 
     WaitForSeconds wait3f = new WaitForSeconds(0.3f);
