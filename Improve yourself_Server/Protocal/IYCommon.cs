@@ -5,7 +5,7 @@
 	功能：客户端服务端公用工具类
 *****************************************************/
 using IYNet;
-public enum LogType {
+public enum IYLogType {
     Log = 0,
     Warm= 1,
     Error = 2,
@@ -14,7 +14,7 @@ public enum LogType {
 
 public class IYCommon
 {
-    public static void IYSocketLog(string msg = "",LogType tp = LogType.Log) {
+    public static void IYSocketLog(string msg = "",IYLogType tp = IYLogType.Log) {
         LogLevel lv = (LogLevel)tp;
         IYTool.LogMsg(msg, lv);
     }
