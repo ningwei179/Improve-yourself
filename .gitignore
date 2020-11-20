@@ -15,8 +15,6 @@ Improve yourself_Server/.vs
 Improve yourself_Server/Server/bin
 Improve yourself_Server/Server/obj
 Improve yourself_Server/Protocal/obj
-*.csproj
 *.meta
 *.cache
 Improve yourself_Socket/obj
-*.dll
