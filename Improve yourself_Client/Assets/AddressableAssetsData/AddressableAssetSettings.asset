@@ -12,22 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 5f74e0a3205b25846b5a3a723b1fd0a6
-  m_BuildRemoteCatalog: 0
-  m_BundleLocalCatalog: 0
-  m_DisableCatalogUpdateOnStart: 0
+  m_DefaultGroup: 0d290c5dc52c2ea498f124d97909d3de
+  m_BuildRemoteCatalog: 1
+  m_BundleLocalCatalog: 1
+  m_DisableCatalogUpdateOnStart: 1
   m_UniqueBundleIds: 0
   m_maxConcurrentWebRequests: 500
   m_ContiguousBundles: 0
   m_RemoteCatalogBuildPath:
-    m_Id: 
+    m_Id: 5ce2b2979b5853f41a3a3b35f4393b46
   m_RemoteCatalogLoadPath:
-    m_Id: 
-  m_overridePlayerVersion: 
+    m_Id: 317b32979ddea7441b20c276b326864d
+  m_overridePlayerVersion: 1.0
   m_GroupAssets:
   - {fileID: 11400000, guid: eec1e25588860574980ba758f93110c9, type: 2}
-  - {fileID: 11400000, guid: cfc85b691c2eceb43b06627b295d7b93, type: 2}
+  - {fileID: 11400000, guid: c5dccebe59dcd034386140b48c09d993, type: 2}
   - {fileID: 11400000, guid: 6485f8539b93fcf4f96d372d2a3d745d, type: 2}
+  - {fileID: 11400000, guid: 6ef691698ff0ac642863a7f46d4f3f54, type: 2}
+  - {fileID: 11400000, guid: 750b93699948d2d45a79b817ecb4cd6d, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -49,6 +51,10 @@ MonoBehaviour:
         m_Value: ServerData/[BuildTarget]
       - m_Id: 37602d6c42cc4014e9f9ac719cdd61a7
         m_Value: http://localhost/[BuildTarget]
+      - m_Id: 317b32979ddea7441b20c276b326864d
+        m_Value: http://localhost/[BuildTarget]
+      - m_Id: 5ce2b2979b5853f41a3a3b35f4393b46
+        m_Value: D:/GitHubWork/Improve-yourself/Improve yourself_Client/AssetBundle/[BuildTarget]
     m_ProfileEntryNames:
     - m_Id: 6c893da5ca232d043baab7c8cf6f2e0d
       m_Name: BuildTarget
@@ -64,6 +70,12 @@ MonoBehaviour:
       m_InlineUsage: 0
     - m_Id: 37602d6c42cc4014e9f9ac719cdd61a7
       m_Name: RemoteLoadPath
+      m_InlineUsage: 0
+    - m_Id: 317b32979ddea7441b20c276b326864d
+      m_Name: MyLoadPath
+      m_InlineUsage: 0
+    - m_Id: 5ce2b2979b5853f41a3a3b35f4393b46
+      m_Name: MyBuildPath
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:

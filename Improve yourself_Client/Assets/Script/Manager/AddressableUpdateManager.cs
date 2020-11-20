@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
+using UnityEngine.Networking;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
@@ -32,6 +34,11 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
     /// 当前版本
     /// </summary>
     public string CurVersion;
+
+    /// <summary>
+    /// 当前包名
+    /// </summary>
+    public string m_CurPackName;
 
     /// <summary>
     /// 总下载大小
@@ -74,6 +81,10 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
     public List<IResourceLocator> m_AlreadyDownList = new List<IResourceLocator>();
 
     /// <summary>
+    /// 变化的资源的目录
+    /// </summary>
+    public List<string> Catalogs = new List<string>();
+    /// <summary>
     /// 当前正在下载资源的进度
     /// </summary>
     float nowPercent;
@@ -85,14 +96,18 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
 
     WaitForSeconds oneSecond = new WaitForSeconds(1.0f);
 
-    public void Init()
-    {
-        GameStart.Instance.StartCoroutine(Initialize());
-    }
+    /// <summary>
+    /// mono脚本
+    /// </summary>
+    protected MonoBehaviour m_Startmono;
 
-    IEnumerator Initialize() {
-        AsyncOperationHandle initHandle = Addressables.InitializeAsync();
-        yield return initHandle;
+    /// <summary>
+    /// 初始化资源管理器
+    /// </summary>
+    /// <param name="mono"></param>
+    public void Init(MonoBehaviour mono)
+    {
+        m_Startmono = mono;
     }
 
     internal float GetProgress()
@@ -103,8 +118,9 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
     internal float GetLoadSize()
     {
         float alreadySize = 0;
-        for (int i = 0; i < m_AlreadyDownList.Count; ++i) {
-            alreadySize +=m_DownLoadDic[m_AlreadyDownList[i]];
+        for (int i = 0; i < m_AlreadyDownList.Count; ++i)
+        {
+            alreadySize += m_DownLoadDic[m_AlreadyDownList[i]];
         }
         float curAlreadySize = 0;
         if (nowLocator != null)
@@ -114,8 +130,24 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
         return alreadySize + curAlreadySize;
     }
 
-    internal IEnumerator CheckVersion(Action<bool> hotCallBack)
+    internal void CheckVersion(Action<bool> hotCallBack = null)
     {
+        hotCallBack(true);
+    }
+
+    internal void StartDownLoad(Action startOnFinish)
+    {
+        m_Startmono.StartCoroutine(StartDownLoadAB(startOnFinish));
+    }
+
+    /// <summary>
+    /// 下载更新资源
+    /// </summary>
+    /// <returns></returns>
+    internal IEnumerator StartDownLoadAB(Action startOnFinish)
+    {
+        AsyncOperationHandle initHandle = Addressables.InitializeAsync();
+        yield return initHandle;
         AsyncOperationHandle<List<string>> handler = Addressables.CheckForCatalogUpdates(false);
         yield return handler;
         if (handler.Status != AsyncOperationStatus.Succeeded)
@@ -124,90 +156,50 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
             ServerInfoError();
             yield break;
         }
-        hotCallBack( handler.Result.Count > 0);
-        //有资源需要更新，计算下总共要更新的资源大小
-        if (handler.Result.Count > 0) { 
-            AsyncOperationHandle<List<IResourceLocator>> updateHandle = Addressables.UpdateCatalogs(handler.Result, false);
-            yield return updateHandle;
-            
-            m_DownLoadList = updateHandle.Result;
+        List<string> catalogs = (List<string>)handler.Result;
+        Debug.Log($"need update catalog:{catalogs.Count}");
+        foreach (var catalog in catalogs)
+        {
+            Debug.Log(catalog);
+        }
 
-            foreach (var locator in m_DownLoadList)
+        if (catalogs.Count > 0)
+        {
+            AsyncOperationHandle updateHandle = Addressables.UpdateCatalogs(catalogs, false);
+            yield return updateHandle;
+            List<IResourceLocator> locators = (List<IResourceLocator>)updateHandle.Result;
+            foreach (var locator in locators)
             {
-                AsyncOperationHandle sizeHandle = Addressables.GetDownloadSizeAsync(locator.Keys);
-                yield return sizeHandle;
-                LoadSumSize +=(long)sizeHandle.Result;
-                m_DownLoadDic.Add(locator, (long)sizeHandle.Result);
+                foreach (var key in locator.Keys)
+                {
+                    Debug.Log($"update {key}");
+
+                    yield return CheckDownload(key);
+                }
             }
         }
         Addressables.Release(handler);
+        yield return oneSecond;
+        startOnFinish();
     }
 
-    internal IEnumerator StartDownLoadAB(Action callBack, List<IResourceLocator> allDownLoadList = null)
+    private IEnumerator CheckDownload(object key)
     {
-        if (allDownLoadList == null)
+        Debug.Log("CheckDownload:" + key.ToString());
+        AsyncOperationHandle sizeHandle = Addressables.GetDownloadSizeAsync(key);
+        yield return sizeHandle;
+        long totalDownloadSize = (long)sizeHandle.Result;
+        Debug.Log("CheckDownloadSize:" + totalDownloadSize);
+        if (totalDownloadSize > 0)
         {
-            allDownLoadList = m_DownLoadList;
-        }
-
-        foreach (var locator in allDownLoadList)
-        {
-            AsyncOperationHandle downloadHandle = Addressables.DownloadDependenciesAsync(locator.Keys);
+            var downloadHandle = Addressables.DownloadDependenciesAsync(key);
             while (!downloadHandle.IsDone)
             {
-                nowPercent = downloadHandle.PercentComplete;
-                nowLocator = locator;
-                yield return null;
+                float percent = downloadHandle.PercentComplete;
+                Debug.Log($"{key.ToString()}已经下载：{(int)(totalDownloadSize * percent)}/{totalDownloadSize}");
+                yield return new WaitForEndOfFrame();
             }
-            yield return downloadHandle;
-            //下载资源成功
-            if (downloadHandle.Status == AsyncOperationStatus.Succeeded)
-            {
-                m_AlreadyDownList.Add(locator);
-                m_AlreadyDownDic.Add(locator,0);
-                Addressables.Release(downloadHandle);
-            }
-        }
-
-        //需要重新下载的资源列表
-        List<IResourceLocator> m_DownLoadAgainList = new List<IResourceLocator>();
-        for (int i = 0; i < m_DownLoadList.Count; ++i) {
-            //需要下载的资源在已经下载过的资源列表里面找不到，就加入重新下载列表
-            if (!m_AlreadyDownDic.ContainsKey(m_DownLoadList[i]))
-                m_DownLoadAgainList.Add(m_DownLoadList[i]);
-        }
-
-        if (m_DownLoadAgainList.Count <= 0)
-        {
-            if (callBack != null)
-            {
-                yield return oneSecond;
-                StartDownload = false;
-                callBack();
-            }
-            if (LoadOver != null)
-            {
-                LoadOver();
-            }
-        }
-        else {
-            if (m_TryDownCount >= DOWNLOADCOUNT)
-            {
-                string allName = "";
-                StartDownload = false;
-                foreach (IResourceLocator locator in m_DownLoadAgainList)
-                {
-                    allName += locator.LocatorId + ";";
-                }
-                Debug.LogError("资源重复下载4次都失败，请检查资源" + allName);
-                ItemError?.Invoke(allName);
-            }
-            else
-            {
-                m_TryDownCount++;
-                //自动重新下载失败的文件
-                StartDownLoadAB(callBack, m_DownLoadAgainList);
-            }
+            Debug.Log($"{key.ToString()}下载完成:{(int)totalDownloadSize}");
         }
     }
 }

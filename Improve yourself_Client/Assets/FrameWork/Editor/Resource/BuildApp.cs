@@ -6,10 +6,12 @@
 *****************************************************/
 
 
+using IFix.Editor;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
 public class BuildApp
@@ -33,19 +35,33 @@ public class BuildApp
 
     public static void Build(bool encrypt = false)
     {
-        //打ab包
-        if (encrypt)
+        //每次打包前一定要调用一次这个方法，这个方法会对配置过的代码做预处理，之后才能加载补丁代码
+        IFixEditor.InjectAssemblys();
+
+        //addressable打包和assetBundle打包，调用不同的接口
+        if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
-            BundleEditor.EncryptionBuild();
+            AddressableAssetSettings.BuildPlayerContent();
         }
         else {
-            BundleEditor.NormalBuild();
+            //打ab包
+            if (encrypt)
+            {
+                BundleEditor.EncryptionBuild();
+            }
+            else
+            {
+                BundleEditor.NormalBuild();
+            }
+            //将AB包拷贝到streamingAssetsPath
+            string abPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString() + "/";
+            Copy(abPath, Application.streamingAssetsPath);
         }
+
         //写入版本号
         SaveVersion(PlayerSettings.bundleVersion, PlayerSettings.applicationIdentifier, encrypt);
         //生成可执行程序
-        string abPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString()+"/";
-        Copy(abPath, Application.streamingAssetsPath);
+
         string savePath = "";
         if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
         {
@@ -65,8 +81,11 @@ public class BuildApp
         }
 
         BuildPipeline.BuildPlayer(FindEnableEditorrScenes(), savePath, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
-        //删除
-        //DeleteDir(Application.streamingAssetsPath);
+        if (FrameConstr.UseAssetAddress != AssetAddress.Addressable)
+        {
+            //删除
+            DeleteDir(Application.streamingAssetsPath);
+        }
     }
 
     /// <summary>

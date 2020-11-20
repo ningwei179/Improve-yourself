@@ -5,9 +5,23 @@
 	功能：框架用的常量字符串
 *****************************************************/
 
+/// <summary>
+/// 资产地址
+/// </summary>
+public enum AssetAddress
+{
+    Resources,          //从resource加载
+    AssetBundle,        //从AssetBundle加载
+    Addressable         //从Addressable加载
+}
 
 public class FrameConstr
 {
+    /// <summary>
+    /// 资产来源
+    /// </summary>
+    public const AssetAddress UseAssetAddress = AssetAddress.Addressable;
+
     /// <summary>
     /// AB包的加密秘钥
     /// </summary>

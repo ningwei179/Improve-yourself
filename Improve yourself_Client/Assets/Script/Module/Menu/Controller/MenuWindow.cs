@@ -7,7 +7,6 @@
 
 using IYProtocal;
 using UnityEngine;
-
 public class MenuWindow : Window
 {
     private MenuPanel m_Panel;
@@ -17,38 +16,64 @@ public class MenuWindow : Window
         return "MenuPanel.prefab";
     }
 
+    [IFix.Patch]
     public override void Awake(params object[] paralist)
     {
         m_Panel = GameObject.GetComponent<MenuPanel>();
         AddButtonClickListener(m_Panel.m_StartButton, OnClickStart);
         AddButtonClickListener(m_Panel.m_LoadButton, OnClickLoad);
         AddButtonClickListener(m_Panel.m_ExitButton, OnClickExit);
-        ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image1.png", (string resourcePath, Object obj, object [] paramArr) =>
+        if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
-            if (obj != null)
+            //AddressableManager.Instance.AsyncLoadResource<Sprite>("Assets/GameData/UISprite/image1.png", (Sprite sprite) =>
+            //{
+            //    m_Panel.Test1.sprite = sprite;
+            //});
+
+            //AddressableManager.Instance.AsyncLoadResource<Sprite>("Assets/GameData/UISprite/TaskIcon_603001.png", (Sprite sprite) =>
+            //{
+            //    m_Panel.Test2.sprite = sprite;
+            //});
+
+            AddressableManager.Instance.AsyncLoadResource<Sprite>("Assets/GameData/UISprite/TaskIcon_603001.png", (Sprite sprite) =>
             {
-                Sprite sp = obj as Sprite;
-                if (sp != null)
-                {
-                    m_Panel.Test1.sprite = sp;
-                    Debug.Log("图片1加载出来了");
-                }
+                m_Panel.Test1.sprite = sprite;
+            });
 
-            }
-        }, LoadResPriority.RES_MIDDLE,true);
-
-        ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image2.png", (string resourcePath, Object obj, object[] paramArr) =>
+            AddressableManager.Instance.AsyncLoadResource<Sprite>("Assets/GameData/UISprite/TaskIcon_603001.png", (Sprite sprite) =>
+            {
+                m_Panel.Test2.sprite = sprite;
+            });
+        }
+        else
         {
-            if (obj != null)
+            ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image1.png", (string resourcePath, Object obj, object[] paramArr) =>
             {
-                Sprite sp = obj as Sprite;
-                if (sp != null)
+                if (obj != null)
                 {
-                    m_Panel.Test2.sprite = sp;
-                    Debug.Log("图片2加载出来了");
+                    Sprite sp = obj as Sprite;
+                    if (sp != null)
+                    {
+                        m_Panel.Test1.sprite = sp;
+                        Debug.Log("图片1加载出来了");
+                    }
+
                 }
-            }
-        }, LoadResPriority.RES_HIGHT, true);
+            }, LoadResPriority.RES_MIDDLE, true);
+
+            ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UISprite/image2.png", (string resourcePath, Object obj, object[] paramArr) =>
+            {
+                if (obj != null)
+                {
+                    Sprite sp = obj as Sprite;
+                    if (sp != null)
+                    {
+                        m_Panel.Test2.sprite = sp;
+                        Debug.Log("图片2加载出来了");
+                    }
+                }
+            }, LoadResPriority.RES_HIGHT, true);
+        }
     }
 
     public override void OnUpdate()

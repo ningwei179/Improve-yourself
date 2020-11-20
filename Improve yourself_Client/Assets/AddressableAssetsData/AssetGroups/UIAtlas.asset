@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UIAtlas
+  m_EditorClassIdentifier: 
+  m_GroupName: UIAtlas
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 4479184707ee2e84c906ee45e81fd2f0
+  m_SerializeEntries:
+  - m_GUID: 6b94571ca0341904698f9def64f982ef
+    m_Address: Assets/GameData/UISprite/image1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2800000, guid: 6b94571ca0341904698f9def64f982ef, type: 3}
+    m_TargetAsset: {fileID: 2800000, guid: 6b94571ca0341904698f9def64f982ef, type: 3}
+  - m_GUID: e73a3b6abe6711d43a0213a77ea7beb5
+    m_Address: Assets/GameData/UISprite/image2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 690ead9b08fcd7b4992d969e2ae530f1
+    m_Address: Assets/GameData/UISprite/TaskIcon_603001.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1e150252905fccf48be5744834c34d94, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 801397624c4197f419deaf016f833f15, type: 2}
+    - {fileID: 11400000, guid: 21fdc2baf42b98340827acdace6aef51, type: 2}

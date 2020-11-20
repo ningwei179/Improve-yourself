@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5d17a21594effb4e9591490b009e7aa, type: 3}
-  m_Name: Scene_BundledAssetGroupSchema
+  m_Name: UIAtlas_BundledAssetGroupSchema
   m_EditorClassIdentifier: 
-  m_Group: {fileID: 11400000, guid: c5dccebe59dcd034386140b48c09d993, type: 2}
+  m_Group: {fileID: 11400000, guid: 6ef691698ff0ac642863a7f46d4f3f54, type: 2}
   m_Compression: 1
   m_IncludeInBuild: 1
   m_BundledAssetProviderType:

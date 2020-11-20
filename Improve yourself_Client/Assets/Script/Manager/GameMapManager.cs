@@ -80,7 +80,7 @@ public class GameMapManager : Singleton<GameMapManager>
         LoadingProgress = 0;
         int targetProgress = 0;
         //为内存考虑，先加载一个空场景，顶掉当前运行的场景
-        if (GameStart.Instance.UseAssetAddress == AssetAddress.Addressable)
+        if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
             AsyncOperationHandle unloadScene = Addressables.LoadSceneAsync(name,LoadSceneMode.Single);
             yield return unloadScene.IsDone;
