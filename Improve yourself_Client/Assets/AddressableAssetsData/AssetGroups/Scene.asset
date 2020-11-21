@@ -18,11 +18,11 @@ MonoBehaviour:
   m_GUID: b7deefdf4dc26f24da7f15bce82a2bbd
   m_SerializeEntries:
   - m_GUID: 173f8249d42160941a16e4a817a5aefb
-    m_Address: Menu
+    m_Address: Assets/GameData/Scenes/Menu.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 102900000, guid: 173f8249d42160941a16e4a817a5aefb, type: 3}
-    m_TargetAsset: {fileID: 102900000, guid: 173f8249d42160941a16e4a817a5aefb, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1e150252905fccf48be5744834c34d94, type: 2}
   m_SchemaSet:

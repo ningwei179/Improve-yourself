@@ -131,17 +131,34 @@ public class HotFixWindow : Window
 
     void AnewDownload()
     {
-        HotPatchManager.Instance.CheckVersion((hot) =>
+        if (FrameConstr.UseAssetAddress != AssetAddress.Addressable)
         {
-            if (hot)
+            HotPatchManager.Instance.CheckVersion((hot) =>
             {
-                StartDownLoad();
-            }
-            else
+                if (hot)
+                {
+                    StartDownLoad();
+                }
+                else
+                {
+                    StartOnFinish();
+                }
+            });
+        }
+        else
+        {
+            AddressableUpdateManager.Instance.CheckVersion((hot) =>
             {
-                StartOnFinish();
-            }
-        });
+                if (hot)
+                {
+                    StartDownLoad();
+                }
+                else
+                {
+                    StartOnFinish();
+                }
+            });
+        }
     }
 
     void OnClickStartDownLoad()
@@ -173,7 +190,7 @@ public class HotFixWindow : Window
         if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
             m_Panel.m_InfoPanel.SetActive(false);
-            AddressableUpdateManager.Instance.StartDownLoad(StartOnFinish);
+            GameStart.Instance.StartCoroutine(AddressableUpdateManager.Instance.StartDownLoadAB(StartOnFinish));
             //m_Panel.m_HotContentText.text = AddressableUpdateManager.Instance.Des;
         }
         else {
