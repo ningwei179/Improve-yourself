@@ -109,7 +109,7 @@ public class HotFixWindow : Window
                 if (hot)
                 {
                     //提示玩家是否热更下载
-                    PopUpUtil.OpenPopUpX("提示", string.Format("当前版本有{0:F}M大小热更包，是否确定下载？", AddressableUpdateManager.Instance.LoadSumSize / 1024.0f),
+                    PopUpUtil.OpenPopUpX("提示", string.Format("当前版本有{0:F}M大小热更包，是否确定下载？", AddressableUpdateManager.Instance.LoadSumSize),
                         OnClickStartDownLoad,
                         OnClickCancleDownLoad);
                 }
@@ -186,6 +186,7 @@ public class HotFixWindow : Window
     /// </summary>
     void StartDownLoad()
     {
+        m_Panel.m_LoadText.text = "下载资源";
         m_Panel.m_SliderTopText.text = "下载中...";
         if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
@@ -258,27 +259,13 @@ public class HotFixWindow : Window
             }
         }
         else {
-            if (AddressableUpdateManager.Instance.StartUnPack)
-            {
-                //m_SumTime += Time.deltaTime;
-                //m_Panel.m_HotFixProgress.fillAmount = HotPatchManager.Instance.GetUnpackProgress();
-                //float speed = (HotPatchManager.Instance.AlreadyUnPackSize / 1024.0f) / m_SumTime;
-                //if (m_Panel.m_HotFixProgress.fillAmount == 1)
-                //{
-                //    m_Panel.m_SliderTopText.text = "解压完成";
-                //    m_Panel.m_SpeedText.text = "";
-                //}
-                //else
-                //{
-                //    m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
-                //}
-            }
 
             if (AddressableUpdateManager.Instance.StartDownload)
             {
                 m_SumTime += Time.deltaTime;
+                
                 m_Panel.m_HotFixProgress.fillAmount = AddressableUpdateManager.Instance.GetProgress();
-                float speed = (AddressableUpdateManager.Instance.GetLoadSize() / 1024.0f) / m_SumTime;
+                float speed = (AddressableUpdateManager.Instance.GetLoadSize()) / m_SumTime;
                 if (m_Panel.m_HotFixProgress.fillAmount == 1)
                 {
                     m_Panel.m_SliderTopText.text = "下载完成";
@@ -286,6 +273,7 @@ public class HotFixWindow : Window
                 }
                 else
                 {
+                    m_Panel.m_LoadSizeText.text = string.Format("{0}M/{1}M", AddressableUpdateManager.Instance.GetLoadSize(), AddressableUpdateManager.Instance.LoadSumSize);
                     m_Panel.m_SpeedText.text = string.Format("{0:F} M/S", speed);
                 }
             }

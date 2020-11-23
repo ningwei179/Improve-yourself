@@ -74,9 +74,8 @@ public class GameStart : MonoSingleton<GameStart>
         //初始化ILRuntime热更管理器
         ILRuntimeManager.Instance.Init();
         //热更修复代码
-        HotFixManager.Instance.Init(this);
+        yield return StartCoroutine(InjectFixManager.Instance.LoadHotFixPatch());
         image.fillAmount = 0.2f;
-        yield return wait3f;
         text.text = "加载数据表... ...";
         //加载配置文件
         LoadConfig();

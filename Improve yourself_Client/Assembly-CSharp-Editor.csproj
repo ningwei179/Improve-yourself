@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\FrameWork\Editor\Config\DataEditor.cs" />
-    <Compile Include="Assets\FrameWork\Editor\Config\HotFixConfig.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Config\InjectFixConfig.cs" />
     <Compile Include="Assets\FrameWork\Editor\FramConfig.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\ABConfig.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\BuildApp.cs" />
@@ -361,6 +361,9 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="IFix.Core">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/Plugins/IFix.Core.dll</HintPath>
+    </Reference>
     <Reference Include="IYSocket">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/References/IYSocket.dll</HintPath>
     </Reference>
@@ -390,9 +393,6 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="IFix.Core">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/Plugins/IFix.Core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 [Configure]
-public class HotFixConfig
+public class InjectFixConfig
 {
     /// <summary>
     /// 通过反射将一些条件下的脚本都标记为可热更

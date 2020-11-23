@@ -126,8 +126,8 @@
     <Compile Include="Assets\Script\Manager\AddressableManager.cs" />
     <Compile Include="Assets\Script\Manager\AddressableUpdateManager.cs" />
     <Compile Include="Assets\Script\Manager\GameMapManager.cs" />
-    <Compile Include="Assets\Script\Manager\HotFixManager.cs" />
     <Compile Include="Assets\Script\Manager\ILRuntimeManager.cs" />
+    <Compile Include="Assets\Script\Manager\InjectFixManager.cs" />
     <Compile Include="Assets\Script\Module\HotFix\Controller\HotFixWindow.cs" />
     <Compile Include="Assets\Script\Module\HotFix\View\HotFixPanel.cs" />
     <Compile Include="Assets\Script\Module\Loading\Controller\LoadingWindow.cs" />
@@ -406,6 +406,9 @@
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
+    <Reference Include="IFix.Core">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/Plugins/IFix.Core.dll</HintPath>
+    </Reference>
     <Reference Include="IYSocket">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/References/IYSocket.dll</HintPath>
     </Reference>
@@ -429,9 +432,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="IFix.Core">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/Plugins/IFix.Core.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

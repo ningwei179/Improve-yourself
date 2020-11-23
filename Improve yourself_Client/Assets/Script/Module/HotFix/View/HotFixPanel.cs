@@ -16,6 +16,10 @@ public class HotFixPanel : MonoBehaviour
 
     public Text m_SliderTopText;
 
+    public Text m_LoadText;
+
+    public Text m_LoadSizeText;
+
     public GameObject m_InfoPanel;
 
     public Text m_HotContentText;

@@ -18,7 +18,7 @@ public class ConStr
     #region 场景名称
 
     public const string EmptyScene = "Empty";
-    public const string MenuScene = "Menu";
+    public const string MenuScene = "Assets/GameData/Scenes/Menu.unity";
 
     #endregion
 
