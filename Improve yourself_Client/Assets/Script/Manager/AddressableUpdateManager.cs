@@ -43,11 +43,11 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
     /// <summary>
     /// 总下载大小，单位是字节
     /// </summary>
-    private float m_LoadSumSize;
+    private long m_LoadSumSize;
 
-    public float LoadSumSize {
+    public long LoadSumSize {
         get {
-            return m_LoadSumSize / 1024f / 1024f;
+            return m_LoadSumSize;
         }
         set {
             m_LoadSumSize = value;
@@ -87,7 +87,7 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
     /// <summary>
     /// 已经下载资源的大小
     /// </summary>
-    float alreadyLoadSize = 0;
+    long alreadyLoadSize = 0;
 
     WaitForSeconds oneSecond = new WaitForSeconds(1.0f);
 
@@ -120,7 +120,7 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
     /// <returns></returns>
     internal float GetLoadSize()
     {
-        return (alreadyLoadSize + nowLoadSize)/1024f/1024f;
+        return (alreadyLoadSize + nowLoadSize);
     }
 
     internal void CheckVersion(Action<bool> hotCallBack = null)
@@ -235,6 +235,9 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
         }
         for (int i = 0; i < allDownLoad.Count; ++i)
         {
+            //获取这个m_DownLoadList[i]资源所在的AB包大小，可能多个m_DownLoadList[i]在同一个资源包里面
+            //当这个m_DownLoadList[i]资源的AB包下载完成后，这个AB包里其他的m_DownLoadList[i]资源获取
+            //GetDownloadSizeAsync的大小会是0,用这个0来判断是否开始下载m_DownLoadList[i]资源的AB包
             AsyncOperationHandle sizeHandle = Addressables.GetDownloadSizeAsync(m_DownLoadList[i]);
             yield return sizeHandle;
             long totalDownloadSize = (long)sizeHandle.Result;
@@ -256,6 +259,7 @@ public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
                 Addressables.Release(downloadHandle);
                 m_AlreadyDownDic.Add(m_DownLoadList[i], totalDownloadSize);
 
+                nowLoadSize = 0;
                 alreadyLoadSize += totalDownloadSize;       //已经下载资源的大小
 
                 Debug.Log($"资源:{m_DownLoadList[i].ToString()}所在的AB包下载完成:{(int)totalDownloadSize}");

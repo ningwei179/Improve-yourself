@@ -57,37 +57,43 @@ public class GameStart : MonoSingleton<GameStart>
 
     WaitForSeconds wait3f = new WaitForSeconds(0.3f);
 
-    public IEnumerator StartGame(Image image, Text text)
+    public IEnumerator StartGame(Image image, Text text,Text progress)
     {
         image.fillAmount = 0;
         yield return wait3f;
-
         text.text = "加载本地数据... ...";
+        image.fillAmount = 0.1f;
+        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+
         if (FrameConstr.UseAssetAddress != AssetAddress.Addressable)
         {
             //热更完成后检查下AB配置表，这个文件可能被热更了
             AssetBundleManager.Instance.LoadAssetBundleConfig(false);
         }
-        image.fillAmount = 0.1f;
         yield return wait3f;
         text.text = "加载dll... ...";
+        image.fillAmount = 0.2f;
+        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
         //初始化ILRuntime热更管理器
         ILRuntimeManager.Instance.Init();
         //热更修复代码
         yield return StartCoroutine(InjectFixManager.Instance.LoadHotFixPatch());
-        image.fillAmount = 0.2f;
+
         text.text = "加载数据表... ...";
+        image.fillAmount = 0.7f;
+        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
         //加载配置文件
         LoadConfig();
-        image.fillAmount = 0.7f;
         yield return wait3f;
         text.text = "加载配置... ...";
         image.fillAmount = 0.9f;
+        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
         yield return wait3f;
         text.text = "初始化地图... ...";
+        image.fillAmount = 1f;
+        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
         //初始化场景管理器
         GameMapManager.Instance.Init(this);
-        image.fillAmount = 1f;
         yield return null;
     }
 

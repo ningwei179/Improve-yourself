@@ -12,13 +12,19 @@ public class HotFixPanel : MonoBehaviour
 {
     public Image m_HotFixProgress;
 
-    public Text m_SpeedText;
+    public Text m_ProgressText;
 
-    public Text m_SliderTopText;
+    public Text m_LoadingText;
 
-    public Text m_LoadText;
+    public GameObject m_DownLoadText;
+
+    public Text LoadTipText;
 
     public Text m_LoadSizeText;
+
+    public Text SpeedTipText;
+
+    public Text m_SpeedText;
 
     public GameObject m_InfoPanel;
 
