@@ -7,15 +7,17 @@
 
 using UnityEngine;
 
-public class LoadingWindow : Window
+public class LoadingWindow : BaseUI
 {
     private LoadingPanel m_Panel;
 
     private string m_SceneName;
 
-    public override string PrefabName()
+    public override void Init()
     {
-        return "LoadingPanel.prefab";
+        m_UIRoot = UIRoot.Normal;
+        m_ShowMode = UIShowMode.Normal;
+        PrefabName = "LoadingPanel.prefab";
     }
 
     public override void Awake(params object[] paralist)
@@ -24,7 +26,7 @@ public class LoadingWindow : Window
         m_SceneName = paralist[0] as string;
 
         if (UIManager.Instance.ExisWindow(ConStr.HotFixPanel)) {
-            UIManager.Instance.CloseWindow(ConStr.HotFixPanel);
+            UIManager.Instance.CloseUI(ConStr.HotFixPanel);
         }
     }
 
@@ -46,7 +48,7 @@ public class LoadingWindow : Window
     {
         if (m_SceneName == ConStr.MenuScene)
         {
-            UIManager.Instance.PopUpWindow(ConStr.MenuPanel);
+            UIManager.Instance.ShowUI(ConStr.MenuPanel);
         }
 
         //关闭界面

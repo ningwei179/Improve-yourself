@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Window
+public class BaseUI
 {
     /// <summary>
     /// 引用GameObject
@@ -27,7 +27,7 @@ public class Window
     public string Name { get; set; }
 
     /// <summary>
-    /// 是否是Resource加载的
+    /// 资产的加载地址
     /// </summary>
     public AssetAddress Resource { get; set; } = AssetAddress.AssetBundle;
 
@@ -47,9 +47,18 @@ public class Window
     //所有的Toggle
     protected List<Toggle> m_AllToggle = new List<Toggle>();
 
-    public virtual string PrefabName()
+    //Prefab的名称
+    public string PrefabName { get; set; }
+
+    //UI的挂载节点，默认是普通的节点
+    public UIRoot m_UIRoot = UIRoot.Normal;
+
+    //UI的显示模式，默认是普通
+    public UIShowMode m_ShowMode = UIShowMode.Normal;
+
+    public virtual void Init()
     {
-        return "";
+
     }
 
     public virtual bool OnMessage(UIMsgID msgID, params object[] paralist)
@@ -80,7 +89,7 @@ public class Window
 
     public virtual void OnClose()
     {
-        UIManager.Instance.CloseWindow(this);
+        UIManager.Instance.CloseUI(this);
     }
 
     /// <summary>

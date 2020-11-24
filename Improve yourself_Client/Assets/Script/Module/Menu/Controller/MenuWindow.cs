@@ -7,13 +7,15 @@
 
 using IYProtocal;
 using UnityEngine;
-public class MenuWindow : Window
+public class MenuWindow : BaseUI
 {
     private MenuPanel m_Panel;
 
-    public override string PrefabName()
+    public override void Init()
     {
-        return "MenuPanel.prefab";
+        m_UIRoot = UIRoot.Normal;
+        m_ShowMode = UIShowMode.Normal;
+        PrefabName = "MenuPanel.prefab";
     }
 
     public override void Awake(params object[] paralist)
@@ -86,7 +88,7 @@ public class MenuWindow : Window
     [IFix.Patch]
     void OnClickStart()
     {
-        UIManager.Instance.PopUpWindow(ConStr.MainPanel);
+        UIManager.Instance.ShowUI(ConStr.MainPanel);
 
         base.OnClose();
         

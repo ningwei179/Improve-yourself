@@ -92,8 +92,8 @@
     <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeManager.cs" />
     <Compile Include="Assets\FrameWork\InjectFixFrame\InjectFixManager.cs" />
     <Compile Include="Assets\FrameWork\UIFrame\BaseItem.cs" />
+    <Compile Include="Assets\FrameWork\UIFrame\BaseUI.cs" />
     <Compile Include="Assets\FrameWork\UIFrame\UIManager.cs" />
-    <Compile Include="Assets\FrameWork\UIFrame\Window.cs" />
     <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\LitJson\IJsonWrapper.cs" />
     <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\LitJson\JsonData.cs" />
     <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\LitJson\JsonException.cs" />

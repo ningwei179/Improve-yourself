@@ -10,15 +10,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using static CommonEnum;
 
-public class PopUpWindow :Window
+public class PopUpWindow :BaseUI
 {
     private PopUpPanel m_Panel;
 
     private string m_SceneName;
 
-    public override string PrefabName()
+    public override void Init()
     {
-        return "PopUpPanel.prefab";
+        m_UIRoot = UIRoot.Normal;
+        m_ShowMode = UIShowMode.Normal;
+        PrefabName = "PopUpPanel.prefab";
     }
 
     PopUpPanelParams m_params;

@@ -8,14 +8,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class HotFixWindow : Window 
+public class HotFixWindow : BaseUI 
 {
     private HotFixPanel m_Panel;
     private float m_SumTime = 0;
 
-    public override string PrefabName()
+    public override void Init()
     {
-        return "HotFixPanel.prefab";
+        m_UIRoot = UIRoot.Normal;
+        m_ShowMode = UIShowMode.Normal;
+        PrefabName = "HotFixPanel.prefab";
     }
 
     public override void Awake(params object[] paralist)

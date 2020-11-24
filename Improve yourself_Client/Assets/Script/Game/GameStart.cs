@@ -53,7 +53,7 @@ public class GameStart : MonoSingleton<GameStart>
     void Start()
     {
         //启动热更UI
-        UIManager.Instance.PopUpWindow(ConStr.HotFixPanel,true,AssetAddress.Resources);
+        UIManager.Instance.ShowUI(ConStr.HotFixPanel,true,AssetAddress.Resources);
     }
 
     WaitForSeconds wait3f = new WaitForSeconds(0.3f);

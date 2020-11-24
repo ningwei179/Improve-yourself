@@ -188,5 +188,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameStart
       objectReference: {fileID: 0}
+    - target: {fileID: 8471518277304102975, guid: 3b17c54eddc4f874db33a3da2edc5f07,
+        type: 3}
+      propertyPath: m_Name
+      value: Normal
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b17c54eddc4f874db33a3da2edc5f07, type: 3}

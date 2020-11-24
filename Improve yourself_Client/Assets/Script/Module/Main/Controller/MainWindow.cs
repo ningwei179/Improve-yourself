@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainWindow : Window
+public class MainWindow : BaseUI
 {
     private MainPanel m_Panel;
-    public override string PrefabName()
+    public override void Init()
     {
-        return "MainPanel.prefab";
+        m_UIRoot = UIRoot.Normal;
+        m_ShowMode = UIShowMode.Normal;
+        PrefabName = "MainPanel.prefab";
     }
 
     public override void Awake(params object[] paramList)
@@ -28,6 +30,6 @@ public class MainWindow : Window
     public override void OnClose()
     {
         base.OnClose();
-        UIManager.Instance.PopUpWindow(ConStr.MenuPanel);
+        UIManager.Instance.ShowUI(ConStr.MenuPanel);
     }
 }

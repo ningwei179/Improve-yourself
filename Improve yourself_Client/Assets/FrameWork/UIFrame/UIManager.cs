@@ -16,13 +16,45 @@ public enum UIMsgID
 
 }
 
+/// <summary>
+/// UI窗体（位置）类型
+/// </summary>
+public enum UIRoot
+{
+    //普通窗体
+    Normal,
+    //弹出窗体
+    PopUp
+}
+
+/// <summary>
+/// UI的显示类型
+/// </summary>
+public enum UIShowMode
+{
+    //普通
+    Normal,
+    //反向切换
+    ReverseChange,
+    //隐藏其他
+    HideOther
+}
+
 public class UIManager : Singleton<UIManager>
 {
     //UI节点
     private RectTransform m_UIRoot;
 
-    //窗口节点
-    private RectTransform m_WindowRoot;
+    //普通UI节点
+    private RectTransform m_NormalRoot;
+
+    //弹出式窗口节点
+    private RectTransform m_PopUPRoot;
+
+    /// <summary>
+    /// 打开UI的时候开启遮罩，打开后关闭遮罩
+    /// </summary>
+    private GameObject m_UIMask;
 
     //UI摄像机
     private Camera m_UICamera;
@@ -35,14 +67,21 @@ public class UIManager : Singleton<UIManager>
 
     private string m_UIPrefabPath = "Assets/GameData/Prefabs/UGUI/Panel/";
 
-    //所有打开的窗口
-    private Dictionary<string,Window> m_WindowDic = new Dictionary<string, Window>();
-
-    //所有打开的窗口
-    private List<Window> m_WindowList = new List<Window>();
-
     //注册的字典
-    private Dictionary<string ,System.Type> m_RegisterDic = new Dictionary<string, Type>();
+    private Dictionary<string, System.Type> m_RegisterDic = new Dictionary<string, Type>();
+
+    //缓存所有的UI
+    private Dictionary<string, BaseUI> m_AllUIDic = new Dictionary<string, BaseUI>();
+
+    //当前正在显示的UIDic
+    private Dictionary<string, BaseUI> m_CurrentShowUIDic = new Dictionary<string, BaseUI>();
+
+    //当前正在显示的UIList
+    private List<BaseUI> m_CurrentShowUIList = new List<BaseUI>();
+
+    //定义“栈”集合,存储显示当前所有[反向切换]的窗体类型
+    private Stack<BaseUI> m_StackUI = new Stack<BaseUI>();
+
 
     /// <summary>
     /// 初始化
@@ -53,7 +92,9 @@ public class UIManager : Singleton<UIManager>
     public void Init(Transform transform)
     {
         m_UIRoot = transform.Find("UIRoot") as RectTransform;
-        m_WindowRoot = transform.Find("UIRoot/WindRoot") as RectTransform;
+        m_NormalRoot = transform.Find("UIRoot/Normal") as RectTransform;
+        m_PopUPRoot = transform.Find("UIRoot/m_PopUP") as RectTransform;
+        m_UIMask = transform.Find("UIRoot/Mask").gameObject;
         m_UICamera = transform.Find("UIRoot/UICamera").GetComponent<Camera>();
         m_EventSystem = transform.Find("UIRoot/EventSystem").GetComponent<EventSystem>();
         m_CanvasRate = Screen.height / (m_UICamera.orthographicSize * 2);
@@ -95,35 +136,35 @@ public class UIManager : Singleton<UIManager>
 
     public void OnUpdate()
     {
-        for (int i = 0; i < m_WindowList.Count; i++)
+        for (int i = 0; i < m_CurrentShowUIList.Count; i++)
         {
-            if (m_WindowList[i] != null)
+            if (m_CurrentShowUIList[i] != null)
             {
-                m_WindowList[i].OnUpdate();
+                m_CurrentShowUIList[i].OnUpdate();
             }
         }
     }
 
     /// <summary>
-    /// 窗口注册方法
+    /// UI注册方法
     /// </summary>
     /// <typeparam name="T">窗口泛型类</typeparam>
     /// <param name="name">窗口名称</param>
-    public void Register<T>(string name) where T : Window
+    public void Register<T>(string name) where T : BaseUI
     {
         m_RegisterDic[name] = typeof(T);
     }
 
     /// <summary>
-    /// 发送消息给一个Window
+    /// 发送消息给一个UI
     /// </summary>
     /// <param name="name"></param>
     /// <param name="msgId"></param>
     /// <param name="paralist"></param>
     /// <returns></returns>
-    public bool SendMessageToWnd(string name,UIMsgID msgId = UIMsgID.None,params object [] paralist)
+    public bool SendMessageToUI(string name, UIMsgID msgId = UIMsgID.None, params object[] paralist)
     {
-        Window wnd = FindWindowByName<Window>(name);
+        BaseUI wnd = FindUIByName<BaseUI>(name);
         if (wnd != null)
         {
             return wnd.OnMessage(msgId, paralist);
@@ -136,40 +177,44 @@ public class UIManager : Singleton<UIManager>
     /// 根据窗口名称找到一个窗口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="windowName"></param>
+    /// <param name="uiName"></param>
     /// <returns></returns>
-    public T FindWindowByName<T>(string windowName) where T:Window
+    public T FindUIByName<T>(string uiName) where T : BaseUI
     {
-        Window wnd = null;
-        if (m_WindowDic.TryGetValue(windowName, out wnd))
+        BaseUI ui = null;
+        if (m_AllUIDic.TryGetValue(uiName, out ui))
         {
-            return (T) wnd;
+            return (T)ui;
         }
 
         return null;
     }
 
     /// <summary>
-    /// 打开窗口
+    /// 打开UI
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">注册的时候给的名称</param>
     /// <param name="bTop"></param>
     /// <param name="resource"></param>
     /// <param name="para1"></param>
     /// <param name="para2"></param>
     /// <param name="para3"></param>
     /// <returns></returns>
-    public Window PopUpWindow(string name, bool bTop = true, AssetAddress resource = AssetAddress.Addressable, params object[] paramList)
+    public BaseUI ShowUI(string name, bool bTop = true, AssetAddress resource = AssetAddress.Addressable, params object[] paramList)
     {
-        Window wnd = FindWindowByName<Window>(name);
-        if (wnd == null)
+        //开启遮罩避免开启UI的时候接收了操作出现异常
+        SetMask(true);
+
+        BaseUI ui = FindUIByName<BaseUI>(name);
+        if (ui == null)
         {
             System.Type tp = null;
             if (m_RegisterDic.TryGetValue(name, out tp))
             {
                 //if (resource)
                 //{
-                wnd = System.Activator.CreateInstance(tp) as Window;
+                ui = System.Activator.CreateInstance(tp) as BaseUI;
+                ui.Init();
                 //}
                 //else
                 //{
@@ -181,69 +226,184 @@ public class UIManager : Singleton<UIManager>
             }
             else
             {
-                Debug.LogError("找不到窗口对应的脚本，窗口名称是：" + name);
+                Debug.LogError("找不到窗口对应的脚本，注册的窗口名称是：" + name);
                 return null;
             }
-            GameObject wndObj = null;
+            GameObject uiObj = null;
             if (resource == AssetAddress.Resources)
             {
                 //从resource加载UI
-                wndObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(wnd.PrefabName().Replace(".prefab", ""))) as GameObject;
-                InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
+                uiObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(ui.PrefabName.Replace(".prefab", ""))) as GameObject;
+                InitPrefab(ui, uiObj, name, resource, bTop, paramList);
             }
             else if (resource == AssetAddress.AssetBundle)
             {
                 //从AssetBundle加载UI
-                ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + wnd.PrefabName(), (string path, UnityEngine.Object obj,object [] paramArr) => {
-                    wndObj = obj as GameObject;
-                    InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
+                ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + ui.PrefabName, (string path, UnityEngine.Object obj, object[] paramArr) => {
+                    uiObj = obj as GameObject;
+                    InitPrefab(ui, uiObj, name, resource, bTop, paramList);
                 }, LoadResPriority.RES_HIGHT, false, false);
             }
             else if (resource == AssetAddress.Addressable)
             {
                 //从Addressables加载UI
-                Addressables.InstantiateAsync(m_UIPrefabPath + wnd.PrefabName()).Completed += op =>
+                Addressables.InstantiateAsync(m_UIPrefabPath + ui.PrefabName).Completed += op =>
                 {
-                    wndObj = op.Result;
-                    InitPrefab(wnd, wndObj, name, resource, bTop, paramList);
+                    uiObj = op.Result;
+                    InitPrefab(ui, uiObj, name, resource, bTop, paramList);
                 };
             }
         }
         else
         {
-            ShowWindow(wnd, bTop, paramList);
+            //设置UI的显示模式
+            SetUIShowMode(ui);
+
+            OnShowUI(ui, bTop, paramList);
         }
 
-        return wnd;
+        return ui;
     }
 
-    void InitPrefab(Window wnd, GameObject wndObj, string name,AssetAddress resource = AssetAddress.AssetBundle,  bool bTop = true, params object[] paramList)
+    /// <summary>
+    /// 初始化UIPrefab
+    /// </summary>
+    /// <param name="ui"></param>
+    /// <param name="uiObj"></param>
+    /// <param name="name"></param>
+    /// <param name="resource"></param>
+    /// <param name="bTop"></param>
+    /// <param name="paramList"></param>
+    void InitPrefab(BaseUI ui, GameObject uiObj, string name, AssetAddress resource = AssetAddress.AssetBundle, bool bTop = true, params object[] paramList)
     {
-        if (wndObj == null)
+        if (uiObj == null)
         {
             Debug.Log("创建窗口Prefagb失败：" + name);
             return;
         }
 
-        if (!m_WindowDic.ContainsKey(name))
+        //添加到所有UI字典中去
+        if (!m_AllUIDic.ContainsKey(name))
         {
-            m_WindowList.Add(wnd);
-            m_WindowDic.Add(name, wnd);
+            m_AllUIDic.Add(name, ui);           
         }
 
-        wnd.GameObject = wndObj;
-        wnd.Transform = wndObj.transform;
-        wnd.Name = name;
-        wnd.Resource = resource;
-        wndObj.transform.SetParent(m_WindowRoot, false);
-        //置顶的UI
-        if (bTop)
+        ui.GameObject = uiObj;
+        ui.Transform = uiObj.transform;
+        ui.Name = name;
+        ui.Resource = resource;
+
+        //设置UI的挂在节点
+        SetUIRoot(ui);
+
+        //设置UI的显示模式
+        SetUIShowMode(ui);
+
+        uiObj.transform.SetAsLastSibling();
+
+        ui.Awake(paramList);
+        ui.OnShow(paramList);
+        //UI的开启完毕后，关闭遮罩
+        SetMask(false);
+    }
+
+    /// <summary>
+    /// 设置UI的挂在节点
+    /// </summary>
+    /// <param name="ui"></param>
+    void SetUIRoot(BaseUI ui) {
+        switch (ui.m_UIRoot)
         {
-            wndObj.transform.SetAsLastSibling();
+            case UIRoot.Normal:
+                ui.Transform.SetParent(m_NormalRoot, false);
+                break;
+            case UIRoot.PopUp:
+                ui.Transform.SetParent(m_PopUPRoot, false);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 设置UI的显示模式
+    /// </summary>
+    /// <param name="ui"></param>
+    void SetUIShowMode(BaseUI ui)
+    {
+        //根据不同的UI窗体的显示模式，分别作不同的加载处理
+        switch (ui.m_ShowMode)
+        {
+            case UIShowMode.Normal:                 //“普通显示”窗口模式
+                LoadUIToCurrentCache(ui);
+                break;
+            case UIShowMode.ReverseChange:          //需要“反向切换”窗口模式
+                PushUIToStack(ui);
+                break;
+            case UIShowMode.HideOther:              //“隐藏其他”窗口模式
+                EnterUIAndHideOther(ui);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 将UI添加到正在显示UI字典
+    /// </summary>
+    /// <param name="ui"></param>
+    private void LoadUIToCurrentCache(BaseUI ui)
+    {
+        //容错处理，“正在显示”的集合中，存在这个UI窗体，则直接返回不处理了
+        if (m_CurrentShowUIDic.ContainsKey(ui.Name))
+            return;
+        m_CurrentShowUIDic.Add(ui.Name, ui);
+        m_CurrentShowUIList.Add(ui);
+    }
+
+    /// <summary>
+    /// 将UI添加到栈里
+    /// </summary>
+    /// <param name="ui"></param>
+    private void PushUIToStack(BaseUI ui)
+    {
+        //判断“栈”集合中，是否有其他的窗体，有则关闭栈顶
+        if (m_StackUI.Count > 0)
+        {
+            BaseUI topUIForm = m_StackUI.Peek();
+            //栈顶元素作冻结处理
+            HideUI(topUIForm);
+        }
+        //把指定的UI窗体，入栈操作。
+        m_StackUI.Push(ui);
+    }
+
+    private void EnterUIAndHideOther(BaseUI ui)
+    {
+        //容错处理，“正在显示”的集合中，存在这个UI窗体，则直接返回不处理了
+        if (m_CurrentShowUIDic.ContainsKey(ui.Name))
+            return;
+
+        //把“正在显示集合”所有窗体都隐藏。
+        foreach (BaseUI baseUI in m_CurrentShowUIDic.Values)
+        {
+            HideUI(baseUI);
         }
 
-        wnd.Awake(paramList);
-        wnd.OnShow(paramList);
+        //把栈集合的栈顶元素隐藏
+        if (m_StackUI.Count > 0)
+        {
+            BaseUI topUIForm = m_StackUI.Peek();
+            //栈顶元素作冻结处理
+            HideUI(topUIForm);
+        }
+
+        //把当前窗体加入到“正在显示窗体”集合中，且做显示处理。
+        m_CurrentShowUIDic.Add(ui.Name, ui);
+        m_CurrentShowUIList.Add(ui);
+    }
+
+    void SetMask(bool show) {
+        if(show != m_UIMask.activeSelf)
+            m_UIMask.SetActive(show);
     }
 
     /// <summary>
@@ -252,7 +412,7 @@ public class UIManager : Singleton<UIManager>
     /// <param name="name"></param>
     /// <returns></returns>
     public bool ExisWindow(string name) {
-        if (m_WindowDic.ContainsKey(name))
+        if (m_AllUIDic.ContainsKey(name))
         {
             return true;
         }
@@ -262,52 +422,52 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// 关闭窗口，根据名称
     /// </summary>
-    public void CloseWindow(string name,bool destory = false)
+    public void CloseUI(string name,bool destory = false)
     {
-        Window wnd = FindWindowByName<Window>(name);
-        CloseWindow(wnd, destory);
+        BaseUI ui = FindUIByName<BaseUI>(name);
+        CloseUI(ui, destory);
     }
 
     /// <summary>
     /// 关闭窗口,根据窗口对象
     /// </summary>
-    /// <param name="wnd"></param>
+    /// <param name="ui"></param>
     /// <param name="destory"></param>
-    public void CloseWindow(Window wnd, bool destory = false)
+    public void CloseUI(BaseUI ui, bool destory = false)
     {
-        if (wnd != null)
+        if (ui != null)
         {
-            wnd.OnDisable();
-            if (m_WindowDic.ContainsKey(wnd.Name))
+            ui.OnDisable();
+            if (m_AllUIDic.ContainsKey(ui.Name))
             {
-                m_WindowList.Remove(wnd);
-                m_WindowDic.Remove(wnd.Name);
+                m_CurrentShowUIList.Remove(ui);
+                m_AllUIDic.Remove(ui.Name);
             }
 
             if (destory) {
                 ///从AssetBundel加载的
-                if (wnd.Resource == AssetAddress.AssetBundle)
+                if (ui.Resource == AssetAddress.AssetBundle)
                 {
-                    ObjectManager.Instance.ReleaseObject(wnd.GameObject, 0, true);
+                    ObjectManager.Instance.ReleaseObject(ui.GameObject, 0, true);
                 }
-                else if (wnd.Resource == AssetAddress.Addressable)
+                else if (ui.Resource == AssetAddress.Addressable)
                 {
-                    Addressables.Release(wnd.GameObject);
+                    Addressables.Release(ui.GameObject);
                 }
-                else if (wnd.Resource == AssetAddress.Resources)
+                else if (ui.Resource == AssetAddress.Resources)
                 {
                     //从Resource加载的
-                    GameObject.Destroy(wnd.GameObject);
+                    GameObject.Destroy(ui.GameObject);
                 }
-                wnd.GameObject = null;
-                wnd = null;
+                ui.GameObject = null;
+                ui = null;
             }
             else {
-                if (wnd.Resource == AssetAddress.AssetBundle)
+                if (ui.Resource == AssetAddress.AssetBundle)
                 {
-                    ObjectManager.Instance.ReleaseObject(wnd.GameObject, recycleParent: false);
+                    ObjectManager.Instance.ReleaseObject(ui.GameObject, recycleParent: false);
                 }
-                HideWindow(wnd);
+                HideUI(ui);
             }
         }
     }
@@ -315,11 +475,11 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// 关闭所有的窗口
     /// </summary>
-    public void CloseAllWindow()
+    public void CloseAllUI()
     {
-        for (int i = m_WindowList.Count -1; i >= 0; i--)
+        for (int i = m_CurrentShowUIList.Count -1; i >= 0; i--)
         {
-            CloseWindow(m_WindowList[i]);
+            CloseUI(m_CurrentShowUIList[i]);
         }
     }
 
@@ -328,30 +488,30 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     public void SwitchStateByName(string name, bool bTop = true, AssetAddress resource = AssetAddress.AssetBundle,params object [] paralist)
     {
-        CloseAllWindow();
-        PopUpWindow(name, bTop, resource, paralist);
+        CloseAllUI();
+        ShowUI(name, bTop, resource, paralist);
     }
 
     /// <summary>
     /// 关闭窗口，根据名称
     /// </summary>
     /// <param name="name"></param>
-    public void HideWindow(string name)
+    public void HideUI(string name)
     {
-        Window wnd = FindWindowByName<Window>(name);
-        HideWindow(wnd);
+        BaseUI ui = FindUIByName<BaseUI>(name);
+        HideUI(ui);
     }
 
     /// <summary>
     /// 关闭窗口，根据窗口对象
     /// </summary>
-    /// <param name="wnd"></param>
-    public void HideWindow(Window wnd)
+    /// <param name="ui"></param>
+    public void HideUI(BaseUI ui)
     {
-        if (wnd != null)
+        if (ui != null)
         {
-            wnd.GameObject.SetActive(false);
-            wnd.OnDisable();
+            ui.GameObject.SetActive(false);
+            ui.OnDisable();
         }
     }
 
@@ -360,10 +520,10 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     /// <param name="name"></param>
     /// <param name="paramList"></param>
-    public void ShowWindow(string name,bool bTop = true, params object[] paramList)
+    public void OnShowUI(string name,bool bTop = true, params object[] paramList)
     {
-        Window wnd = FindWindowByName<Window>(name);
-        ShowWindow(wnd, bTop, paramList);
+        BaseUI ui = FindUIByName<BaseUI>(name);
+        OnShowUI(ui, bTop, paramList);
     }
 
     /// <summary>
@@ -371,13 +531,15 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     /// <param name="wnd"></param>
     /// <param name="paramList"></param>
-    public void ShowWindow(Window wnd, bool bTop = true, params object[] paramList)
+    public void OnShowUI(BaseUI wnd, bool bTop = true, params object[] paramList)
     {
         if(wnd != null){
             if(wnd.GameObject!= null && !wnd.GameObject.activeSelf){
                 if(bTop)
                     wnd.Transform.SetAsLastSibling();
                 wnd.OnShow(paramList);
+                //UI的开启完毕后，关闭遮罩
+                SetMask(false);
             }
         }
     }
