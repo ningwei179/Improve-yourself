@@ -5,14 +5,18 @@
 	功能：通用常量
 *****************************************************/
 
+
+
 public class ConStr
 {
+
     #region 界面名称
 
     public const string MenuPanel = "MenuPanel";
     public const string LoadingPanel = "LoadingPanel";
     public const string HotFixPanel = "HotFixPanel";
     public const string PopUpPanel = "PopUpPanel";
+    public const string MainPanel = "MainPanel";
     #endregion
 
     #region 场景名称

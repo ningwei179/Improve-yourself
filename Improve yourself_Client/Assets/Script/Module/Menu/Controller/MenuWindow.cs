@@ -16,7 +16,6 @@ public class MenuWindow : Window
         return "MenuPanel.prefab";
     }
 
-    [IFix.Patch]
     public override void Awake(params object[] paralist)
     {
         m_Panel = GameObject.GetComponent<MenuPanel>();
@@ -84,15 +83,19 @@ public class MenuWindow : Window
             ResourceManager.Instance.ReleaseResource("Assets/GameData/UISprite/image2.png", true);
         }
     }
-
+    [IFix.Patch]
     void OnClickStart()
     {
-        NetMsg msg = new NetMsg();
-        msg.cmd = (int)CMD.Reqlogin;
-        msg.reqLogin = new ReqLogin();
-        msg.reqLogin.account = "10001";
-        msg.reqLogin.pass = "10001";
-        NetWorkManager.Instance.SendMsg(msg);
+        UIManager.Instance.PopUpWindow(ConStr.MainPanel);
+
+        base.OnClose();
+        
+        //NetMsg msg = new NetMsg();
+        //msg.cmd = (int)CMD.Reqlogin;
+        //msg.reqLogin = new ReqLogin();
+        //msg.reqLogin.account = "10001";
+        //msg.reqLogin.pass = "10001";
+        //NetWorkManager.Instance.SendMsg(msg);
     }
 
     void OnClickLoad()

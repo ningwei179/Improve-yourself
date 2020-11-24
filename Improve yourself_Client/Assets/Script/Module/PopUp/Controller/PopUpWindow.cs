@@ -29,7 +29,7 @@ public class PopUpWindow :Window
     public Action closeOnClick { set; get; }
 
     private const float TIMEOUT = 4f;   //默认的超时时间
-    private float leftTime;
+    private int leftTime;
     private string strCancleTitle;  //取消按钮的字符串
 
     public override void Awake(params object[] paramList)
@@ -40,45 +40,6 @@ public class PopUpWindow :Window
         AddButtonClickListener(m_Panel.BtnRight, BtnRightOnClick);
         AddButtonClickListener(m_Panel.BtnMiddle, BtnMiddleOnClick);
 
-    }
-
-    private Timer CountDownTimer;
-    /// <summary>
-    /// 开始倒计时
-    /// </summary>
-    public void StartCountDown()
-    {
-        if (CountDownTimer != null)
-        {
-            CountDownTimer.stop();
-            TimerController.Instance.deleteTimer(CountDownTimer);
-        }
-        CountDownTimer = TimerController.Instance.createFixedTimer(1);
-        CountDownTimer.addTimerEventListener(UpdateChatMessageCallBack);
-        CountDownTimer.start();
-    }
-
-    /// <summary>
-    /// 更新聊天消息计时器回调
-    /// </summary>
-    /// <param name="timer"></param>
-    public void UpdateChatMessageCallBack(Timer timer)
-    {
-        leftTime -= 1;
-        m_Panel.BtnLeft.GetComponentInChildren<Text>().text = string.Format("{0}（{1}）", this.strCancleTitle, leftTime);
-        if (leftTime <= 0)
-        {
-            if (CountDownTimer != null)
-            {
-                CountDownTimer.stop();
-                TimerController.Instance.deleteTimer(CountDownTimer);
-            }
-            if (timeoutCallback != null)
-            {
-                CloseUI();
-                timeoutCallback();
-            }
-        }
     }
 
     public override void OnShow(params object[] paramList)
@@ -125,36 +86,41 @@ public class PopUpWindow :Window
         bool isNeedTimer = (m_params.TimeoutAction != null && m_params.RemainTime > 0 ? true : false);
         if (isNeedTimer)
         {
-            StartCountDown();
+            TimerController.Instance.AddTimeTask((id) =>
+            {
+                leftTime -= 1;
+                m_Panel.BtnLeft.GetComponentInChildren<Text>().text = string.Format("{0}（{1}）", this.strCancleTitle, leftTime);
+            },0, TimeUnit.Second , leftTime);
         }
     }
 
     private void BtnMiddleOnClick()
     {
-        CloseUI();
+        OnClose();
         okOnClick?.Invoke();
     }
 
     private void BtnRightOnClick()
     {
-        CloseUI();
+        OnClose();
         okOnClick?.Invoke();
     }
 
     private void BtnLeftOnClick()
     {
-        CloseUI();
+        OnClose();
         cancleOnClick?.Invoke();
     }
 
     private void BtnCloseOnClick()
     {
-        CloseUI();
+        OnClose();
         closeOnClick?.Invoke();
     }
 
-    private void CloseUI() {
-        UIManager.Instance.CloseWindow(ConStr.PopUpPanel);
+    public override void OnClose()
+    {
+        base.OnClose();
     }
 
     public override void OnUpdate()

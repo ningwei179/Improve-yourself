@@ -5,13 +5,16 @@
     <ABDependce>shaders</ABDependce>
   </ABList>
   <ABList ABName="gamestart" AssetName="GameStart.prefab" Path="Assets/GameData/Prefabs/GameStart.prefab" Crc="661067300" />
-  <ABList ABName="hotfix" AssetName="HotFixProject.dll.mdb" Path="Assets/GameData/Data/HotFix/HotFixProject.dll.mdb" Crc="4207985697" />
-  <ABList ABName="hotfix" AssetName="HotFixProject.dll.txt" Path="Assets/GameData/Data/HotFix/HotFixProject.dll.txt" Crc="4219778258" />
-  <ABList ABName="hotfix" AssetName="HotFixProject.pdb.txt" Path="Assets/GameData/Data/HotFix/HotFixProject.pdb.txt" Crc="997601283" />
+  <ABList ABName="injecthotfix" AssetName="Assembly-CSharp.patch.bytes" Path="Assets/GameData/Data/InjectHotFix/Assembly-CSharp.patch.bytes" Crc="288606441" />
   <ABList ABName="loadingpanel" AssetName="LoadingPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/LoadingPanel.prefab" Crc="968375833" />
+  <ABList ABName="mainpanel" AssetName="MainPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/MainPanel.prefab" Crc="598175892" />
   <ABList ABName="menupanel" AssetName="MenuPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/MenuPanel.prefab" Crc="2681775694" />
   <ABList ABName="particletest" AssetName="ParticleTest.prefab" Path="Assets/GameData/Prefabs/Effect/ParticleTest.prefab" Crc="2693189025" />
-  <ABList ABName="popuppanel" AssetName="PopUpPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/PopUpPanel.prefab" Crc="900266966" />
+  <ABList ABName="scene" AssetName="Empty.unity" Path="Assets/GameData/Scenes/Empty.unity" Crc="2110044199" />
+  <ABList ABName="scene" AssetName="Menu.unity" Path="Assets/GameData/Scenes/Menu.unity" Crc="4140252350" />
+  <ABList ABName="scene" AssetName="Start.unity" Path="Assets/GameData/Scenes/Start.unity" Crc="4231996152">
+    <ABDependce>gamestart</ABDependce>
+  </ABList>
   <ABList ABName="shaders" AssetName="Hero-Battle.shader" Path="Assets/GameData/Shaders/Hero-Battle.shader" Crc="3448524930" />
   <ABList ABName="sounds" AssetName="music_battle.mp3" Path="Assets/GameData/Sounds/music_battle.mp3" Crc="3462996725" />
   <ABList ABName="textures" AssetName="TopMatcap11.png" Path="Assets/GameData/Textures/TopMatcap11.png" Crc="220477938" />

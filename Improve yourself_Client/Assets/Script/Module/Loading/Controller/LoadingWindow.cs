@@ -49,7 +49,7 @@ public class LoadingWindow : Window
             UIManager.Instance.PopUpWindow(ConStr.MenuPanel);
         }
 
-        //loading结束了，关闭loadingUI
-        UIManager.Instance.CloseWindow(ConStr.LoadingPanel);
+        //关闭界面
+        base.OnClose();
     }
 }

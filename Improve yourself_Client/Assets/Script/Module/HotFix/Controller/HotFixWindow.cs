@@ -7,7 +7,6 @@
 
 using System.Collections;
 using UnityEngine;
-using static CommonEnum;
 
 public class HotFixWindow : Window 
 {
@@ -43,7 +42,6 @@ public class HotFixWindow : Window
 //#else
         if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
-            
             HotFix();
         }
         else {

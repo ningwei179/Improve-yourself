@@ -36,10 +36,11 @@ public class GameStart : MonoSingleton<GameStart>
             HotPatchManager.Instance.Init(this);
         }
 
-        
+        //计时器初始化
+        TimerController.Instance.Init();
 
         ////初始化网络通信管理器
-        //NetWorkManager.Instance.Init();
+        NetWorkManager.Instance.Init();
 
         //初始化UI管理器
         UIManager.Instance.Init(transform);
@@ -59,9 +60,9 @@ public class GameStart : MonoSingleton<GameStart>
 
     public IEnumerator StartGame(Image image, Text text,Text progress)
     {
+        text.text = "加载本地数据... ...";
         image.fillAmount = 0;
         yield return wait3f;
-        text.text = "加载本地数据... ...";
         image.fillAmount = 0.1f;
         progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
 
@@ -136,8 +137,8 @@ public class GameStart : MonoSingleton<GameStart>
     // Update is called once per frame
     void Update()
     {
+        TimerController.Instance.Update();
         UIManager.Instance.OnUpdate();
-
         NetWorkManager.Instance.Update();
         if (Input.GetKeyDown(KeyCode.Space)) {
             NetWorkManager.Instance.m_Client.session.SendMsg(new IYProtocal.NetMsg
@@ -149,7 +150,7 @@ public class GameStart : MonoSingleton<GameStart>
 
     void FixedUpdate()
     {
-        TimerController.Instance.fixedUpdate();
+        
     }
 
     private void OnApplicationQuit()

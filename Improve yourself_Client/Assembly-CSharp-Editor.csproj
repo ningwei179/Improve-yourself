@@ -64,11 +64,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\FrameWork\Editor\BuildApp.cs" />
     <Compile Include="Assets\FrameWork\Editor\Config\DataEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Config\InjectFixConfig.cs" />
     <Compile Include="Assets\FrameWork\Editor\FramConfig.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\ABConfig.cs" />
-    <Compile Include="Assets\FrameWork\Editor\Resource\BuildApp.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\BundleEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\BundleHotFix.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\OfflineDataEditor.cs" />

@@ -16,9 +16,10 @@ public class UIRegister : Singleton<UIRegister>
     /// </summary>
     public void RegisterAllUI()
     {
-        UIManager.Instance.Register<MenuWindow>(ConStr.MenuPanel);
-        UIManager.Instance.Register<LoadingWindow>(ConStr.LoadingPanel);
         UIManager.Instance.Register<HotFixWindow>(ConStr.HotFixPanel);
         UIManager.Instance.Register<PopUpWindow>(ConStr.PopUpPanel);
+        UIManager.Instance.Register<LoadingWindow>(ConStr.LoadingPanel);
+        UIManager.Instance.Register<MenuWindow>(ConStr.MenuPanel);
+        UIManager.Instance.Register<MainWindow>(ConStr.MainPanel);
     }
 }
