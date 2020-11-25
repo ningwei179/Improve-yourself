@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 public class GameStart : MonoSingleton<GameStart>
 {
+    public HotFixPanel startPanel;  //启动UI
+
     protected override void Awake()
     {
         base.Awake();
@@ -21,7 +23,9 @@ public class GameStart : MonoSingleton<GameStart>
         if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
             //初始化Addressable管理器
-            AddressableManager.Instance.Init(this);
+            //AddressableManager.Instance.Init(this);
+            //
+            AddressableManager.Init(this);
             //初始化Addressable资源更新管理器
             AddressableUpdateManager.Instance.Init(this);
         }
@@ -42,18 +46,21 @@ public class GameStart : MonoSingleton<GameStart>
         ////初始化网络通信管理器
         NetWorkManager.Instance.Init();
 
+        //ILRuntimeManager.Instance.OpenUI(ConStr.LoadingPanel);
         //初始化UI管理器
-        UIManager.Instance.Init(transform);
+        //UIManager.Instance.Init(transform);
 
-        //注册所有的UI
-        UIRegister.Instance.RegisterAllUI();
+        ////注册所有的UI
+        //UIRegister.Instance.RegisterAllUI();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         //启动热更UI
-        UIManager.Instance.OpenUI<HotFixWindow>(ConStr.HotFixPanel,resource:AssetAddress.Resources);
+        startPanel.OpenUI();
+        //启动热更UI
+        //UIManager.Instance.OpenUI<HotFixWindow>(ConStr.HotFixPanel,resource:AssetAddress.Resources);
     }
 
     WaitForSeconds wait3f = new WaitForSeconds(0.3f);
@@ -78,7 +85,7 @@ public class GameStart : MonoSingleton<GameStart>
             image.fillAmount = 0.2f;
             progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
             //初始化ILRuntime热更管理器
-            yield return StartCoroutine(ILRuntimeManager.Instance.LoadHotFixAssembly());
+            yield return StartCoroutine(ILRuntimeManager.Instance.LoadHotFixAssembly(this.transform));
         }
         else if(FrameConstr.HotType == CodeHotType.InjectFix)
         { 
@@ -146,7 +153,7 @@ public class GameStart : MonoSingleton<GameStart>
     void Update()
     {
         TimerController.Instance.Update();
-        UIManager.Instance.OnUpdate();
+        //UIManager.Instance.OnUpdate();
         NetWorkManager.Instance.Update();
         if (Input.GetKeyDown(KeyCode.Space)) {
             NetWorkManager.Instance.m_Client.session.SendMsg(new IYProtocal.NetMsg

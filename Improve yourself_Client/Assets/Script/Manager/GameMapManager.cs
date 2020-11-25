@@ -58,7 +58,8 @@ public class GameMapManager : Singleton<GameMapManager>
         m_Mono.StartCoroutine(LoadSceneAsync(name));
 
         //加载场景的时候打开loadingUI
-        UIManager.Instance.OpenUI<LoadingWindow>(ConStr.LoadingPanel, paramList:name);
+        ILRuntimeManager.Instance.OpenUI(name);
+        //UIManager.Instance.OpenUI<LoadingWindow>(ConStr.LoadingPanel, paramList:name);
     }
 
     /// <summary>

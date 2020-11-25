@@ -23,7 +23,7 @@ public class InjectFixManager : Singleton<InjectFixManager>
     internal IEnumerator LoadHotFixPatch()
     {
         bool loadComplete = false;
-        AddressableManager.Instance.AsyncLoadResource<TextAsset>(patchPath, (TextAsset text) =>
+        AddressableManager.AsyncLoadResource<TextAsset>(patchPath, (TextAsset text) =>
         {
             try
             {

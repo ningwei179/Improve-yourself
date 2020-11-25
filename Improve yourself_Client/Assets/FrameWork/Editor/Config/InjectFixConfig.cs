@@ -30,7 +30,7 @@ public class InjectFixConfig
         {
             return new List<Type>()
             {
-                typeof(MenuWindow),
+                //typeof(MenuWindow),
             };
         }
     }

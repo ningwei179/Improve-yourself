@@ -5,6 +5,8 @@ using System.IO;
 using ILRuntime.Runtime.Enviorment;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.AddressableAssets;
+using ILRuntime.CLR.TypeSystem;
+using ILRuntime.CLR.Method;
 #region 测试代码 //public abstract class TestClassBase
              //{
              //    public virtual int Value
@@ -437,7 +439,7 @@ using UnityEngine.AddressableAssets;
 //    }
 //}
 #endregion 
-public class ILRuntimeManager : Singleton<ILRuntimeManager> {     private const string DLLPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes";     private const string PDBPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes";     private AppDomain m_AppDomain;      public AppDomain ILRunAppDomain     {         get { return m_AppDomain; }     }      internal IEnumerator LoadHotFixAssembly()
+public class ILRuntimeManager : Singleton<ILRuntimeManager> {     private const string DLLPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes";     private const string PDBPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes";     private AppDomain m_AppDomain;      public AppDomain ILRunAppDomain     {         get { return m_AppDomain; }     }      internal IEnumerator LoadHotFixAssembly(Transform transform)
     {
         MemoryStream dllMs = null;
         AsyncOperationHandle<TextAsset> dllHandle = Addressables.LoadAssetAsync<TextAsset>(DLLPATH);
@@ -464,14 +466,36 @@ public class ILRuntimeManager : Singleton<ILRuntimeManager> {     private co
 
             ILRuntimeRegister.Instance.InitializeIlRuntime();
 
-            OnHotFixLoaded();
+            OnHotFixLoaded(transform);
         }
         yield return null;
-    }      void OnHotFixLoaded()     {
-        //第一个简单方法的调用
-        m_AppDomain.Invoke("HotFixProject.InstanceClass", "StaticFunTest", null, null);          //先单独获取类，之后一直使用这个类来调用         //IType type = m_AppDomain.LoadedTypes["HotFixProject.InstanceClass"];          //根据方法名称和参数个数获取方法(学习获取函数进行调用)         //IMethod method = type.GetMethod("StaticFunTest", 0);         //m_AppDomain.Invoke(method, null, null);          //根据获取函数来调用有参的函数         //第一种含参调用         //IMethod method = type.GetMethod("StaticFunTest2", 1);         //m_AppDomain.Invoke(method, null, 5);
+    }
 
-        //IMethod method2 = type.GetMethod("StaticFunTest2", 2);         //m_AppDomain.Invoke(method2, null, 7,8);
+    internal void OpenUI(string name)
+    {
+        m_AppDomain.Invoke("HotFixProject.InstanceClass", "StaticFunTest", null, name);
+    }
+
+    void OnHotFixLoaded(Transform transform)     {
+        //第一个简单方法的调用
+        m_AppDomain.Invoke("HotFixProject.InstanceClass", "StaticFunTest2", null, transform);
+
+        //ILRuntimeManager.Instance.OpenUI(ConStr.LoadingPanel);
+
+        //先单独获取类，之后一直使用这个类来调用
+        //IType type = m_AppDomain.LoadedTypes["HotFixProject.InstanceClass"];
+
+        //根据方法名称和参数个数获取方法(学习获取函数进行调用)
+        //IMethod method = type.GetMethod("StaticFunTest", 0);
+        //m_AppDomain.Invoke(method, null, null);
+
+        //根据获取函数来调用有参的函数
+        //第一种含参调用
+        //IMethod method = type.GetMethod("StaticFunTest2", 1);
+        //m_AppDomain.Invoke(method, null, transform);
+
+        //IMethod method2 = type.GetMethod("StaticFunTest2", 2);
+        //m_AppDomain.Invoke(method2, null, 7,8);
         //第二种含参调用
         //IType intType = m_AppDomain.GetType(typeof(int));
         //List<IType> paraList = new List<IType>();
@@ -552,4 +576,114 @@ public class ILRuntimeManager : Singleton<ILRuntimeManager> {     private co
         //m_AppDomain.Invoke("HotFix.TestMono", "RunTest", null, GameStart.Instance.gameObject);
         //m_AppDomain.Invoke("HotFix.TestMono", "RunTest1", null, GameStart.Instance.gameObject);
 
-    }      //unsafe void SetUpCLRGetCompontent()     //{     //    var arr = typeof(GameObject).GetMethods();     //    foreach (var i in arr)     //    {     //        if (i.Name == "GetCompontent" && i.GetGenericArguments().Length == 1)     //        {     //            m_AppDomain.RegisterCLRMethodRedirection(i, GetCompontent);     //        }     //    }     //}      //private unsafe StackObject* GetCompontent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)     //{     //    ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;      //    var ptr = __esp - 1;     //    GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;     //    if (instance == null)     //        throw new System.NullReferenceException();      //    __intp.Free(ptr);      //    var genericArgument = __method.GenericArguments;     //    if (genericArgument != null && genericArgument.Length == 1)     //    {     //        var type = genericArgument[0];     //        object res = null;     //        if (type is CLRType)     //        {     //            res = instance.GetComponent(type.TypeForCLR);     //        }     //        else     //        {     //            var clrInstances = instance.GetComponents<MonoBehaviourAdapter.Adaptor>();     //            foreach (var clrInstance in clrInstances)     //            {     //                if (clrInstance.ILInstance != null)     //                {     //                    if (clrInstance.ILInstance.Type == type)     //                    {     //                        res = clrInstance.ILInstance;     //                        break;     //                    }     //                }     //            }     //        }      //        return ILIntepreter.PushObject(ptr, __mStack, res);     //    }      //    return __esp;     //}      //unsafe void SetupCLRAddCompontent()     //{     //    var arr = typeof(GameObject).GetMethods();     //    foreach (var i in arr)     //    {     //        if (i.Name == "AddComponent" && i.GetGenericArguments().Length == 1)     //        {     //            m_AppDomain.RegisterCLRMethodRedirection(i, AddCompontent);     //        }     //    }     //}      //private unsafe StackObject* AddCompontent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)     //{     //    ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;      //    var ptr = __esp - 1;     //    GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;     //    if (instance == null)     //    {     //        throw new System.NullReferenceException();     //    }     //    __intp.Free(ptr);      //    var genericArgument = __method.GenericArguments;     //    if (genericArgument != null && genericArgument.Length == 1)     //    {     //        var type = genericArgument[0];     //        object res;     //        if (type is CLRType)//CLRType表示这个类型是Unity工程里的类型   //ILType表示是热更dll里面的类型     //        {     //            //Unity主工程的类，不需要做处理     //            res = instance.AddComponent(type.TypeForCLR);     //        }     //        else     //        {     //            //创建出来MonoTest     //            var ilInstance = new ILTypeInstance(type as ILType, false);     //            var clrInstance = instance.AddComponent<MonoBehaviourAdapter.Adaptor>();     //            clrInstance.ILInstance = ilInstance;     //            clrInstance.AppDomain = __domain;     //            //这个实例默认创建的CLRInstance不是通过AddCompontent出来的有效实例，所以要替换     //            ilInstance.CLRInstance = clrInstance;      //            res = clrInstance.ILInstance;      //            //补掉Awake     //            clrInstance.Awake();     //        }     //        return ILIntepreter.PushObject(ptr, __mStack, res);     //    }      //    return __esp;     //} } 
+    }
+
+    //unsafe void SetUpCLRGetCompontent()
+    //{
+    //    var arr = typeof(GameObject).GetMethods();
+    //    foreach (var i in arr)
+    //    {
+    //        if (i.Name == "GetCompontent" && i.GetGenericArguments().Length == 1)
+    //        {
+    //            m_AppDomain.RegisterCLRMethodRedirection(i, GetCompontent);
+    //        }
+    //    }
+    //}
+
+    //private unsafe StackObject* GetCompontent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+    //{
+    //    ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+
+    //    var ptr = __esp - 1;
+    //    GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
+    //    if (instance == null)
+    //        throw new System.NullReferenceException();
+
+    //    __intp.Free(ptr);
+
+    //    var genericArgument = __method.GenericArguments;
+    //    if (genericArgument != null && genericArgument.Length == 1)
+    //    {
+    //        var type = genericArgument[0];
+    //        object res = null;
+    //        if (type is CLRType)
+    //        {
+    //            res = instance.GetComponent(type.TypeForCLR);
+    //        }
+    //        else
+    //        {
+    //            var clrInstances = instance.GetComponents<MonoBehaviourAdapter.Adaptor>();
+    //            foreach (var clrInstance in clrInstances)
+    //            {
+    //                if (clrInstance.ILInstance != null)
+    //                {
+    //                    if (clrInstance.ILInstance.Type == type)
+    //                    {
+    //                        res = clrInstance.ILInstance;
+    //                        break;
+    //                    }
+    //                }
+    //            }
+    //        }
+
+    //        return ILIntepreter.PushObject(ptr, __mStack, res);
+    //    }
+
+    //    return __esp;
+    //}
+
+    //unsafe void SetupCLRAddCompontent()
+    //{
+    //    var arr = typeof(GameObject).GetMethods();
+    //    foreach (var i in arr)
+    //    {
+    //        if (i.Name == "AddComponent" && i.GetGenericArguments().Length == 1)
+    //        {
+    //            m_AppDomain.RegisterCLRMethodRedirection(i, AddCompontent);
+    //        }
+    //    }
+    //}
+
+    //private unsafe StackObject* AddCompontent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+    //{
+    //    ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+
+    //    var ptr = __esp - 1;
+    //    GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
+    //    if (instance == null)
+    //    {
+    //        throw new System.NullReferenceException();
+    //    }
+    //    __intp.Free(ptr);
+
+    //    var genericArgument = __method.GenericArguments;
+    //    if (genericArgument != null && genericArgument.Length == 1)
+    //    {
+    //        var type = genericArgument[0];
+    //        object res;
+    //        if (type is CLRType)//CLRType表示这个类型是Unity工程里的类型   //ILType表示是热更dll里面的类型
+    //        {
+    //            //Unity主工程的类，不需要做处理
+    //            res = instance.AddComponent(type.TypeForCLR);
+    //        }
+    //        else
+    //        {
+    //            //创建出来MonoTest
+    //            var ilInstance = new ILTypeInstance(type as ILType, false);
+    //            var clrInstance = instance.AddComponent<MonoBehaviourAdapter.Adaptor>();
+    //            clrInstance.ILInstance = ilInstance;
+    //            clrInstance.AppDomain = __domain;
+    //            //这个实例默认创建的CLRInstance不是通过AddCompontent出来的有效实例，所以要替换
+    //            ilInstance.CLRInstance = clrInstance;
+
+    //            res = clrInstance.ILInstance;
+
+    //            //补掉Awake
+    //            clrInstance.Awake();
+    //        }
+    //        return ILIntepreter.PushObject(ptr, __mStack, res);
+    //    }
+
+    //    return __esp;
+    //}
+} 

@@ -91,9 +91,8 @@
     <Compile Include="Assets\FrameWork\FrameConstr.cs" />
     <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeManager.cs" />
     <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeRegister.cs" />
+    <Compile Include="Assets\FrameWork\ILRuntimeFrame\IYMonoBehaviourAdapter.cs" />
     <Compile Include="Assets\FrameWork\InjectFixFrame\InjectFixManager.cs" />
-    <Compile Include="Assets\FrameWork\UIFrame\BaseUI.cs" />
-    <Compile Include="Assets\FrameWork\UIFrame\UIManager.cs" />
     <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\LitJson\IJsonWrapper.cs" />
     <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\LitJson\JsonData.cs" />
     <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\LitJson\JsonException.cs" />
@@ -128,18 +127,7 @@
     <Compile Include="Assets\Script\Data\XmlData\MonsterData.cs" />
     <Compile Include="Assets\Script\Game\GameStart.cs" />
     <Compile Include="Assets\Script\Manager\GameMapManager.cs" />
-    <Compile Include="Assets\Script\Module\HotFix\Controller\HotFixWindow.cs" />
-    <Compile Include="Assets\Script\Module\HotFix\View\HotFixPanel.cs" />
-    <Compile Include="Assets\Script\Module\Loading\Controller\LoadingWindow.cs" />
-    <Compile Include="Assets\Script\Module\Loading\View\LoadingPanel.cs" />
-    <Compile Include="Assets\Script\Module\Main\Controller\MainWindow.cs" />
-    <Compile Include="Assets\Script\Module\Main\View\MainPanel.cs" />
-    <Compile Include="Assets\Script\Module\Menu\Controller\MenuWindow.cs" />
-    <Compile Include="Assets\Script\Module\Menu\View\MenuPanel.cs" />
-    <Compile Include="Assets\Script\Module\PopUp\Controller\PopUpWindow.cs" />
-    <Compile Include="Assets\Script\Module\PopUp\PopUpUtil.cs" />
-    <Compile Include="Assets\Script\Module\PopUp\View\PopUpPanel.cs" />
-    <Compile Include="Assets\Script\Module\UIRegister.cs" />
+    <Compile Include="Assets\Script\Module\HotFix\HotFixPanel.cs" />
     <Compile Include="Assets\Script\NetWork\ClientSession.cs" />
     <Compile Include="Assets\Script\NetWork\MessageContext_Register.cs" />
     <Compile Include="Assets\Script\NetWork\MessageDispatch.cs" />
@@ -167,6 +155,9 @@
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/ILRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -227,9 +218,6 @@
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/ILRuntime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -417,6 +405,15 @@
     <Reference Include="Protocal">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/References/Protocal.dll</HintPath>
     </Reference>
+    <Reference Include="ILRuntim.Mono.Cecil">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -425,15 +422,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntim.Mono.Cecil">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

@@ -5,8 +5,6 @@
 	功能：通用常量
 *****************************************************/
 
-
-
 public class ConStr
 {
 
@@ -14,7 +12,6 @@ public class ConStr
 
     public const string MenuPanel = "MenuPanel";
     public const string LoadingPanel = "LoadingPanel";
-    public const string HotFixPanel = "HotFixPanel";
     public const string PopUpPanel = "PopUpPanel";
     public const string MainPanel = "MainPanel";
     #endregion
