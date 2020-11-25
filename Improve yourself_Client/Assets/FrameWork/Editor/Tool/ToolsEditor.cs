@@ -11,15 +11,15 @@ using System.IO;
 
 public class ToolsEditor
 {
-    private static string DLLPATH = "Assets/GameData/Data/HotFix/HotFixProject.dll";
-    private static string PDBPATH = "Assets/GameData/Data/HotFix/HotFixProject.pdb";
+    private static string DLLPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll";
+    private static string PDBPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb";
 
-    [MenuItem("Tools/修改热更dll为txt")]
+    [MenuItem("Tools/修改热更dll为bytes")]
     public static void ChangeDllName()
     {
         if (File.Exists(DLLPATH))
         {
-            string targetPath = DLLPATH + ".txt";
+            string targetPath = DLLPATH + ".bytes";
             if (File.Exists(targetPath))
             {
                 File.Delete(targetPath);
@@ -29,7 +29,7 @@ public class ToolsEditor
 
         if (File.Exists(PDBPATH))
         {
-            string targetPath = PDBPATH + ".txt";
+            string targetPath = PDBPATH + ".bytes";
             if (File.Exists(targetPath))
             {
                 File.Delete(targetPath);

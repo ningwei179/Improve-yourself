@@ -72,6 +72,8 @@ public class UIManager : Singleton<UIManager>
     //当前正在显示的UIDic
     private Dictionary<string, BaseUI> m_CurrentShowUIDic = new Dictionary<string, BaseUI>();
 
+    private List<BaseUI> m_CurrentShowList = new List<BaseUI>();
+
     //定义“栈”集合,存储显示当前所有[反向切换]的窗体类型
     private Stack<BaseUI> m_StackUI = new Stack<BaseUI>();
 
@@ -108,8 +110,12 @@ public class UIManager : Singleton<UIManager>
 
     public void OnUpdate()
     {
-        foreach (var ui in m_CurrentShowUIDic.Values) {
-            ui.OnUpdate();
+        for (int i = 0; i < m_CurrentShowList.Count; ++i) {
+            m_CurrentShowList[i].OnUpdate();
+        }
+
+        if (m_StackUI.Count > 0) {
+            m_StackUI.Peek().OnUpdate();
         }
     }
 
@@ -271,6 +277,7 @@ public class UIManager : Singleton<UIManager>
         if (m_CurrentShowUIDic.ContainsKey(ui.Name))
             return;
         m_CurrentShowUIDic.Add(ui.Name, ui);
+        m_CurrentShowList.Add(ui);
     }
 
     /// <summary>
@@ -316,6 +323,7 @@ public class UIManager : Singleton<UIManager>
 
         //把当前窗体加入到“正在显示窗体”集合中，且做显示处理。
         m_CurrentShowUIDic.Add(ui.Name, ui);
+        m_CurrentShowList.Add(ui);
     }
 
     /// <summary>
@@ -431,6 +439,7 @@ public class UIManager : Singleton<UIManager>
         //指定窗体，标记为“隐藏状态”，且从"正在显示集合"中移除。
         HideUI(ui);
         m_CurrentShowUIDic.Remove(ui.Name);
+        m_CurrentShowList.Remove(ui);
     }
 
     //（“反向切换”属性）窗体的出栈逻辑
@@ -468,7 +477,7 @@ public class UIManager : Singleton<UIManager>
         //当前窗体隐藏状态，且“正在显示”集合中，移除本窗体
         HideUI(ui);
         m_CurrentShowUIDic.Remove(ui.Name);
-
+        m_CurrentShowList.Remove(ui);
         //把“正在显示集合”所有窗体都定义重新显示状态。
         foreach (BaseUI baseUI in m_CurrentShowUIDic.Values)
         {

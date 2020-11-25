@@ -37,7 +37,7 @@ public class InjectFixManager : Singleton<InjectFixManager>
             }
             catch (Exception e)
             {
-                Debug.Log("加载C#热补丁文件失败,补丁不匹配");
+                Debug.Log("加载C#热补丁文件失败,补丁不匹配"+ e);
             }
             loadComplete = true;
         });

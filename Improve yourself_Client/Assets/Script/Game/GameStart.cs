@@ -72,14 +72,22 @@ public class GameStart : MonoSingleton<GameStart>
             AssetBundleManager.Instance.LoadAssetBundleConfig(false);
         }
         yield return wait3f;
-        text.text = "加载dll... ...";
-        image.fillAmount = 0.2f;
-        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
-        //初始化ILRuntime热更管理器
-        ILRuntimeManager.Instance.Init();
-        //热更修复代码
-        yield return StartCoroutine(InjectFixManager.Instance.LoadHotFixPatch());
-
+        if (FrameConstr.HotType == CodeHotType.ILRuntime)
+        {
+            text.text = "加载ILRuntime.dll... ...";
+            image.fillAmount = 0.2f;
+            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+            //初始化ILRuntime热更管理器
+            yield return StartCoroutine(ILRuntimeManager.Instance.LoadHotFixAssembly());
+        }
+        else if(FrameConstr.HotType == CodeHotType.InjectFix)
+        { 
+            text.text = "加载InjectFix.dll... ...";
+            image.fillAmount = 0.2f;
+            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+            //热更修复代码
+            yield return StartCoroutine(InjectFixManager.Instance.LoadHotFixPatch());
+        }
         text.text = "加载数据表... ...";
         image.fillAmount = 0.7f;
         progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));

@@ -39,9 +39,9 @@ public class HotFixWindow : BaseUI
             HotPatchManager.Instance.ItemError += ItemError;
         }
 
-//#if UNITY_EDITOR
-//        StartOnFinish();
-//#else
+#if UNITY_EDITOR
+        StartOnFinish();
+#else
         if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
         {
             HotFix();
@@ -61,7 +61,7 @@ public class HotFixWindow : BaseUI
                 HotFix();
             }
         }
-//#endif
+#endif
     }
 
     /// <summary>

@@ -90,8 +90,8 @@
     <Compile Include="Assets\FrameWork\ConfigFrame\ExcelBase.cs" />
     <Compile Include="Assets\FrameWork\FrameConstr.cs" />
     <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeManager.cs" />
+    <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeRegister.cs" />
     <Compile Include="Assets\FrameWork\InjectFixFrame\InjectFixManager.cs" />
-    <Compile Include="Assets\FrameWork\UIFrame\BaseItem.cs" />
     <Compile Include="Assets\FrameWork\UIFrame\BaseUI.cs" />
     <Compile Include="Assets\FrameWork\UIFrame\UIManager.cs" />
     <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\LitJson\IJsonWrapper.cs" />
@@ -168,9 +168,6 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="ILRuntime">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/ILRuntime.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -230,6 +227,9 @@
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/ILRuntime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -417,15 +417,6 @@
     <Reference Include="Protocal">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/References/Protocal.dll</HintPath>
     </Reference>
-    <Reference Include="ILRuntim.Mono.Cecil">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -434,6 +425,15 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntim.Mono.Cecil">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

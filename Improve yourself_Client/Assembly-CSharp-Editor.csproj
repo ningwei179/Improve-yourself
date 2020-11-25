@@ -103,9 +103,6 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="ILRuntime">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/ILRuntime.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -165,6 +162,9 @@
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/ILRuntime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -370,15 +370,6 @@
     <Reference Include="Protocal">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/References/Protocal.dll</HintPath>
     </Reference>
-    <Reference Include="ILRuntim.Mono.Cecil">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -393,6 +384,15 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntim.Mono.Cecil">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.5/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
