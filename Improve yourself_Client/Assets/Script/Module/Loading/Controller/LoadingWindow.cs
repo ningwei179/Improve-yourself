@@ -25,9 +25,7 @@ public class LoadingWindow : BaseUI
         m_Panel = GameObject.GetComponent<LoadingPanel>();
         m_SceneName = paralist[0] as string;
 
-        if (UIManager.Instance.ExisWindow(ConStr.HotFixPanel)) {
-            UIManager.Instance.CloseUI(ConStr.HotFixPanel);
-        }
+        UIManager.Instance.CloseUI(ConStr.HotFixPanel);
     }
 
     public override void OnUpdate()
@@ -48,7 +46,7 @@ public class LoadingWindow : BaseUI
     {
         if (m_SceneName == ConStr.MenuScene)
         {
-            UIManager.Instance.ShowUI(ConStr.MenuPanel);
+            UIManager.Instance.OpenUI<MenuWindow>(ConStr.MenuPanel);
         }
 
         //关闭界面

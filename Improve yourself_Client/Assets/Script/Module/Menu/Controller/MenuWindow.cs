@@ -85,10 +85,11 @@ public class MenuWindow : BaseUI
             ResourceManager.Instance.ReleaseResource("Assets/GameData/UISprite/image2.png", true);
         }
     }
+
     [IFix.Patch]
     void OnClickStart()
     {
-        UIManager.Instance.ShowUI(ConStr.MainPanel);
+        UIManager.Instance.OpenUI<MainWindow>(ConStr.MainPanel);
 
         base.OnClose();
         

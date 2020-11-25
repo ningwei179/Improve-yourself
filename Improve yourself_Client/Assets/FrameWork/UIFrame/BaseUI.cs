@@ -47,6 +47,9 @@ public class BaseUI
     //所有的Toggle
     protected List<Toggle> m_AllToggle = new List<Toggle>();
 
+    //UI的参数列表
+    public object[] m_Params;
+
     //Prefab的名称
     public string PrefabName { get; set; }
 
@@ -68,13 +71,13 @@ public class BaseUI
 
     public virtual void Awake(params object[] paramList)
     {
-
+        m_Params = paramList;
     }
 
 
     public virtual void OnShow(params object[] paramList)
     {
-
+        m_Params = paramList;
     }
 
     public virtual void OnDisable()

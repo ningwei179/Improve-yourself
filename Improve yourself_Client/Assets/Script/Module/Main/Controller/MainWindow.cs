@@ -30,6 +30,6 @@ public class MainWindow : BaseUI
     public override void OnClose()
     {
         base.OnClose();
-        UIManager.Instance.ShowUI(ConStr.MenuPanel);
+        UIManager.Instance.OpenUI<MenuWindow>(ConStr.MenuPanel);
     }
 }
