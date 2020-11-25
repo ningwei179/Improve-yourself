@@ -72,7 +72,7 @@
     <Compile Include="Script\Module\PopUp\View\PopUpPanel.cs" />
     <Compile Include="Script\Module\UIRegister.cs" />
     <Compile Include="Script\UIFrame\UIManager.cs" />
-    <Compile Include="Script\Util\ILMonoSingleton.cs" />
+    <Compile Include="Script\Util\IYMonoSingleton.cs" />
     <Compile Include="Script\Util\ILSingleton.cs" />
   </ItemGroup>
   <ItemGroup />

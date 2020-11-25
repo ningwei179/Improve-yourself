@@ -128,7 +128,7 @@ public class UIManager : ILSingleton<UIManager>
     /// <param name="para2"></param>
     /// <param name="para3"></param>
     /// <returns></returns>
-    public void OpenUI<T>(string name, Action<bool, T> callback = null, AssetAddress resource = AssetAddress.Resources, params object[] paramList) where T : BaseUI
+    public void OpenUI<T>(string name, Action<bool, T> callback = null, AssetAddress resource = AssetAddress.Addressable, params object[] paramList) where T : BaseUI
     {
         //开启遮罩避免开启UI的时候接收了操作出现异常
         SetMask(true);
