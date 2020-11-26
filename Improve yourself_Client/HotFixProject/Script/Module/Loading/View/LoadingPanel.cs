@@ -18,15 +18,8 @@ namespace Improve
 
         private void Awake()
         {
-            Debug.Log("loading log Awake");
             m_Slider = this.transform.Find("Bg/Slider").GetComponent<Slider>();
             m_Text = this.transform.Find("Bg/Text").GetComponent<Text>();
-            Debug.Log("loading log Awake Down");
-        }
-
-        private void Update()
-        {
-            Debug.Log("loading log Awake");
         }
     }
 }

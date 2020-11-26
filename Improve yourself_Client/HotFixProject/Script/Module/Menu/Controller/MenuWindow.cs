@@ -23,21 +23,13 @@ namespace Improve
         public override void Awake(params object[] paralist)
         {
             m_Panel = GameObject.GetComponent<MenuPanel>();
+            if (m_Panel == null)
+                m_Panel = GameObject.AddComponent<MenuPanel>();
             AddButtonClickListener(m_Panel.m_StartButton, OnClickStart);
             AddButtonClickListener(m_Panel.m_LoadButton, OnClickLoad);
             AddButtonClickListener(m_Panel.m_ExitButton, OnClickExit);
             if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
             {
-                //AddressableManager.Instance.AsyncLoadResource<Sprite>("Assets/GameData/UISprite/image1.png", (Sprite sprite) =>
-                //{
-                //    m_Panel.Test1.sprite = sprite;
-                //});
-
-                //AddressableManager.Instance.AsyncLoadResource<Sprite>("Assets/GameData/UISprite/TaskIcon_603001.png", (Sprite sprite) =>
-                //{
-                //    m_Panel.Test2.sprite = sprite;
-                //});
-
                 AddressableManager.Instance.AsyncLoadResource<Sprite>("Assets/GameData/UISprite/TaskIcon_603001.png", (Sprite sprite) =>
                 {
                     m_Panel.Test1.sprite = sprite;

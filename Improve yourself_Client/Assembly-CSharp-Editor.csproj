@@ -78,10 +78,6 @@
     <Compile Include="Assets\FrameWork\Editor\WindowsFile.cs" />
     <Compile Include="Assets\IFix\Editor\Configure.cs" />
     <Compile Include="Assets\IFix\Editor\ILFixEditor.cs" />
-    <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\Editor\ILRuntimeCLRBinding.cs" />
-    <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\Editor\ILRuntimeCrossBinding.cs" />
-    <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\Editor\ILRuntimeMenu.cs" />
-    <Compile Include="Assets\Samples\ILRuntime\1.6.5\Demo\Scripts\Examples\08_MonoBehaviour\Editor\MonoBehaviourAdapterEditor.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>

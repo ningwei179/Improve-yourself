@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Improve
 {
-
     public class MainWindow : BaseUI
     {
         private MainPanel m_Panel;
@@ -16,7 +15,9 @@ namespace Improve
         public override void Awake(params object[] paramList)
         {
             base.Awake(paramList);
-            //m_Panel = GameObject.AddComponent<MainPanel>();
+            m_Panel = GameObject.GetComponent<MainPanel>();
+            if (m_Panel == null)
+                m_Panel = GameObject.AddComponent<MainPanel>();
             m_Panel.m_BackBtn = Transform.Find("Btn-Back").GetComponent<Button>();
 
             AddButtonClickListener(m_Panel.m_BackBtn, OnClose);
