@@ -2,8 +2,10 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+namespace Improve
+{
 
-public class LoadFromFileExample : MonoBehaviour
+    public class LoadFromFileExample : MonoBehaviour
 {
     private string rolePath = "AssetBundles/role";  //模型路径
     private string materialPath = "AssetBundles/materials";   //材质路径
@@ -121,5 +123,6 @@ public class LoadFromFileExample : MonoBehaviour
     void Update()
     {
         
-    } 
+    }
+    }
 }

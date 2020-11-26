@@ -5,27 +5,29 @@
 	功能：Nothing
 *****************************************************/
 
-
-public class CommonEnum
+namespace Improve
 {
-    /// <summary>
-    /// 信息提示框风格类型
-    /// </summary>
-    public enum MessageBoxStyleType
+    public class CommonEnum
     {
         /// <summary>
-        /// 显示确认按钮
+        /// 信息提示框风格类型
         /// </summary>
-        OK,
+        public enum MessageBoxStyleType
+        {
+            /// <summary>
+            /// 显示确认按钮
+            /// </summary>
+            OK,
 
-        /// <summary>
-        /// 显示确认与取消按钮
-        /// </summary>
-        OK_CANCLE,
+            /// <summary>
+            /// 显示确认与取消按钮
+            /// </summary>
+            OK_CANCLE,
 
-        /// <summary>
-        /// 不显示按钮
-        /// </summary>
-        None,
+            /// <summary>
+            /// 不显示按钮
+            /// </summary>
+            None,
+        }
     }
 }

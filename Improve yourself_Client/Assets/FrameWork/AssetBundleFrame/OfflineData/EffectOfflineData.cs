@@ -5,35 +5,37 @@
 	功能：特效离线数据
 *****************************************************/
 using UnityEngine;
-
-public class EffectOfflineData : OfflineData
+namespace Improve
 {
-    public ParticleSystem[] m_Particle; //粒子
-
-    public TrailRenderer[] m_TrailRenderer; //拖尾
-
-    public override void ResetProp()
+    public class EffectOfflineData : OfflineData
     {
-        base.ResetProp();
+        public ParticleSystem[] m_Particle; //粒子
 
-        foreach (ParticleSystem particle in m_Particle)
+        public TrailRenderer[] m_TrailRenderer; //拖尾
+
+        public override void ResetProp()
         {
-            particle.Clear();
-            particle.Play();
+            base.ResetProp();
+
+            foreach (ParticleSystem particle in m_Particle)
+            {
+                particle.Clear();
+                particle.Play();
+            }
+
+            foreach (TrailRenderer trail in m_TrailRenderer)
+            {
+                trail.Clear();
+            }
         }
 
-        foreach (TrailRenderer trail in m_TrailRenderer)
+        public override void BindData()
         {
-            trail.Clear();
+            base.BindData();
+
+            m_Particle = gameObject.GetComponentsInChildren<ParticleSystem>(true);
+
+            m_TrailRenderer = gameObject.GetComponentsInChildren<TrailRenderer>(true);
         }
-    }
-
-    public override void BindData()
-    {
-        base.BindData();
-
-        m_Particle = gameObject.GetComponentsInChildren<ParticleSystem>(true);
-
-        m_TrailRenderer = gameObject.GetComponentsInChildren<TrailRenderer>(true);
     }
 }

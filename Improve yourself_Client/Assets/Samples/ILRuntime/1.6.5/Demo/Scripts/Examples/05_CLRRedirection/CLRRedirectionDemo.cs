@@ -80,8 +80,8 @@ public class CLRRedirectionDemo : MonoBehaviour
         appdomain.UnityMainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
 #endif
         //这里做一些ILRuntime的注册
-        var mi = typeof(Debug).GetMethod("Log", new System.Type[] { typeof(object) });
-        appdomain.RegisterCLRMethodRedirection(mi, Log_11);
+        //var mi = typeof(Debug).GetMethod("Log", new System.Type[] { typeof(object) });
+        //appdomain.RegisterCLRMethodRedirection(mi, Log_11);
     }
 
     unsafe void OnHotFixLoaded()

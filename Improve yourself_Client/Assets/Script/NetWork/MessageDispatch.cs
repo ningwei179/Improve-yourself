@@ -7,11 +7,14 @@
 
 
 using IYProtocal;
-
-public class MessageDispatch : Singleton<MessageDispatch>
+namespace Improve
 {
-    public void Dispatch(NetMsg message)
+
+    public class MessageDispatch : Singleton<MessageDispatch>
     {
-        if (message.rspLogin != null) { MessagePublisher.Instance.RaiseEvent(message.rspLogin); }
+        public void Dispatch(NetMsg message)
+        {
+            if (message.rspLogin != null) { MessagePublisher.Instance.RaiseEvent(message.rspLogin); }
+        }
     }
 }

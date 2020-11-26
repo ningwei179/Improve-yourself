@@ -4,48 +4,50 @@
     日期：2020/10/10 14:42:12
 	功能：框架用的常量字符串
 *****************************************************/
-
-/// <summary>
-/// 资产地址
-/// </summary>
-public enum AssetAddress
-{
-    Resources,          //从resource加载
-    AssetBundle,        //从AssetBundle加载
-    Addressable         //从Addressable加载
-}
-
-/// <summary>
-/// 代码热更方式
-/// 可以俩个一起用
-/// 写demo先分开
-/// </summary>
-public enum CodeHotType
-{
-    InjectFix,          //用InjectFix
-    ILRuntime,          //用ILRuntime
-}
-
-public class FrameConstr
+namespace Improve
 {
     /// <summary>
-    /// 资产来源
+    /// 资产地址
     /// </summary>
-    public const AssetAddress UseAssetAddress = AssetAddress.Addressable;
+    public enum AssetAddress
+    {
+        Resources,          //从resource加载
+        AssetBundle,        //从AssetBundle加载
+        Addressable         //从Addressable加载
+    }
 
     /// <summary>
-    /// 热更方式
+    /// 代码热更方式
+    /// 可以俩个一起用
+    /// 写demo先分开
     /// </summary>
-    public const CodeHotType HotType = CodeHotType.ILRuntime;
+    public enum CodeHotType
+    {
+        InjectFix,          //用InjectFix
+        ILRuntime,          //用ILRuntime
+    }
+
+    public class FrameConstr
+    {
+        /// <summary>
+        /// 资产来源
+        /// </summary>
+        public const AssetAddress UseAssetAddress = AssetAddress.Addressable;
+
+        /// <summary>
+        /// 热更方式
+        /// </summary>
+        public const CodeHotType HotType = CodeHotType.ILRuntime;
 
 
-    /// <summary>
-    /// AB包的加密秘钥
-    /// </summary>
-    public const string m_ABSecretKey = "Improve";
+        /// <summary>
+        /// AB包的加密秘钥
+        /// </summary>
+        public const string m_ABSecretKey = "Improve";
 
-    /// <summary>
-    /// 资源服务器地址
-    /// </summary>
-    public const string m_ResServerIp = "http://127.0.0.1/";
+        /// <summary>
+        /// 资源服务器地址
+        /// </summary>
+        public const string m_ResServerIp = "http://127.0.0.1/";
+    }
 }

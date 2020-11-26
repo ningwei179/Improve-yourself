@@ -5,11 +5,12 @@
 	功能：整合SVN命令到Unity编辑器
 *************************************************************/
 
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
-using System.Diagnostics;
 
-public class UnityToSVN {
+public class UnityToSVN
+{
     private const string Menu_Commit = "SVN/Commit Selected";
     private const string Menu_Commit_All = "SVN/Commit All";
     private const string Menu_Update = "SVN/Update Selected";
@@ -20,68 +21,82 @@ public class UnityToSVN {
 
     #region MenuItem
     [MenuItem(Menu_Commit)]
-    public static void SVNCommit() {
+    public static void SVNCommit()
+    {
         string path = GetSelObjPath(true);
-        if (path != "") {
+        if (path != "")
+        {
             SVNCmd("commit", path);
         }
-        else {
+        else
+        {
             SVNCommitAll();
         }
     }
 
     [MenuItem(Menu_Commit_All)]
-    public static void SVNCommitAll() {
+    public static void SVNCommitAll()
+    {
         string path = Application.dataPath;
         path = path.Substring(0, path.Length - 7);
         SVNCmd("commit", path);
     }
 
     [MenuItem(Menu_Update)]
-    public static void SVNUpdate() {
+    public static void SVNUpdate()
+    {
         string path = GetSelObjPath(true);
-        if (path != "") {
+        if (path != "")
+        {
             SVNCmd("update", path);
         }
-        else {
+        else
+        {
             SVNUpdateAll();
         }
     }
 
     [MenuItem(Menu_Update_All)]
-    public static void SVNUpdateAll() {
+    public static void SVNUpdateAll()
+    {
         string path = Application.dataPath;
         path = path.Substring(0, path.Length - 7);
         SVNCmd("update", path);
     }
 
     [MenuItem(Menu_Log)]
-    public static void SVNLog() {
+    public static void SVNLog()
+    {
         string path = GetSelObjPath(true);
-        if (path != "") {
+        if (path != "")
+        {
             SVNCmd("log", GetSelObjPath(true));
         }
-        else {
+        else
+        {
             SVNLogAll();
         }
     }
 
     [MenuItem(Menu_Log_All)]
-    public static void SVNLogAll() {
+    public static void SVNLogAll()
+    {
         string path = Application.dataPath;
         path = path.Substring(0, path.Length - 7);
         SVNCmd("log", path);
     }
 
     [MenuItem(Menu_Cleanup)]
-    public static void SVNCleanup() {
+    public static void SVNCleanup()
+    {
         string path = Application.dataPath;
         path = path.Substring(0, path.Length - 7);
         SVNCmd("cleanup", path);
     }
     #endregion
 
-    public static void SVNCmd(string command, string path) {
+    public static void SVNCmd(string command, string path)
+    {
         string cmd = "/c tortoiseproc.exe /command:{0} /path:\"{1}\" /closeonend 2";
         cmd = string.Format(cmd, command, path);
         ProcessStartInfo proc = new ProcessStartInfo("cmd.exe", cmd);
@@ -89,9 +104,11 @@ public class UnityToSVN {
         Process.Start(proc);
     }
 
-    private static string GetSelObjPath(bool firstOne = false) {
+    private static string GetSelObjPath(bool firstOne = false)
+    {
         string path = string.Empty;
-        for (int i = 0; i < Selection.objects.Length; i++) {
+        for (int i = 0; i < Selection.objects.Length; i++)
+        {
             path += ConvertToFilePath(AssetDatabase.GetAssetPath(Selection.objects[i]));
             if (firstOne) break;
             path += "*";
@@ -101,7 +118,8 @@ public class UnityToSVN {
         return path;
     }
 
-    public static string ConvertToFilePath(string path) {
+    public static string ConvertToFilePath(string path)
+    {
         string m_path = Application.dataPath;
         m_path = m_path.Substring(0, m_path.Length - 6);
         m_path += path;

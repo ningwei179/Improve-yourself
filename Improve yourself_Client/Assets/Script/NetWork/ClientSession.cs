@@ -7,22 +7,25 @@
 
 using IYNet;
 using IYProtocal;
-
-public class ClientSession : IYSession<NetMsg> 
+namespace Improve
 {
-    protected override void OnConnected()
-    {
-        IYCommon.IYSocketLog("Server Connect To Server Succ");
-    }
 
-    protected override void OnReciveMsg(NetMsg msg)
+    public class ClientSession : IYSession<NetMsg>
     {
-        IYCommon.IYSocketLog("RcvPack CMD:"+((CMD)msg.cmd).ToString());
-        NetWorkManager.Instance.AddNetPkg(msg);
-    }
+        protected override void OnConnected()
+        {
+            IYCommon.IYSocketLog("Server Connect To Server Succ");
+        }
 
-    protected override void OnDisConnected()
-    {
-        IYCommon.IYSocketLog("Server DisConnected");
+        protected override void OnReciveMsg(NetMsg msg)
+        {
+            IYCommon.IYSocketLog("RcvPack CMD:" + ((CMD)msg.cmd).ToString());
+            NetWorkManager.Instance.AddNetPkg(msg);
+        }
+
+        protected override void OnDisConnected()
+        {
+            IYCommon.IYSocketLog("Server DisConnected");
+        }
     }
 }

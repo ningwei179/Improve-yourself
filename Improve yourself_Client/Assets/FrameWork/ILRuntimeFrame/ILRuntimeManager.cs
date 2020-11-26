@@ -1,689 +1,225 @@
 /****************************************************     文件：ILRuntimeManager.cs 	作者：NingWei     日期：2020/10/13 15:49:48 	功能：ILRuntime热更管理类 *****************************************************/
-using UnityEngine;
-using System.Collections;
-using System.IO;
-using ILRuntime.Runtime.Enviorment;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.AddressableAssets;
-using ILRuntime.CLR.TypeSystem;
 using ILRuntime.CLR.Method;
-#region 测试代码 //public abstract class TestClassBase
-             //{
-             //    public virtual int Value
-             //    {
-             //        get { return 0; }
-             //    }
+using ILRuntime.CLR.TypeSystem;
+using ILRuntime.Runtime.Enviorment;
+using ILRuntime.Runtime.Intepreter;
+using ILRuntime.Runtime.Stack;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
-//    public virtual void TestVirtual(string str)
-//    {
-//        Debug.Log("TestClassBase TestVirtual   str=" + str);
-//    }
-
-//    public abstract void TestAbstract(int a);
-//}
-
-//public class InheritanceAdapter : CrossBindingAdaptor
-//{
-//    public override System.Type BaseCLRType
-//    {
-//        get
-//        {
-//            //想继承的类
-//            return typeof(TestClassBase);
-//        }
-//    }
-
-//    public override System.Type AdaptorType
-//    {
-//        get
-//        {
-//            //实际的适配器类
-//            return typeof(Adapter);
-//        }
-//    }
-
-//    public override object CreateCLRInstance(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
-//    {
-//        return new Adapter(appdomain, instance);
-//    }
-
-//    class Adapter : TestClassBase, CrossBindingAdaptorType
-//    {
-//        private ILRuntime.Runtime.Enviorment.AppDomain m_Appdomain;
-//        private ILTypeInstance m_Instance;
-//        private IMethod m_TestAbstract;
-//        private IMethod m_TestVirtual;
-//        private IMethod m_GetValue;
-//        private IMethod m_ToString;
-//        object[] param1 = new object[1];
-//        private bool m_TestVirtualInvoking = false;
-//        private bool m_GetValueInvoking = false;
-
-//        public Adapter()
-//        {
-
-//        }
-
-//        public Adapter(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
-//        {
-//            m_Appdomain = appdomain;
-//            m_Instance = instance;
-//        }
-
-//        public ILTypeInstance ILInstance
-//        {
-//            get
-//            {
-//                return m_Instance;
-//            }
-//        }
-
-//        //在适配器中重写所有需要在热更脚本重写的方法，并且将控制权转移到脚本里去
-//        public override void TestAbstract(int a)
-//        {
-//            if (m_TestAbstract == null)
-//            {
-//                m_TestAbstract = m_Instance.Type.GetMethod("TestAbstract", 1);
-//            }
-
-//            if (m_TestAbstract != null)
-//            {
-//                param1[0] = a;
-//                m_Appdomain.Invoke(m_TestAbstract, m_Instance, param1);
-//            }
-//        }
-
-//        public override void TestVirtual(string str)
-//        {
-//            if (m_TestVirtual == null)
-//            {
-//                m_TestVirtual = m_Instance.Type.GetMethod("TestVirtual", 1);
-//            }
-
-//            //必须要设定一个标识位来表示当前是否在调用中, 否则如果脚本类里调用了base.TestVirtual()就会造成无限循环
-//            if (m_TestVirtual != null && !m_TestVirtualInvoking)
-//            {
-//                m_TestVirtualInvoking = true;
-//                param1[0] = str;
-//                m_Appdomain.Invoke(m_TestVirtual, m_Instance, param1);
-//                m_TestVirtualInvoking = false;
-//            }
-//            else
-//            {
-//                base.TestVirtual(str);
-//            }
-//        }
-
-//        public override int Value
-//        {
-//            get
-//            {
-//                if (m_GetValue == null)
-//                {
-//                    m_GetValue = m_Instance.Type.GetMethod("get_Value", 1);
-//                }
-
-//                if (m_GetValue != null && !m_GetValueInvoking)
-//                {
-//                    m_GetValueInvoking = true;
-//                    int res = (int)m_Appdomain.Invoke(m_GetValue, m_Instance, null);
-//                    m_GetValueInvoking = false;
-//                    return res;
-//                }
-//                else
-//                {
-//                    return base.Value;
-//                }
-//            }
-//        }
-
-//        public override string ToString()
-//        {
-//            if (m_ToString == null)
-//            {
-//                m_ToString = m_Appdomain.ObjectType.GetMethod("ToString", 0);
-//            }
-//            IMethod m = m_Instance.Type.GetVirtualMethod(m_ToString);
-//            if (m == null || m is ILMethod)
-//            {
-//                return m_Instance.ToString();
-//            }
-//            else
-//            {
-//                return m_Instance.Type.FullName;
-//            }
-//        }
-//    }
-//}
-
-//public delegate void TestDelegateMeth(int a);
-//public delegate string TestDelegateFunction(int a);
-
-//public class CLRBingdingTestClass
-//{
-//    public static float DoSomeTest(int a, float b)
-//    {
-//        return a + b;
-//    }
-//}
-
-//public class CoroutineAdapter : CrossBindingAdaptor
-//{
-//    public override System.Type BaseCLRType
-//    {
-//        get
-//        {
-//            return null;
-//        }
-//    }
-
-//    public override System.Type AdaptorType
-//    {
-//        get
-//        {
-//            return typeof(Adaptor);
-//        }
-//    }
-
-//    public override System.Type[] BaseCLRTypes
-//    {
-//        get
-//        {
-//            return new System.Type[] { typeof(IEnumerator<object>), typeof(IEnumerator), typeof(System.IDisposable) };
-//        }
-//    }
-
-//    public override object CreateCLRInstance(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
-//    {
-//        return new Adaptor(appdomain, instance);
-//    }
-
-//    public class Adaptor : IEnumerator<System.Object>, IEnumerator, System.IDisposable, CrossBindingAdaptorType
-//    {
-//        private ILTypeInstance m_Instance;
-//        private ILRuntime.Runtime.Enviorment.AppDomain m_Appdamain;
-//        private IMethod m_CurMethod;
-//        private IMethod m_DisposeMethod;
-//        private IMethod m_MoveNextMethod;
-//        private IMethod m_ResetMethod;
-//        private IMethod m_ToString;
-
-//        public Adaptor()
-//        {
-
-//        }
-
-//        public Adaptor(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
-//        {
-//            m_Instance = instance;
-//            m_Appdamain = appdomain;
-//        }
-
-
-//        public object Current
-//        {
-//            get
-//            {
-//                if (m_CurMethod == null)
-//                {
-//                    m_CurMethod = m_Instance.Type.GetMethod("get_Current", 0);
-//                    if (m_CurMethod == null)
-//                    {
-//                        m_CurMethod = m_Instance.Type.GetMethod("System.Collections.IEnumerator.get_Current", 0);
-//                    }
-//                }
-
-//                if (m_CurMethod != null)
-//                {
-//                    var res = m_Appdamain.Invoke(m_CurMethod, m_Instance, null);
-//                    return res;
-//                }
-//                else
-//                {
-//                    return null;
-//                }
-//            }
-//        }
-
-//        public ILTypeInstance ILInstance
-//        {
-//            get
-//            {
-//                return m_Instance;
-//            }
-//        }
-
-//        public void Dispose()
-//        {
-//            if (m_DisposeMethod == null)
-//            {
-//                m_DisposeMethod = m_Instance.Type.GetMethod("Dispose", 0);
-//                if (m_DisposeMethod == null)
-//                {
-//                    m_DisposeMethod = m_Instance.Type.GetMethod("System.IDisposable.Dispose", 0);
-//                }
-//            }
-
-//            if (m_DisposeMethod != null)
-//            {
-//                m_Appdamain.Invoke(m_DisposeMethod, m_Instance, null);
-//            }
-//        }
-
-//        public bool MoveNext()
-//        {
-//            if (m_MoveNextMethod == null)
-//            {
-//                m_MoveNextMethod = m_Instance.Type.GetMethod("MoveNext", 0);
-//            }
-
-//            if (m_MoveNextMethod != null)
-//            {
-//                return (bool)m_Appdamain.Invoke(m_MoveNextMethod, m_Instance, null);
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
-
-//        public void Reset()
-//        {
-//            if (m_ResetMethod == null)
-//            {
-//                m_ResetMethod = m_Instance.Type.GetMethod("Reset", 0);
-//            }
-
-//            if (m_ResetMethod != null)
-//            {
-//                m_Appdamain.Invoke(m_ResetMethod, m_Instance, null);
-//            }
-//        }
-
-//        public override string ToString()
-//        {
-//            if (m_ToString == null)
-//            {
-//                m_ToString = m_Appdamain.ObjectType.GetMethod("ToString", 0);
-//            }
-//            IMethod m = m_Instance.Type.GetVirtualMethod(m_ToString);
-//            if (m == null || m is ILMethod)
-//            {
-//                return m_Instance.ToString();
-//            }
-//            else
-//            {
-//                return m_Instance.Type.FullName;
-//            }
-//        }
-//    }
-//}
-
-//public class MonoBehaviourAdapter : CrossBindingAdaptor
-//{
-//    public override System.Type BaseCLRType
-//    {
-//        get
-//        {
-//            return typeof(MonoBehaviour);
-//        }
-//    }
-
-//    public override System.Type AdaptorType
-//    {
-//        get { return typeof(Adaptor); }
-//    }
-
-//    public override object CreateCLRInstance(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
-//    {
-//        return new Adaptor(appdomain, instance);
-//    }
-
-//    public class Adaptor : MonoBehaviour, CrossBindingAdaptorType
-//    {
-//        private ILRuntime.Runtime.Enviorment.AppDomain m_Appdomain;
-//        private ILTypeInstance m_Instance;
-//        private IMethod m_AwakeMethod;
-//        private IMethod m_StartMethod;
-//        private IMethod m_UpdateMethod;
-//        private IMethod m_ToString;
-
-//        public Adaptor() { }
-
-//        public Adaptor(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
-//        {
-//            m_Appdomain = appdomain;
-//            m_Instance = instance;
-//        }
-
-//        public ILTypeInstance ILInstance
-//        {
-//            get
-//            {
-//                return m_Instance;
-//            }
-//            set
-//            {
-//                m_Instance = value;
-//                m_AwakeMethod = null;
-//                m_StartMethod = null;
-//                m_UpdateMethod = null;
-//            }
-//        }
-
-//        public ILRuntime.Runtime.Enviorment.AppDomain AppDomain
-//        {
-//            get { return m_Appdomain; }
-//            set { m_Appdomain = value; }
-//        }
-
-//        public void Awake()
-//        {
-//            if (m_Instance != null)
-//            {
-//                if (m_AwakeMethod == null)
-//                {
-//                    m_AwakeMethod = m_Instance.Type.GetMethod("Awake", 0);
-//                }
-
-//                if (m_AwakeMethod != null)
-//                {
-//                    m_Appdomain.Invoke(m_AwakeMethod, m_Instance, null);
-//                }
-//            }
-//        }
-
-//        void Start()
-//        {
-//            if (m_StartMethod == null)
-//            {
-//                m_StartMethod = m_Instance.Type.GetMethod("Start", 0);
-//            }
-
-//            if (m_StartMethod != null)
-//            {
-//                m_Appdomain.Invoke(m_StartMethod, m_Instance, null);
-//            }
-//        }
-
-
-//        void Update()
-//        {
-//            if (m_UpdateMethod == null)
-//            {
-//                m_UpdateMethod = m_Instance.Type.GetMethod("Update", 0);
-//            }
-
-//            if (m_UpdateMethod != null)
-//            {
-//                m_Appdomain.Invoke(m_UpdateMethod, m_Instance, null);
-//            }
-//        }
-
-//        public override string ToString()
-//        {
-//            if (m_ToString == null)
-//            {
-//                m_ToString = m_Appdomain.ObjectType.GetMethod("ToString", 0);
-//            }
-//            IMethod m = m_Instance.Type.GetVirtualMethod(m_ToString);
-//            if (m == null || m is ILMethod)
-//            {
-//                return m_Instance.ToString();
-//            }
-//            else
-//            {
-//                return m_Instance.Type.FullName;
-//            }
-//        }
-//    }
-//}
-#endregion 
-public class ILRuntimeManager : Singleton<ILRuntimeManager> {     private const string DLLPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes";     private const string PDBPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes";     private AppDomain m_AppDomain;      public AppDomain ILRunAppDomain     {         get { return m_AppDomain; }     }      internal IEnumerator LoadHotFixAssembly(Transform transform)
+namespace Improve
+{
+    public class ILRuntimeManager : Singleton<ILRuntimeManager>
     {
-        MemoryStream dllMs = null;
-        AsyncOperationHandle<TextAsset> dllHandle = Addressables.LoadAssetAsync<TextAsset>(DLLPATH);
-        yield return dllHandle;
-        if (dllHandle.Status == AsyncOperationStatus.Succeeded)
+        private const string DLLPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes";
+        private const string PDBPATH = "Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes";
+        private AppDomain m_AppDomain;
+
+        public AppDomain ILRunAppDomain
         {
-            dllMs = new MemoryStream(dllHandle.Result.bytes);
+            get { return m_AppDomain; }
         }
 
-        MemoryStream pdbMs = null;
-        AsyncOperationHandle<TextAsset> pdbHandle = Addressables.LoadAssetAsync<TextAsset>(PDBPATH);
-        yield return pdbHandle;
-        if (pdbHandle.Status == AsyncOperationStatus.Succeeded)
+        internal IEnumerator LoadHotFixAssembly(GameObject obj, Transform transform)
         {
-            pdbMs = new MemoryStream(pdbHandle.Result.bytes);
+            MemoryStream dllMs = null;
+            AsyncOperationHandle<TextAsset> dllHandle = Addressables.LoadAssetAsync<TextAsset>(DLLPATH);
+            yield return dllHandle;
+            if (dllHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                dllMs = new MemoryStream(dllHandle.Result.bytes);
+            }
+
+            MemoryStream pdbMs = null;
+            AsyncOperationHandle<TextAsset> pdbHandle = Addressables.LoadAssetAsync<TextAsset>(PDBPATH);
+            yield return pdbHandle;
+            if (pdbHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                pdbMs = new MemoryStream(pdbHandle.Result.bytes);
+            }
+
+            if (dllMs != null && pdbMs != null)
+            {
+                //整个工程只有一个ILRuntime的AppDomain
+                m_AppDomain = new AppDomain();
+
+                m_AppDomain.LoadAssembly(dllMs);
+
+                InitializeILRuntime();
+
+                OnHotFixLoaded(obj, transform);
+
+            }
+            yield return null;
         }
 
-        if (dllMs != null && pdbMs != null)
+        void InitializeILRuntime()
         {
-            //整个工程只有一个ILRuntime的AppDomain
-            m_AppDomain = new AppDomain();
+#if DEBUG && (UNITY_EDITOR || UNITY_ANDROID || UNITY_IPHONE)
+            //由于Unity的Profiler接口只允许在主线程使用，为了避免出异常，需要告诉ILRuntime主线程的线程ID才能正确将函数运行耗时报告给Profiler
+            m_AppDomain.UnityMainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            m_AppDomain.DebugService.StartDebugService(56000);
+#endif
+            //这里做一些ILRuntime的注册
 
-            m_AppDomain.LoadAssembly(dllMs);
+            //委托，适配器，，值类型绑定等等的注册
+            m_AppDomain.DelegateManager.RegisterMethodDelegate<GameObject>();
+            m_AppDomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
+            m_AppDomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
+            m_AppDomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
 
-            ILRuntimeRegister.Instance.InitializeIlRuntime();
+            //CLR重定向的注册
+            //GameObject的get,add Commponent的注册
+            SetupCLRRedirectionAddGetComponent();
 
-            OnHotFixLoaded(transform);
+
+            //初始化CLR绑定请放在初始化的最后一步！！
+            //CLR绑定借助了ILRuntime的CLR重定向机制来实现，因为实质上也是将对CLR方法的反射调用重定向到我们自己定义的方法里面来。
+            //但是手动编写CLR重定向方法是个工作量非常巨大的事，而且要求对ILRuntime底层机制非常了解（比如如何装拆箱基础类型，怎么处理Ref/Out引用等等），
+            //因此ILRuntime提供了一个代码生成工具来自动生成CLR绑定代码。
+            //在CLR绑定代码生成之后，需要将这些绑定代码注册到AppDomain中才能使CLR绑定生效，
+            //但是一定要记得将CLR绑定的注册写在CLR重定向的注册后面，因为同一个方法只能被重定向一次，只有先注册的那个才能生效。
+            //请在生成了绑定代码后解除下面的的注释,将这些绑定代码注册到AppDomain中
+            ILRuntime.Runtime.Generated.CLRBindings.Initialize(m_AppDomain);
         }
-        yield return null;
+
+        internal void OpenLoadingUI(string name)
+        {
+            m_AppDomain.Invoke("HotFixProject.HotFixMain", "OpenLoadingUI", null, name);
+        }
+
+        void OnHotFixLoaded(GameObject obj, Transform transform)
+        {
+            //启动热更DLL的Main方法
+            m_AppDomain.Invoke("HotFixProject.HotFixMain", "Main", null, obj, transform);
+        }
+
+
+        unsafe void SetupCLRRedirectionAddGetComponent()
+        {
+            //这里面的通常应该写在InitializeILRuntime，这里为了演示写这里
+            var arr = typeof(GameObject).GetMethods();
+            foreach (var i in arr)
+            {
+                if (i.Name == "AddComponent" && i.GetGenericArguments().Length == 1)
+                {
+                    m_AppDomain.RegisterCLRMethodRedirection(i, AddComponent);
+                }
+                if (i.Name == "GetComponent" && i.GetGenericArguments().Length == 1)
+                {
+                    m_AppDomain.RegisterCLRMethodRedirection(i, GetComponent);
+                }
+            }
+        }
+
+        unsafe void SetupCLRRedirection2()
+        {
+            //这里面的通常应该写在InitializeILRuntime，这里为了演示写这里
+            var arr = typeof(GameObject).GetMethods();
+            foreach (var i in arr)
+            {
+                if (i.Name == "GetComponent" && i.GetGenericArguments().Length == 1)
+                {
+                    m_AppDomain.RegisterCLRMethodRedirection(i, GetComponent);
+                }
+            }
+        }
+
+        unsafe static StackObject* AddComponent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            //CLR重定向的说明请看相关文档和教程，这里不多做解释
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+
+            var ptr = __esp - 1;
+            //成员方法的第一个参数为this
+            GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
+            if (instance == null)
+                throw new System.NullReferenceException();
+            __intp.Free(ptr);
+
+            var genericArgument = __method.GenericArguments;
+            //AddComponent应该有且只有1个泛型参数
+            if (genericArgument != null && genericArgument.Length == 1)
+            {
+                var type = genericArgument[0];
+                object res;
+                if (type is CLRType)
+                {
+                    //Unity主工程的类不需要任何特殊处理，直接调用Unity接口
+                    res = instance.AddComponent(type.TypeForCLR);
+                }
+                else
+                {
+                    //热更DLL内的类型比较麻烦。首先我们得自己手动创建实例
+                    var ilInstance = new ILTypeInstance(type as ILType, false);//手动创建实例是因为默认方式会new MonoBehaviour，这在Unity里不允许
+                                                                               //接下来创建Adapter实例
+                    var clrInstance = instance.AddComponent<MonoBehaviourAdapter.Adaptor>();
+                    //unity创建的实例并没有热更DLL里面的实例，所以需要手动赋值
+                    clrInstance.ILInstance = ilInstance;
+                    clrInstance.AppDomain = __domain;
+                    //这个实例默认创建的CLRInstance不是通过AddComponent出来的有效实例，所以得手动替换
+                    ilInstance.CLRInstance = clrInstance;
+
+                    res = clrInstance.ILInstance;//交给ILRuntime的实例应该为ILInstance
+
+                    clrInstance.Awake();//因为Unity调用这个方法时还没准备好所以这里补调一次
+                }
+
+                return ILIntepreter.PushObject(ptr, __mStack, res);
+            }
+
+            return __esp;
+        }
+
+        unsafe static StackObject* GetComponent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            //CLR重定向的说明请看相关文档和教程，这里不多做解释
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+
+            var ptr = __esp - 1;
+            //成员方法的第一个参数为this
+            GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
+            if (instance == null)
+                throw new System.NullReferenceException();
+            __intp.Free(ptr);
+
+            var genericArgument = __method.GenericArguments;
+            //AddComponent应该有且只有1个泛型参数
+            if (genericArgument != null && genericArgument.Length == 1)
+            {
+                var type = genericArgument[0];
+                object res = null;
+                if (type is CLRType)
+                {
+                    //Unity主工程的类不需要任何特殊处理，直接调用Unity接口
+                    res = instance.GetComponent(type.TypeForCLR);
+                }
+                else
+                {
+                    //因为所有DLL里面的MonoBehaviour实际都是这个Component，所以我们只能全取出来遍历查找
+                    var clrInstances = instance.GetComponents<MonoBehaviourAdapter.Adaptor>();
+                    for (int i = 0; i < clrInstances.Length; i++)
+                    {
+                        var clrInstance = clrInstances[i];
+                        if (clrInstance.ILInstance != null)//ILInstance为null, 表示是无效的MonoBehaviour，要略过
+                        {
+                            if (clrInstance.ILInstance.Type == type)
+                            {
+                                res = clrInstance.ILInstance;//交给ILRuntime的实例应该为ILInstance
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return ILIntepreter.PushObject(ptr, __mStack, res);
+            }
+
+            return __esp;
+        }
     }
-
-    internal void OpenUI(string name)
-    {
-        m_AppDomain.Invoke("HotFixProject.InstanceClass", "StaticFunTest", null, name);
-    }
-
-    void OnHotFixLoaded(Transform transform)     {
-        //第一个简单方法的调用
-        m_AppDomain.Invoke("HotFixProject.InstanceClass", "StaticFunTest2", null, transform);
-
-        //ILRuntimeManager.Instance.OpenUI(ConStr.LoadingPanel);
-
-        //先单独获取类，之后一直使用这个类来调用
-        //IType type = m_AppDomain.LoadedTypes["HotFixProject.InstanceClass"];
-
-        //根据方法名称和参数个数获取方法(学习获取函数进行调用)
-        //IMethod method = type.GetMethod("StaticFunTest", 0);
-        //m_AppDomain.Invoke(method, null, null);
-
-        //根据获取函数来调用有参的函数
-        //第一种含参调用
-        //IMethod method = type.GetMethod("StaticFunTest2", 1);
-        //m_AppDomain.Invoke(method, null, transform);
-
-        //IMethod method2 = type.GetMethod("StaticFunTest2", 2);
-        //m_AppDomain.Invoke(method2, null, 7,8);
-        //第二种含参调用
-        //IType intType = m_AppDomain.GetType(typeof(int));
-        //List<IType> paraList = new List<IType>();
-        //paraList.Add(intType);
-        //IMethod method = type.GetMethod("StaticFunTest2", paraList, null);
-        //m_AppDomain.Invoke(method, null, 5);
-
-        //实例化热更工程里的类
-        //第一种实例化(可以带参数)
-        //object obj = m_AppDomain.Instantiate("HotFix.TestClass", new object[] { 15 });
-        //第二种实例化（不带参数）
-        //object obj = ((ILType)type).Instantiate();
-        //int id = (int)m_AppDomain.Invoke("HotFix.TestClass", "get_ID", obj, null);
-        //Debug.Log("TestClass 中 ID:" + id);
-
-        //第一种泛型方法调用
-        //IType stringType = m_AppDomain.GetType(typeof(string));
-        //IType[] genericArguments = new IType[] { stringType };
-        //m_AppDomain.InvokeGenericMethod("HotFix.TestClass", "GenericMethod", genericArguments, null, "Ocean");
-
-        //paraList.Clear();
-        //paraList.Add(stringType);
-        //method = type.GetMethod("GenericMethod", paraList, genericArguments);
-        //m_AppDomain.Invoke(method, null, "Ocean2222222222222");
-
-        //-----------------------------------------------------------------------------------------------------------------
-
-        //委托调用
-        //热更内部委托调用
-        //m_AppDomain.Invoke("HotFix.TestDele", "Initialize", null, null);
-        //m_AppDomain.Invoke("HotFix.TestDele", "RunTest", null, null);
-
-        //m_AppDomain.Invoke("HotFix.TestDele", "Initialize2", null, null);
-        //m_AppDomain.Invoke("HotFix.TestDele", "RunTest2", null, null);
-
-        //if (DelegateMethod != null)
-        //{
-        //    DelegateMethod(666);
-        //}
-        //if (DelegateFunc != null)
-        //{
-        //    string str = DelegateFunc(789);
-        //    Debug.Log(str);
-        //}
-        //if (DelegateAction != null)
-        //{
-        //    DelegateAction("Ocean666");
-        //}
-
-        //-----------------------------------------------------------------------------------------------------------------
-
-        //跨域继承
-        //TestClassBase obj = m_AppDomain.Instantiate<TestClassBase>("HotFix.TestInheritance");
-        //obj.TestAbstract(556);
-        //obj.TestVirtual("Ocean");
-
-        //TestClassBase obj = m_AppDomain.Invoke("HotFix.TestInheritance", "NewObject", null, null) as TestClassBase;
-        //obj.TestAbstract(721);
-        //obj.TestVirtual("Ocean123");
-
-        //-----------------------------------------------------------------------------------------------------------------
-
-        //CLR绑定测试
-        //long curTime = System.DateTime.Now.Ticks;
-        //m_AppDomain.Invoke("HotFix.TestCLRBinding", "RunTest", null, null);
-        //Debug.Log("使用时间：" + (System.DateTime.Now.Ticks - curTime));
-        //5136253
-
-        //-----------------------------------------------------------------------------------------------------------------
-
-        //协程测试
-        //m_AppDomain.Invoke("HotFix.TestCor", "RunTest", null, null);
-
-
-        //-----------------------------------------------------------------------------------------------------------------
-
-        //Mono测试
-        //m_AppDomain.Invoke("HotFix.TestMono", "RunTest", null, GameStart.Instance.gameObject);
-        //m_AppDomain.Invoke("HotFix.TestMono", "RunTest1", null, GameStart.Instance.gameObject);
-
-    }
-
-    //unsafe void SetUpCLRGetCompontent()
-    //{
-    //    var arr = typeof(GameObject).GetMethods();
-    //    foreach (var i in arr)
-    //    {
-    //        if (i.Name == "GetCompontent" && i.GetGenericArguments().Length == 1)
-    //        {
-    //            m_AppDomain.RegisterCLRMethodRedirection(i, GetCompontent);
-    //        }
-    //    }
-    //}
-
-    //private unsafe StackObject* GetCompontent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
-    //{
-    //    ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-
-    //    var ptr = __esp - 1;
-    //    GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
-    //    if (instance == null)
-    //        throw new System.NullReferenceException();
-
-    //    __intp.Free(ptr);
-
-    //    var genericArgument = __method.GenericArguments;
-    //    if (genericArgument != null && genericArgument.Length == 1)
-    //    {
-    //        var type = genericArgument[0];
-    //        object res = null;
-    //        if (type is CLRType)
-    //        {
-    //            res = instance.GetComponent(type.TypeForCLR);
-    //        }
-    //        else
-    //        {
-    //            var clrInstances = instance.GetComponents<MonoBehaviourAdapter.Adaptor>();
-    //            foreach (var clrInstance in clrInstances)
-    //            {
-    //                if (clrInstance.ILInstance != null)
-    //                {
-    //                    if (clrInstance.ILInstance.Type == type)
-    //                    {
-    //                        res = clrInstance.ILInstance;
-    //                        break;
-    //                    }
-    //                }
-    //            }
-    //        }
-
-    //        return ILIntepreter.PushObject(ptr, __mStack, res);
-    //    }
-
-    //    return __esp;
-    //}
-
-    //unsafe void SetupCLRAddCompontent()
-    //{
-    //    var arr = typeof(GameObject).GetMethods();
-    //    foreach (var i in arr)
-    //    {
-    //        if (i.Name == "AddComponent" && i.GetGenericArguments().Length == 1)
-    //        {
-    //            m_AppDomain.RegisterCLRMethodRedirection(i, AddCompontent);
-    //        }
-    //    }
-    //}
-
-    //private unsafe StackObject* AddCompontent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
-    //{
-    //    ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-
-    //    var ptr = __esp - 1;
-    //    GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
-    //    if (instance == null)
-    //    {
-    //        throw new System.NullReferenceException();
-    //    }
-    //    __intp.Free(ptr);
-
-    //    var genericArgument = __method.GenericArguments;
-    //    if (genericArgument != null && genericArgument.Length == 1)
-    //    {
-    //        var type = genericArgument[0];
-    //        object res;
-    //        if (type is CLRType)//CLRType表示这个类型是Unity工程里的类型   //ILType表示是热更dll里面的类型
-    //        {
-    //            //Unity主工程的类，不需要做处理
-    //            res = instance.AddComponent(type.TypeForCLR);
-    //        }
-    //        else
-    //        {
-    //            //创建出来MonoTest
-    //            var ilInstance = new ILTypeInstance(type as ILType, false);
-    //            var clrInstance = instance.AddComponent<MonoBehaviourAdapter.Adaptor>();
-    //            clrInstance.ILInstance = ilInstance;
-    //            clrInstance.AppDomain = __domain;
-    //            //这个实例默认创建的CLRInstance不是通过AddCompontent出来的有效实例，所以要替换
-    //            ilInstance.CLRInstance = clrInstance;
-
-    //            res = clrInstance.ILInstance;
-
-    //            //补掉Awake
-    //            clrInstance.Awake();
-    //        }
-    //        return ILIntepreter.PushObject(ptr, __mStack, res);
-    //    }
-
-    //    return __esp;
-    //}
-} 
+}

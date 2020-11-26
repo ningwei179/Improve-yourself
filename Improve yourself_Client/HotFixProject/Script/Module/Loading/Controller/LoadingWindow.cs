@@ -6,48 +6,55 @@
 *****************************************************/
 
 using UnityEngine;
-
-public class LoadingWindow : BaseUI
+namespace Improve
 {
-    private LoadingPanel m_Panel;
 
-    private string m_SceneName;
-
-    public override void Init()
+    public class LoadingWindow : BaseUI
     {
-        m_UIRoot = UIRoot.Normal;
-        m_ShowMode = UIShowMode.Normal;
-        PrefabName = "LoadingPanel.prefab";
-    }
+        private LoadingPanel m_Panel;
 
-    public override void Awake(params object[] paralist)
-    {
-        m_Panel = GameObject.GetComponent<LoadingPanel>();
-        m_SceneName = paralist[0] as string;
-    }
+        private string m_SceneName;
 
-    public override void OnUpdate()
-    {
-        if (m_Panel == null)
-            return;
-
-        m_Panel.m_Slider.value = GameMapManager.LoadingProgress / 100.0f;
-        m_Panel.m_Text.text = string.Format("{0}%", GameMapManager.LoadingProgress);
-
-        if (GameMapManager.LoadingProgress >= 100)
+        public override void Init()
         {
-            LoadOherScene();
-        }
-    }
-
-    public void LoadOherScene()
-    {
-        if (m_SceneName == ConStr.MenuScene)
-        {
-            UIManager.Instance.OpenUI<MenuWindow>(ConStr.MenuPanel);
+            m_UIRoot = UIRoot.Normal;
+            m_ShowMode = UIShowMode.Normal;
+            PrefabName = "LoadingPanel.prefab";
         }
 
-        //关闭界面
-        base.OnClose();
+        public override void Awake(params object[] paralist)
+        {
+            Debug.Log("loading log LoadingWindow Awake");
+            m_Panel = GameObject.GetComponent<LoadingPanel>();
+            if (m_Panel == null)
+                m_Panel = GameObject.AddComponent<LoadingPanel>();
+            m_SceneName = paralist[0] as string;
+        }
+
+        public override void OnUpdate()
+        {
+            Debug.Log("loading log LoadingWindow OnUpdate");
+            if (m_Panel == null)
+                return;
+            Debug.Log("loading log LoadingWindow OnUpdate2");
+            m_Panel.m_Slider.value = GameMapManager.LoadingProgress / 100.0f;
+            m_Panel.m_Text.text = string.Format("{0}%", GameMapManager.LoadingProgress);
+
+            if (GameMapManager.LoadingProgress >= 100)
+            {
+                LoadOherScene();
+            }
+        }
+
+        public void LoadOherScene()
+        {
+            if (m_SceneName == ConStr.MenuScene)
+            {
+                UIManager.Instance.OpenUI<MenuWindow>(ConStr.MenuPanel);
+            }
+
+            //关闭界面
+            base.OnClose();
+        }
     }
 }

@@ -58,7 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InstanceClass.cs" />
+    <Compile Include="HotFixMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script\UIFrame\BaseUI.cs" />
     <Compile Include="Script\Module\Loading\Controller\LoadingWindow.cs" />
@@ -72,8 +72,8 @@
     <Compile Include="Script\Module\PopUp\View\PopUpPanel.cs" />
     <Compile Include="Script\Module\UIRegister.cs" />
     <Compile Include="Script\UIFrame\UIManager.cs" />
-    <Compile Include="Script\Util\IYMonoSingleton.cs" />
-    <Compile Include="Script\Util\ILSingleton.cs" />
+    <Compile Include="Script\Util\HotMonoSingleton.cs" />
+    <Compile Include="Script\Util\HotSingleton.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

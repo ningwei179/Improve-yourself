@@ -3,11 +3,13 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using UnityEngine;
+namespace Improve
+{
 
-/// <summary>
-/// C#序列化
-/// </summary>
-[System.Serializable]
+    /// <summary>
+    /// C#序列化
+    /// </summary>
+    [System.Serializable]
 public class TestSerilize
 {
     [XmlAttribute("Id")]
@@ -209,5 +211,6 @@ public class ResourceTest : MonoBehaviour
         //关闭内存流
         stream.Close();
         return testSerilize;
+    }
     }
 }

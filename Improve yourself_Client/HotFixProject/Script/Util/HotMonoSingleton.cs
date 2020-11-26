@@ -1,7 +1,7 @@
 using UnityEngine;
-namespace Improve
+namespace HotFixProject
 {
-    public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+    public class HotMonoSingleton<T> : MonoBehaviour where T : HotMonoSingleton<T>
     {
         protected static T instance;
 

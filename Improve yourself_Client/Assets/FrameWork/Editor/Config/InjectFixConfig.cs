@@ -19,7 +19,7 @@ public class InjectFixConfig
                     select type).ToList();
         }
     }
-    
+
     /// <summary>
     /// 有些脚本不好统一查找，可以在这里写死
     /// </summary>

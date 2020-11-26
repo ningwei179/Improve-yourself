@@ -7,18 +7,21 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-
-public class PopUpPanel
+namespace Improve
 {
-    public Text Title;
 
-    public Text Msg;
+    public class PopUpPanel : MonoBehaviour
+    {
+        public Text Title;
 
-    public Button BtnClose;
+        public Text Msg;
 
-    public Button BtnLeft;
+        public Button BtnClose;
 
-    public Button BtnMiddle;
+        public Button BtnLeft;
 
-    public Button BtnRight;
+        public Button BtnMiddle;
+
+        public Button BtnRight;
+    }
 }

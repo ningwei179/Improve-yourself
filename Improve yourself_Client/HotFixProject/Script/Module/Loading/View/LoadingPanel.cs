@@ -7,10 +7,26 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-
-public class LoadingPanel
+namespace Improve
 {
-    public Slider m_Slider;
 
-    public Text m_Text;
+    public class LoadingPanel : MonoBehaviour
+    {
+        public Slider m_Slider;
+
+        public Text m_Text;
+
+        private void Awake()
+        {
+            Debug.Log("loading log Awake");
+            m_Slider = this.transform.Find("Bg/Slider").GetComponent<Slider>();
+            m_Text = this.transform.Find("Bg/Text").GetComponent<Text>();
+            Debug.Log("loading log Awake Down");
+        }
+
+        private void Update()
+        {
+            Debug.Log("loading log Awake");
+        }
+    }
 }

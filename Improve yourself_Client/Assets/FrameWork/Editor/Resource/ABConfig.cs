@@ -10,7 +10,7 @@ using UnityEngine;
 /// unity Assets序列化
 /// 添加这个可以创建unity 序列化文件
 /// </summary>
-[CreateAssetMenu(fileName = "ABConfig",menuName = "CreateABConfig"), DefaultExecutionOrder(0)]
+[CreateAssetMenu(fileName = "ABConfig", menuName = "CreateABConfig"), DefaultExecutionOrder(0)]
 public class ABConfig : ScriptableObject
 {
     //单个文件所在文件夹路径，会遍历这个文件夹下面所有的Prefab,所有的Prefab的名字不能重复，必须保证名字的唯一性

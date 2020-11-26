@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-
-public class MainPanel
+namespace Improve
 {
-    public Button m_BackBtn;
+
+    public class MainPanel : MonoBehaviour
+    {
+        public Button m_BackBtn;
+    }
 }

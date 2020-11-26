@@ -5,9 +5,8 @@
 	功能：Nothing
 *****************************************************/
 
-using UnityEngine;
-using UnityEditor;
 using System.IO;
+using UnityEditor;
 
 public class ToolsEditor
 {

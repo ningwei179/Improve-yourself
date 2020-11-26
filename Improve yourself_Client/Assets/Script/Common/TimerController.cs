@@ -7,28 +7,35 @@
 *****************************************************/
 
 using System;
-
-public class TimerController :Singleton<TimerController>
+namespace Improve
 {
-    private Timer timer;
+    public class TimerController : Singleton<TimerController>
+    {
+        private Timer timer;
 
-    public void Init() {
-        timer = new Timer();
-    }
+        public void Init()
+        {
+            timer = new Timer();
+        }
 
-    public void Update() {
-        timer.Update();
-    }
+        public void Update()
+        {
+            timer.Update();
+        }
 
-    public int AddTimeTask(Action<int> callback, double delay, TimeUnit timeUnit = TimeUnit.Millisecond, int count = 1) {
-        return timer.AddTimeTask(callback, delay, timeUnit, count);
-    }
+        public int AddTimeTask(Action<int> callback, double delay, TimeUnit timeUnit = TimeUnit.Millisecond, int count = 1)
+        {
+            return timer.AddTimeTask(callback, delay, timeUnit, count);
+        }
 
-    public double GetNowTime() {
-        return timer.GetMillisecondsTime();
-    }
+        public double GetNowTime()
+        {
+            return timer.GetMillisecondsTime();
+        }
 
-    public void DelTask(int tid) {
-        timer.DeleteTimeTask(tid);
+        public void DelTask(int tid)
+        {
+            timer.DeleteTimeTask(tid);
+        }
     }
 }

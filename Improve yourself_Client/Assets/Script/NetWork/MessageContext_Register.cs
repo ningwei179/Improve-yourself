@@ -7,19 +7,23 @@
 
 
 using IYProtocal;
-/// <summary>
-/// 服务器返回的消息内容
-/// </summary>
-public partial class MessageContext : Singleton<MessageContext>
+namespace Improve
 {
-    private bool _isServerMsgRegistered = false;
 
-    public void RegisterServerMessage()
+    /// <summary>
+    /// 服务器返回的消息内容
+    /// </summary>
+    public partial class MessageContext : Singleton<MessageContext>
     {
-        if (_isServerMsgRegistered)
-            return;
-        MessagePublisher.Instance.Subscribe<RspLogin>(this.RspLogin);
+        private bool _isServerMsgRegistered = false;
 
-        _isServerMsgRegistered = true;
+        public void RegisterServerMessage()
+        {
+            if (_isServerMsgRegistered)
+                return;
+            MessagePublisher.Instance.Subscribe<RspLogin>(this.RspLogin);
+
+            _isServerMsgRegistered = true;
+        }
     }
 }

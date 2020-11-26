@@ -10,39 +10,40 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Debug = UnityEngine.Debug;
-
-public class InjectFixManager : Singleton<InjectFixManager>
+namespace Improve
 {
-    WaitForEndOfFrame oneFrame = new WaitForEndOfFrame();
-
-    string patchPath = "Assets/GameData/Data/InjectHotFix/Assembly-CSharp.patch.bytes";
-
-    internal IEnumerator LoadHotFixPatch()
+    public class InjectFixManager : Singleton<InjectFixManager>
     {
-        bool loadComplete = false;
-        AddressableManager.AsyncLoadResource<TextAsset>(patchPath, (TextAsset text) =>
+        WaitForEndOfFrame oneFrame = new WaitForEndOfFrame();
+
+        string patchPath = "Assets/GameData/Data/InjectHotFix/Assembly-CSharp.patch.bytes";
+
+        internal IEnumerator LoadHotFixPatch()
         {
-            try
+            bool loadComplete = false;
+            AddressableManager.Instance.AsyncLoadResource<TextAsset>(patchPath, (TextAsset text) =>
             {
-                if (text != null)
+                try
                 {
-                    Debug.Log("加载C#热补丁文件 ...");
-                    var sw = Stopwatch.StartNew();
-                    PatchManager.Load(new MemoryStream(text.bytes));
-                    Debug.Log("加载C#热补丁文件成功, 用时: " + sw.ElapsedMilliseconds + " ms");
+                    if (text != null)
+                    {
+                        Debug.Log("加载C#热补丁文件 ...");
+                        var sw = Stopwatch.StartNew();
+                        PatchManager.Load(new MemoryStream(text.bytes));
+                        Debug.Log("加载C#热补丁文件成功, 用时: " + sw.ElapsedMilliseconds + " ms");
+                    }
                 }
-            }
-            catch (Exception e)
+                catch (Exception e)
+                {
+                    Debug.Log("加载C#热补丁文件失败,补丁不匹配" + e);
+                }
+                loadComplete = true;
+            });
+            while (!loadComplete)
             {
-                Debug.Log("加载C#热补丁文件失败,补丁不匹配"+ e);
+                yield return oneFrame;
             }
-            loadComplete = true;
-        });
-        while (!loadComplete) {
-            yield return oneFrame;
         }
     }
 }

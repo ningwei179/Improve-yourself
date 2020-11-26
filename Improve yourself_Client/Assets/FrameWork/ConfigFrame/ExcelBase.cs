@@ -5,12 +5,14 @@
 	功能：Nothing
 *****************************************************/
 
-
-public class ExcelBase 
+namespace Improve
 {
+    public class ExcelBase
+    {
 #if UNITY_EDITOR
-    public virtual void Construction() { }
+        public virtual void Construction() { }
 #endif
 
-    public virtual void Init() { }
+        public virtual void Init() { }
+    }
 }

@@ -206,6 +206,11 @@ PrefabInstance:
       propertyPath: startPanel
       value: 
       objectReference: {fileID: 1898345169}
+    - target: {fileID: 266791835243709906, guid: 3b17c54eddc4f874db33a3da2edc5f07,
+        type: 3}
+      propertyPath: m_HotFixPanel
+      value: 
+      objectReference: {fileID: 1898345169}
     - target: {fileID: 266791835243709907, guid: 3b17c54eddc4f874db33a3da2edc5f07,
         type: 3}
       propertyPath: m_Name

@@ -7,172 +7,166 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class GameStart : MonoSingleton<GameStart>
+namespace Improve
 {
-    public HotFixPanel startPanel;  //启动UI
-
-    protected override void Awake()
+    public class GameStart : MonoSingleton<GameStart>
     {
-        base.Awake();
-        DontDestroyOnLoad(this);
+        public HotFixPanel m_HotFixPanel;  //启动UI,游戏的第一个UI应该是热更检测UI
 
-        //读取打包时的版本信息
-        ReadVersion();
-
-        if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
+        protected override void Awake()
         {
-            //初始化Addressable管理器
-            //AddressableManager.Instance.Init(this);
-            //
-            AddressableManager.Init(this);
-            //初始化Addressable资源更新管理器
-            AddressableUpdateManager.Instance.Init(this);
-        }
-        else {
-            //初始化AB配置表
-            AssetBundleManager.Instance.LoadAssetBundleConfig();
-            //初始化资源管理器
-            ResourceManager.Instance.Init(this);
-            //初始化对象管理器
-            ObjectManager.Instance.Init(transform.Find("ResourcePoolTrs"), transform.Find("SceneTrs"));
-            //初始化热更管理器
-            HotPatchManager.Instance.Init(this);
-        }
+            base.Awake();
+            DontDestroyOnLoad(this);
 
-        //计时器初始化
-        TimerController.Instance.Init();
+            //读取打包时的版本信息
+            ReadVersion();
 
-        ////初始化网络通信管理器
-        NetWorkManager.Instance.Init();
-
-        //ILRuntimeManager.Instance.OpenUI(ConStr.LoadingPanel);
-        //初始化UI管理器
-        //UIManager.Instance.Init(transform);
-
-        ////注册所有的UI
-        //UIRegister.Instance.RegisterAllUI();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //启动热更UI
-        startPanel.OpenUI();
-        //启动热更UI
-        //UIManager.Instance.OpenUI<HotFixWindow>(ConStr.HotFixPanel,resource:AssetAddress.Resources);
-    }
-
-    WaitForSeconds wait3f = new WaitForSeconds(0.3f);
-
-    public IEnumerator StartGame(Image image, Text text,Text progress)
-    {
-        text.text = "加载本地数据... ...";
-        image.fillAmount = 0;
-        yield return wait3f;
-        image.fillAmount = 0.1f;
-        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
-
-        if (FrameConstr.UseAssetAddress != AssetAddress.Addressable)
-        {
-            //热更完成后检查下AB配置表，这个文件可能被热更了
-            AssetBundleManager.Instance.LoadAssetBundleConfig(false);
-        }
-        yield return wait3f;
-        if (FrameConstr.HotType == CodeHotType.ILRuntime)
-        {
-            text.text = "加载ILRuntime.dll... ...";
-            image.fillAmount = 0.2f;
-            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
-            //初始化ILRuntime热更管理器
-            yield return StartCoroutine(ILRuntimeManager.Instance.LoadHotFixAssembly(this.transform));
-        }
-        else if(FrameConstr.HotType == CodeHotType.InjectFix)
-        { 
-            text.text = "加载InjectFix.dll... ...";
-            image.fillAmount = 0.2f;
-            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
-            //热更修复代码
-            yield return StartCoroutine(InjectFixManager.Instance.LoadHotFixPatch());
-        }
-        text.text = "加载数据表... ...";
-        image.fillAmount = 0.7f;
-        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
-        //加载配置文件
-        LoadConfig();
-        yield return wait3f;
-        text.text = "加载配置... ...";
-        image.fillAmount = 0.9f;
-        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
-        yield return wait3f;
-        text.text = "初始化地图... ...";
-        image.fillAmount = 1f;
-        progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
-        //初始化场景管理器
-        GameMapManager.Instance.Init(this);
-        yield return null;
-    }
-
-    void LoadConfig()
-    {
-        
-    }
-
-    /// <summary>
-    /// 读取打包时的版本
-    /// </summary>
-    void ReadVersion()
-    {
-        TextAsset versionTex = Resources.Load<TextAsset>("Version");
-        if (versionTex == null)
-        {
-            Debug.LogError("未读到本地版本！");
-            return;
-        }
-        string[] all = versionTex.text.Split('\r');
-        if (all.Length > 0)
-        {
-            string[] infoList = all[0].Split(';');
-            if (infoList.Length >= 2)
+            if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
             {
-                if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
+                //初始化Addressable管理器
+                AddressableManager.Instance.Init(this);
+                //初始化Addressable资源更新管理器
+                AddressableUpdateManager.Instance.Init(this);
+            }
+            else
+            {
+                //初始化AB配置表
+                AssetBundleManager.Instance.LoadAssetBundleConfig();
+                //初始化资源管理器
+                ResourceManager.Instance.Init(this);
+                //初始化对象管理器
+                ObjectManager.Instance.Init(transform.Find("ResourcePoolTrs"), transform.Find("SceneTrs"));
+                //初始化热更管理器
+                HotPatchManager.Instance.Init(this);
+            }
+
+            //计时器初始化
+            TimerController.Instance.Init();
+
+            ////初始化网络通信管理器
+            NetWorkManager.Instance.Init();
+        }
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            //启动热更UI
+            m_HotFixPanel.OpenUI();
+        }
+
+        WaitForSeconds wait3f = new WaitForSeconds(0.3f);
+
+        public IEnumerator StartGame(Image image, Text text, Text progress)
+        {
+            text.text = "加载本地数据... ...";
+            image.fillAmount = 0;
+            yield return wait3f;
+            image.fillAmount = 0.1f;
+            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+
+            if (FrameConstr.UseAssetAddress != AssetAddress.Addressable)
+            {
+                //热更完成后检查下AB配置表，这个文件可能被热更了
+                AssetBundleManager.Instance.LoadAssetBundleConfig(false);
+            }
+            yield return wait3f;
+            if (FrameConstr.HotType == CodeHotType.ILRuntime)
+            {
+                text.text = "加载ILRuntime.dll... ...";
+                image.fillAmount = 0.2f;
+                progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+                //初始化ILRuntime热更管理器
+                yield return StartCoroutine(ILRuntimeManager.Instance.LoadHotFixAssembly(this.gameObject, this.transform));
+            }
+            else if (FrameConstr.HotType == CodeHotType.InjectFix)
+            {
+                text.text = "加载InjectFix.dll... ...";
+                image.fillAmount = 0.2f;
+                progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+                //热更修复代码
+                yield return StartCoroutine(InjectFixManager.Instance.LoadHotFixPatch());
+            }
+            text.text = "加载数据表... ...";
+            image.fillAmount = 0.7f;
+            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+            //加载配置文件
+            LoadConfig();
+            yield return wait3f;
+            text.text = "加载配置... ...";
+            image.fillAmount = 0.9f;
+            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+            yield return wait3f;
+            text.text = "初始化地图... ...";
+            image.fillAmount = 1f;
+            progress.text = string.Format("{0}%", (int)(image.fillAmount * 100));
+            //初始化场景管理器
+            GameMapManager.Instance.Init(this);
+            yield return null;
+        }
+
+        void LoadConfig()
+        {
+
+        }
+
+        /// <summary>
+        /// 读取打包时的版本
+        /// </summary>
+        void ReadVersion()
+        {
+            TextAsset versionTex = Resources.Load<TextAsset>("Version");
+            if (versionTex == null)
+            {
+                Debug.LogError("未读到本地版本！");
+                return;
+            }
+            string[] all = versionTex.text.Split('\r');
+            if (all.Length > 0)
+            {
+                string[] infoList = all[0].Split(';');
+                if (infoList.Length >= 2)
                 {
-                    AddressableUpdateManager.Instance.CurVersion = infoList[0].Split('|')[1];
-                    AddressableUpdateManager.Instance.m_CurPackName = infoList[1].Split('|')[1];
-                }
-                else {
-                    HotPatchManager.Instance.CurVersion = infoList[0].Split('|')[1];
-                    HotPatchManager.Instance.m_CurPackName = infoList[1].Split('|')[1];
-                    AssetBundleManager.Instance.Encrypt = infoList[2].Split('|')[1].Equals("True");
+                    if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
+                    {
+                        AddressableUpdateManager.Instance.CurVersion = infoList[0].Split('|')[1];
+                        AddressableUpdateManager.Instance.m_CurPackName = infoList[1].Split('|')[1];
+                    }
+                    else
+                    {
+                        HotPatchManager.Instance.CurVersion = infoList[0].Split('|')[1];
+                        HotPatchManager.Instance.m_CurPackName = infoList[1].Split('|')[1];
+                        AssetBundleManager.Instance.Encrypt = infoList[2].Split('|')[1].Equals("True");
+                    }
                 }
             }
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        TimerController.Instance.Update();
-        //UIManager.Instance.OnUpdate();
-        NetWorkManager.Instance.Update();
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            NetWorkManager.Instance.m_Client.session.SendMsg(new IYProtocal.NetMsg
+        // Update is called once per frame
+        void Update()
+        {
+            TimerController.Instance.Update();
+            //UIManager.Instance.OnUpdate();
+            NetWorkManager.Instance.Update();
+            if (Input.GetKeyDown(KeyCode.Space))
             {
+                NetWorkManager.Instance.m_Client.session.SendMsg(new IYProtocal.NetMsg
+                {
 
-            });
+                });
+            }
         }
-    }
 
-    void FixedUpdate()
-    {
-        
-    }
+        void FixedUpdate()
+        {
 
-    private void OnApplicationQuit()
-    {
+        }
+
+        private void OnApplicationQuit()
+        {
 #if UNITY_EDITOR
-        ResourceManager.Instance.ClearCache();
-        Resources.UnloadUnusedAssets();
+            ResourceManager.Instance.ClearCache();
+            Resources.UnloadUnusedAssets();
 #endif
+        }
     }
 }
