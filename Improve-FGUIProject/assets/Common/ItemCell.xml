@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="300,300">
+  <displayList>
+    <graph id="n1_g091" name="n1" xy="0,0" size="300,300" type="rect" fillColor="#ff00ff00"/>
+    <richtext id="n0_g091" name="n0" xy="0,3" size="300,300" fontSize="105" align="center" vAlign="middle" ubb="true" vars="true" autoSize="none" text="道具格子"/>
+  </displayList>
+</component>

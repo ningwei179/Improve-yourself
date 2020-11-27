@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <list id="n0_g091" name="ItemList" xy="114,159" size="1542,681" layout="flow_hz" overflow="scroll" margin="2,2,2,2" lineGap="10" colGap="9" defaultItem="ui://aab599bzg0911">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+  </displayList>
+</component>

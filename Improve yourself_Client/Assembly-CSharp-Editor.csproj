@@ -64,6 +64,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\DisplayObjectEditor.cs" />
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\EditorToolSet.cs" />
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\PackagesWindow.cs" />
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\StageCameraEditor.cs" />
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\UIConfigEditor.cs" />
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\UIContentScalerEditor.cs" />
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\UIPainterEditor.cs" />
+    <Compile Include="Assets\FairyGUI\Scripts\Editor\UIPanelEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\BuildApp.cs" />
     <Compile Include="Assets\FrameWork\Editor\Config\DataEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Config\InjectFixConfig.cs" />
