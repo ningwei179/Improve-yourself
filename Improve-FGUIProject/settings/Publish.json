@@ -12,7 +12,7 @@
     "codePath": "D:\\GitHubWork\\Improve-yourself\\Improve yourself_Client\\Assets\\Script_Hot\\FairyGUI",
     "classNamePrefix": "UI_",
     "memberNamePrefix": "m_",
-    "packageName": null,
+    "packageName": "FairyGUI",
     "ignoreNoname": true,
     "getMemberByName": false,
     "codeType": ""

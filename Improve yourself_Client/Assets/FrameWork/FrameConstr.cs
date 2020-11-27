@@ -6,6 +6,14 @@
 *****************************************************/
 namespace Improve
 {
+    /// <summary>
+    /// UI类型
+    /// </summary>
+    public enum UIType { 
+        UGUI,
+        FariyGUI,
+    }
+
     public enum ILRuntimeState { 
         Open,
         Close

@@ -2,7 +2,7 @@
 
 using FairyGUI;
 
-namespace Common
+namespace FairyGUI.Common
 {
     public class CommonBinder
     {

@@ -33,15 +33,6 @@ namespace Improve
         /// </summary>
         public AssetAddress Resource { get; set; } = AssetAddress.AssetBundle;
 
-        /// <summary>
-        /// 是否是热更的
-        /// </summary>
-        public bool IsHotFix { get; set; } = false;
-
-        /// <summary>
-        /// 热更的类名
-        /// </summary>
-        public string HotFixClassName { get; set; }
 
         //所有的Button
         protected List<Button> m_AllButton = new List<Button>();
@@ -54,6 +45,9 @@ namespace Improve
 
         //Prefab的名称
         public string PrefabName { get; set; }
+
+        //是否是FairyGUI
+        public UIType m_UIType = UIType.UGUI;
 
         //UI的挂载节点，默认是普通的节点
         public UIRoot m_UIRoot = UIRoot.Normal;

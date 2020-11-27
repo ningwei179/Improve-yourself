@@ -330,6 +330,7 @@
     <Compile Include="Assets\Script_Hot\FairyGUI\BackPack\BackPackBinder.cs" />
     <Compile Include="Assets\Script_Hot\FairyGUI\BackPack\UI_BackPackPanel.cs" />
     <Compile Include="Assets\Script_Hot\FairyGUI\Common\CommonBinder.cs" />
+    <Compile Include="Assets\Script_Hot\Module\BackPack\Controller\BackPackWindow.cs" />
     <Compile Include="Assets\Script_Hot\Module\Loading\Controller\LoadingWindow.cs" />
     <Compile Include="Assets\Script_Hot\Module\Loading\View\LoadingPanel.cs" />
     <Compile Include="Assets\Script_Hot\Module\Main\Controller\MainWindow.cs" />
@@ -340,6 +341,7 @@
     <Compile Include="Assets\Script_Hot\Module\PopUp\PopUpUtil.cs" />
     <Compile Include="Assets\Script_Hot\Module\PopUp\View\PopUpPanel.cs" />
     <Compile Include="Assets\Script_Hot\UIFrame\BaseUI.cs" />
+    <Compile Include="Assets\Script_Hot\UIFrame\FairyGUIBinder.cs" />
     <Compile Include="Assets\Script_Hot\UIFrame\UIManager.cs" />
     <Compile Include="Assets\Script_Hot\UIFrame\UIRegister.cs" />
     <Compile Include="Assets\Script_Hot\Util\HotMonoSingleton.cs" />
