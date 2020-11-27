@@ -80,7 +80,7 @@ namespace Improve
         {
             PopUpPanelParams m_Params = new PopUpPanelParams();
             m_Params.Init(title, msg, CommonEnum.MessageBoxStyleType.OK, okTitle, okAction, null, null, false, null, 0, null);
-            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, resource: AssetAddress.Resources, paramList: m_Params);
+            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, paramList: m_Params);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Improve
         {
             PopUpPanelParams m_Params = new PopUpPanelParams();
             m_Params.Init(title, msg, CommonEnum.MessageBoxStyleType.OK_CANCLE, okTitle, okAction, "取消", null, false, null, 0, null);
-            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, resource: AssetAddress.Resources, paramList: m_Params);
+            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel,  paramList: m_Params);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Improve
         {
             PopUpPanelParams m_Params = new PopUpPanelParams();
             m_Params.Init(title, msg, CommonEnum.MessageBoxStyleType.OK_CANCLE, okTitle, okAction, "取消", null, false, null, 0, null);
-            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, resource: AssetAddress.Resources, paramList: m_Params);
+            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel,paramList: m_Params);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Improve
         {
             PopUpPanelParams m_Params = new PopUpPanelParams();
             m_Params.Init(title, msg, CommonEnum.MessageBoxStyleType.OK_CANCLE, "确定", okAction, "取消", cancelAction, false, null, 0, null);
-            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, resource: AssetAddress.Resources, paramList: m_Params);
+            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, paramList: m_Params);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Improve
         {
             PopUpPanelParams m_Params = new PopUpPanelParams();
             m_Params.Init(title, msg, CommonEnum.MessageBoxStyleType.OK_CANCLE, "确定", okAction, "取消", cancelAction, true, null, 0, null);
-            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, resource: AssetAddress.Resources, paramList: m_Params);
+            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel,paramList: m_Params);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Improve
         {
             PopUpPanelParams m_Params = new PopUpPanelParams();
             m_Params.Init(title, msg, CommonEnum.MessageBoxStyleType.OK_CANCLE, okTitle, okAction, cancelTitle, cancelAction, hideCloseBtn, closeAction, remainTime, timeoutAction);
-            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, resource: AssetAddress.Resources, paramList: m_Params);
+            UIManager.Instance.OpenUI<PopUpWindow>(ConStr.PopUpPanel, paramList: m_Params);
         }
     }
 }

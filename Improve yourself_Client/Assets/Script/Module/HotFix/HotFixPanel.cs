@@ -91,6 +91,7 @@ namespace Improve
             {
                 if (Application.internetReachability == NetworkReachability.NotReachable)
                 {
+                    //PopUp放到热更工程里面去了，这里要弹窗得重新做一个放到Resource里面去
                     //提示玩家是否热更下载
                     //PopUpUtil.OpenPopUpX("提示", "请检查网络连接是否正常", () =>
                     //{
@@ -115,13 +116,14 @@ namespace Improve
                 {
                     if (hot)
                     {
-                    //提示玩家是否热更下载
-                    //PopUpUtil.OpenPopUpX("提示", string.Format("当前版本为{0},有{1:F}M大小热更包，是否确定下载？", HotPatchManager.Instance.CurVersion, HotPatchManager.Instance.LoadSumSize),
-                    //    OnClickStartDownLoad,
-                    //    OnClickCancleDownLoad);
+                        //PopUp放到热更工程里面去了，这里要弹窗得重新做一个放到Resource里面去
+                        //提示玩家是否热更下载
+                        //PopUpUtil.OpenPopUpX("提示", string.Format("当前版本为{0},有{1:F}M大小热更包，是否确定下载？", HotPatchManager.Instance.CurVersion, HotPatchManager.Instance.LoadSumSize),
+                        //    OnClickStartDownLoad,
+                        //    OnClickCancleDownLoad);
 
-                    //直接下载不提示了
-                    OnClickStartDownLoad();
+                        //直接下载不提示了
+                        OnClickStartDownLoad();
                     }
                     else
                     {
@@ -135,13 +137,14 @@ namespace Improve
                 {
                     if (hot)
                     {
-                    //提示玩家是否热更下载
-                    //PopUpUtil.OpenPopUpX("提示", string.Format("当前版本有{0:F}M大小热更包，是否确定下载？", AddressableUpdateManager.Instance.LoadSumSize / 1024f / 1024f),
-                    //    OnClickStartDownLoad,
-                    //    OnClickCancleDownLoad);
+                        //PopUp放到热更工程里面去了，这里要弹窗得重新做一个放到Resource里面去
+                        //提示玩家是否热更下载
+                        //PopUpUtil.OpenPopUpX("提示", string.Format("当前版本有{0:F}M大小热更包，是否确定下载？", AddressableUpdateManager.Instance.LoadSumSize / 1024f / 1024f),
+                        //    OnClickStartDownLoad,
+                        //    OnClickCancleDownLoad);
 
-                    //不提示了，直接更新
-                    OnClickStartDownLoad();
+                        //不提示了，直接更新
+                        OnClickStartDownLoad();
                     }
                     else
                     {
@@ -153,11 +156,13 @@ namespace Improve
 
         void ServerInfoError()
         {
+            //PopUp放到热更工程里面去了，这里要弹窗得重新做一个放到Resource里面去
             //PopUpUtil.OpenPopUpX("服务器列表获取失败", "服务器列表获取失败，请检查网络链接是否正常？尝试重新下载！", CheckVersion, Application.Quit);
         }
 
         void ItemError(string error)
         {
+            //PopUp放到热更工程里面去了，这里要弹窗得重新做一个放到Resource里面去
             //PopUpUtil.OpenPopUpX("资源下载失败", string.Format("{0}等资源下载失败，请重新尝试下载！", error), AnewDownload, Application.Quit);
         }
 
@@ -199,6 +204,7 @@ namespace Improve
             {
                 if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
                 {
+                    //PopUp放到热更工程里面去了，这里要弹窗得重新做一个放到Resource里面去
                     //PopUpUtil.OpenPopUpX("下载确认", "当前使用的是手机流量，是否继续下载？", StartDownLoad, OnClickCancleDownLoad);
                 }
             }

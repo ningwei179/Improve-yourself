@@ -40,6 +40,7 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_Transform_Binding.Register(app);
             Improve_Singleton_1_AddressableManager_Binding.Register(app);
             Improve_AddressableManager_Binding.Register(app);
+            UnityEngine_Input_Binding.Register(app);
             IYProtocal_NetMsg_Binding.Register(app);
             IYNet_IYMsg_Binding.Register(app);
             IYProtocal_ReqLogin_Binding.Register(app);

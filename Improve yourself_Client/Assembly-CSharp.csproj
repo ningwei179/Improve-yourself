@@ -148,6 +148,7 @@
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Events_UnityEvent_1_Boolean_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Events_UnityEvent_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_GameObject_Binding.cs" />
+    <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Input_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Object_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Resources_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Screen_Binding.cs" />
@@ -167,9 +168,6 @@
     <Compile Include="Assets\Script\NetWork\MessagePublisher.cs" />
     <Compile Include="Assets\Script\NetWork\NetMessage\MessageContext_Login.cs" />
     <Compile Include="Assets\Script\NetWork\NetWorkManager.cs" />
-    <Compile Include="Assets\UnityTest\Test\AssetsSerilize.cs" />
-    <Compile Include="Assets\UnityTest\Test\LoadFromFileExample.cs" />
-    <Compile Include="Assets\UnityTest\Test\ResourceTest.cs" />
     <None Include="Assets\AssetBundleConfig.xml" />
     <None Include="Assets\Resources\Version.txt" />
     <None Include="Assets\GameData\Data\Xml\ServerInfo.xml" />
@@ -455,9 +453,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="HotFixProject">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
