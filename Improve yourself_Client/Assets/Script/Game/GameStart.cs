@@ -145,7 +145,6 @@ namespace Improve
         void Update()
         {
             TimerController.Instance.Update();
-            //UIManager.Instance.OnUpdate();
             NetWorkManager.Instance.Update();
             if (Input.GetKeyDown(KeyCode.Space))
             {

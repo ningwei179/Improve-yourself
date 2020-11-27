@@ -36,6 +36,14 @@
       <HintPath>..\Library\ScriptAssemblies\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="IYSocket">
+      <HintPath>..\Assets\References\IYSocket.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Protocal">
+      <HintPath>..\Assets\References\Protocal.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -70,7 +78,7 @@
     <Compile Include="Script\Module\PopUp\Controller\PopUpWindow.cs" />
     <Compile Include="Script\Module\PopUp\PopUpUtil.cs" />
     <Compile Include="Script\Module\PopUp\View\PopUpPanel.cs" />
-    <Compile Include="Script\Module\UIRegister.cs" />
+    <Compile Include="Script\UIFrame\UIRegister.cs" />
     <Compile Include="Script\UIFrame\UIManager.cs" />
     <Compile Include="Script\Util\HotMonoSingleton.cs" />
     <Compile Include="Script\Util\HotSingleton.cs" />

@@ -5,6 +5,7 @@
 	功能：处理菜单界面的逻辑
 *****************************************************/
 
+using IYProtocal;
 using UnityEngine;
 namespace Improve
 {
@@ -73,25 +74,22 @@ namespace Improve
 
         public override void OnUpdate()
         {
-            //if (Input.GetKeyDown(KeyCode.D))
-            //{
-            //    ResourceManager.Instance.ReleaseResource("Assets/GameData/UISprite/image1.png", true);
-            //    ResourceManager.Instance.ReleaseResource("Assets/GameData/UISprite/image2.png", true);
-            //}
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                ResourceManager.Instance.ReleaseResource("Assets/GameData/UISprite/image1.png", true);
+                ResourceManager.Instance.ReleaseResource("Assets/GameData/UISprite/image2.png", true);
+            }
         }
 
         void OnClickStart()
         {
             UIManager.Instance.OpenUI<MainWindow>(ConStr.MainPanel);
-
-            base.OnClose();
-
-            //NetMsg msg = new NetMsg();
-            //msg.cmd = (int)CMD.Reqlogin;
-            //msg.reqLogin = new ReqLogin();
-            //msg.reqLogin.account = "10001";
-            //msg.reqLogin.pass = "10001";
-            //NetWorkManager.Instance.SendMsg(msg);
+            NetMsg msg = new NetMsg();
+            msg.cmd = (int)CMD.Reqlogin;
+            msg.reqLogin = new ReqLogin();
+            msg.reqLogin.account = "10001";
+            msg.reqLogin.pass = "10001";
+            NetWorkManager.Instance.SendMsg(msg);
         }
 
         void OnClickLoad()

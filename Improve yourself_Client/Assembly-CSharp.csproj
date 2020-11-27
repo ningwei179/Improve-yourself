@@ -108,11 +108,16 @@
     <Compile Include="Assets\Script\ILRuntime\Adapter\Vector2Binder.cs" />
     <Compile Include="Assets\Script\ILRuntime\Adapter\Vector3Binder.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\CLRBindings.cs" />
+    <Compile Include="Assets\Script\ILRuntime\Generated\IYNet_IYMsg_Binding.cs" />
+    <Compile Include="Assets\Script\ILRuntime\Generated\IYProtocal_NetMsg_Binding.cs" />
+    <Compile Include="Assets\Script\ILRuntime\Generated\IYProtocal_ReqLogin_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_AddressableManager_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_GameMapManager_Binding.cs" />
+    <Compile Include="Assets\Script\ILRuntime\Generated\Improve_NetWorkManager_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_ObjectManager_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_ResourceManager_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_Singleton_1_AddressableManager_Binding.cs" />
+    <Compile Include="Assets\Script\ILRuntime\Generated\Improve_Singleton_1_NetWorkManager_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_Singleton_1_ObjectManager_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_Singleton_1_ResourceManager_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\Improve_Singleton_1_TimerController_Binding.cs" />
@@ -450,6 +455,9 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="HotFixProject">
+      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.8f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
