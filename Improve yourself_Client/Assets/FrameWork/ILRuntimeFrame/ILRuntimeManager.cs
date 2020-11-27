@@ -27,31 +27,37 @@ namespace Improve
 
         internal IEnumerator LoadHotFixAssembly(GameObject obj, Transform transform)
         {
-            MemoryStream dllMs = null;
-            AsyncOperationHandle<TextAsset> dllHandle = Addressables.LoadAssetAsync<TextAsset>(DLLPATH);
-            yield return dllHandle;
-            if (dllHandle.Status == AsyncOperationStatus.Succeeded)
+            if (FrameConstr.ILState == ILRuntimeState.Open)
             {
-                dllMs = new MemoryStream(dllHandle.Result.bytes);
+                MemoryStream dllMs = null;
+                AsyncOperationHandle<TextAsset> dllHandle = Addressables.LoadAssetAsync<TextAsset>(DLLPATH);
+                yield return dllHandle;
+                if (dllHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    dllMs = new MemoryStream(dllHandle.Result.bytes);
+                }
+
+                MemoryStream pdbMs = null;
+                AsyncOperationHandle<TextAsset> pdbHandle = Addressables.LoadAssetAsync<TextAsset>(PDBPATH);
+                yield return pdbHandle;
+                if (pdbHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    pdbMs = new MemoryStream(pdbHandle.Result.bytes);
+                }
+
+                if (dllMs != null && pdbMs != null)
+                {
+                    //整个工程只有一个ILRuntime的AppDomain
+                    m_AppDomain = new AppDomain();
+
+                    m_AppDomain.LoadAssembly(dllMs);
+
+                    ILRuntimeRegister.Instance.InitializeILRuntime(m_AppDomain);
+
+                    OnHotFixLoaded(obj, transform);
+                }
             }
-
-            MemoryStream pdbMs = null;
-            AsyncOperationHandle<TextAsset> pdbHandle = Addressables.LoadAssetAsync<TextAsset>(PDBPATH);
-            yield return pdbHandle;
-            if (pdbHandle.Status == AsyncOperationStatus.Succeeded)
-            {
-                pdbMs = new MemoryStream(pdbHandle.Result.bytes);
-            }
-
-            if (dllMs != null && pdbMs != null)
-            {
-                //整个工程只有一个ILRuntime的AppDomain
-                m_AppDomain = new AppDomain();
-
-                m_AppDomain.LoadAssembly(dllMs);
-
-                ILRuntimeRegister.Instance.InitializeILRuntime(m_AppDomain);
-
+            else {
                 OnHotFixLoaded(obj, transform);
             }
             yield return null;
@@ -59,13 +65,29 @@ namespace Improve
 
         void OnHotFixLoaded(GameObject obj, Transform transform)
         {
-            //启动热更DLL的Main方法
-            m_AppDomain.Invoke("HotFixProject.HotFixMain", "Main", null, obj, transform);
+            if (FrameConstr.ILState == ILRuntimeState.Open)
+            {
+                //启动热更DLL的Main方法
+                Debug.Log("启动热更DLL的Main方法");
+                m_AppDomain.Invoke("HotFixProject.HotFixMain", "Main", null, obj, transform);
+            }
+            else {
+                Debug.Log("启动本地模拟的Main方法");
+                HotFixMain.Main(obj, transform);
+            }
         }
 
         internal void OpenLoadingUI(string name)
         {
-            m_AppDomain.Invoke("HotFixProject.HotFixMain", "OpenLoadingUI", null, name);
+            if (FrameConstr.ILState == ILRuntimeState.Open)
+            {
+                Debug.Log("启动热更DLL的Loading界面");
+                m_AppDomain.Invoke("HotFixProject.HotFixMain", "OpenLoadingUI", null, name);
+            }
+            else {
+                Debug.Log("启动本地模拟的Loading界面");
+                HotFixMain.OpenLoadingUI(name);
+            }
         }
     }
 }

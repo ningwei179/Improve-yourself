@@ -1,13 +1,13 @@
 ﻿using Improve;
 using UnityEngine;
-namespace HotFixProject
+namespace Improve
 {
     class HotFixMainMonoBehaviour : MonoBehaviour
     {
         float time;
         void Awake()
         {
-            Debug.Log("热更DLL的注册UI管理器");
+            Debug.Log("本地模拟的注册UI管理器");
             //初始化UI管理器
             UIManager.Instance.Init(transform);
 
@@ -17,14 +17,14 @@ namespace HotFixProject
 
         void Start()
         {
-            Debug.Log("!! 热更DLL的HotFixMainMonoBehaviour.Start");
+            Debug.Log("!! 本地模拟的HotFixMainMonoBehaviour.Start");
         }
 
         void Update()
         {
             if (Time.time - time > 1)
             {
-                Debug.Log("!! 热更DLL的HotFixMainMonoBehaviour.Update, t=" + Time.time);
+                Debug.Log("!! 本地模拟的HotFixMainMonoBehaviour.Update, t=" + Time.time);
                 time = Time.time;
             }
             UIManager.Instance.OnUpdate();

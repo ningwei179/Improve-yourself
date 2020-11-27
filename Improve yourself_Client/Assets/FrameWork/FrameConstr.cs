@@ -6,6 +6,10 @@
 *****************************************************/
 namespace Improve
 {
+    public enum ILRuntimeState { 
+        Open,
+        Close
+    }
     /// <summary>
     /// 资产地址
     /// </summary>
@@ -29,6 +33,8 @@ namespace Improve
 
     public class FrameConstr
     {
+        public const ILRuntimeState ILState = ILRuntimeState.Open;
+
         /// <summary>
         /// 资产来源
         /// </summary>
