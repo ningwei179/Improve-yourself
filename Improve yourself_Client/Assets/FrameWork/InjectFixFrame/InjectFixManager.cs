@@ -30,15 +30,15 @@ namespace Improve
                     {
                         if (text != null)
                         {
-                            Debug.Log("加载C#热补丁文件 ...");
+                            Debug.Log("加载InjectFix热补丁文件 ...");
                             var sw = Stopwatch.StartNew();
                             PatchManager.Load(new MemoryStream(text.bytes));
-                            Debug.Log("加载C#热补丁文件成功, 用时: " + sw.ElapsedMilliseconds + " ms");
+                            Debug.Log("加载InjectFix热补丁文件成功, 用时: " + sw.ElapsedMilliseconds + " ms");
                         }
                     }
                     catch (Exception e)
                     {
-                        Debug.Log("加载C#热补丁文件失败,补丁不匹配" + e);
+                        Debug.Log("加载InjectFix热补丁文件失败,补丁不匹配" + e);
                     }
                     loadComplete = true;
                 });
@@ -52,19 +52,19 @@ namespace Improve
                         if (obj != null)
                         {
                             TextAsset text = obj as TextAsset;
-                            Debug.Log("加载C#热补丁文件 ...");
+                            Debug.Log("加载InjectFix热补丁文件 ...");
                             var sw = Stopwatch.StartNew();
                             PatchManager.Load(new MemoryStream(text.bytes));
-                            Debug.Log("加载C#热补丁文件成功, 用时: " + sw.ElapsedMilliseconds + " ms");
+                            Debug.Log("加载InjectFix热补丁文件成功, 用时: " + sw.ElapsedMilliseconds + " ms");
 
                         }
                     }
                     catch (Exception e)
                     {
-                        Debug.Log("加载C#热补丁文件失败,补丁不匹配" + e);
+                        Debug.Log("加载InjectFix热补丁文件失败,补丁不匹配" + e);
                     }
                     loadComplete = true;
-                }, LoadResPriority.RES_MIDDLE, true);
+                }, LoadResPriority.RES_MIDDLE, false);
             }
 
             while (!loadComplete)

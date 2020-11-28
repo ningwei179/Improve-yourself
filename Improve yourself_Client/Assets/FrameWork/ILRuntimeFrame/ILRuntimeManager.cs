@@ -1,12 +1,6 @@
 /****************************************************     文件：ILRuntimeManager.cs 	作者：NingWei     日期：2020/10/13 15:49:48 	功能：ILRuntime热更管理类 *****************************************************/
-using ILRuntime.CLR.Method;
-using ILRuntime.CLR.TypeSystem;
-using ILRuntime.CLR.Utils;
 using ILRuntime.Runtime.Enviorment;
-using ILRuntime.Runtime.Intepreter;
-using ILRuntime.Runtime.Stack;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -47,6 +41,7 @@ namespace Improve
                     }
                 }
                 else {
+                    
                     TextAsset dllText = ResourceManager.Instance.LoadResource<TextAsset>(DLLPATH);
                     dllMs = new MemoryStream(dllText.bytes);
                     TextAsset padText = ResourceManager.Instance.LoadResource<TextAsset>(PDBPATH);
@@ -55,10 +50,11 @@ namespace Improve
 
                 if (dllMs != null && pdbMs != null)
                 {
+                    Debug.Log("加载ILRuntime热补丁！");
                     //整个工程只有一个ILRuntime的AppDomain
                     m_AppDomain = new AppDomain();
 
-                    m_AppDomain.LoadAssembly(dllMs);
+                    m_AppDomain.LoadAssembly(dllMs, pdbMs, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
 
                     ILRuntimeRegister.Instance.InitializeILRuntime(m_AppDomain);
 

@@ -41,18 +41,12 @@ namespace Improve
 
     public class FrameConstr
     {
-        public const ILRuntimeState ILState = ILRuntimeState.Open;
+        public const ILRuntimeState ILState = ILRuntimeState.Close;
 
         /// <summary>
         /// 资产来源
         /// </summary>
         public const AssetAddress UseAssetAddress = AssetAddress.AssetBundle;
-
-        /// <summary>
-        /// 热更方式
-        /// </summary>
-        public const CodeHotType HotType = CodeHotType.ILRuntime;
-
 
         /// <summary>
         /// AB包的加密秘钥

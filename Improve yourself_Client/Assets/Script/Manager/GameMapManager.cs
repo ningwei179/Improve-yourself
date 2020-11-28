@@ -126,10 +126,11 @@ namespace Improve
                 AsyncOperation asyncScene = SceneManager.LoadSceneAsync(name);
                 if (asyncScene != null && !asyncScene.isDone)
                 {
-                    asyncScene.allowSceneActivation = false;
+                    Debug.Log("aaaaa" + asyncScene.progress);
                     while (asyncScene.progress < 0.9f)
                     {
                         targetProgress = (int)asyncScene.progress * 100;
+                        Debug.Log("sssss" + targetProgress);
                         yield return endOfFrame;
                         //平滑过渡
                         while (LoadingProgress < targetProgress)
@@ -150,11 +151,12 @@ namespace Improve
 
                     LoadingProgress = 100;
 
-                    asyncScene.allowSceneActivation = true;
 
                     AlreadyLoadScene = true;
 
                     LoadSceneOverCallBack?.Invoke();
+
+                    asyncScene.allowSceneActivation = true;
                 }
             }
         }

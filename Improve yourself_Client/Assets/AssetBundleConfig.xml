@@ -5,7 +5,9 @@
     <ABDependce>shaders</ABDependce>
   </ABList>
   <ABList ABName="gamestart" AssetName="GameStart.prefab" Path="Assets/GameData/Prefabs/GameStart.prefab" Crc="661067300" />
+  <ABList ABName="ilruntimehotfix" AssetName="HotFixProject.dll" Path="Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll" Crc="3553236519" />
   <ABList ABName="ilruntimehotfix" AssetName="HotFixProject.dll.bytes" Path="Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes" Crc="2565448593" />
+  <ABList ABName="ilruntimehotfix" AssetName="HotFixProject.pdb" Path="Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb" Crc="3884235396" />
   <ABList ABName="ilruntimehotfix" AssetName="HotFixProject.pdb.bytes" Path="Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes" Crc="3927953412" />
   <ABList ABName="injecthotfix" AssetName="Assembly-CSharp.patch.bytes" Path="Assets/GameData/Data/InjectHotFix/Assembly-CSharp.patch.bytes" Crc="288606441" />
   <ABList ABName="loadingpanel" AssetName="LoadingPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/LoadingPanel.prefab" Crc="968375833" />
