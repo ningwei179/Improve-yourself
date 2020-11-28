@@ -30,19 +30,27 @@ namespace Improve
             if (FrameConstr.ILState == ILRuntimeState.Open)
             {
                 MemoryStream dllMs = null;
-                AsyncOperationHandle<TextAsset> dllHandle = Addressables.LoadAssetAsync<TextAsset>(DLLPATH);
-                yield return dllHandle;
-                if (dllHandle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    dllMs = new MemoryStream(dllHandle.Result.bytes);
-                }
-
                 MemoryStream pdbMs = null;
-                AsyncOperationHandle<TextAsset> pdbHandle = Addressables.LoadAssetAsync<TextAsset>(PDBPATH);
-                yield return pdbHandle;
-                if (pdbHandle.Status == AsyncOperationStatus.Succeeded)
+                if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
                 {
-                    pdbMs = new MemoryStream(pdbHandle.Result.bytes);
+                    AsyncOperationHandle<TextAsset> dllHandle = Addressables.LoadAssetAsync<TextAsset>(DLLPATH);
+                    yield return dllHandle;
+                    if (dllHandle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        dllMs = new MemoryStream(dllHandle.Result.bytes);
+                    }
+                    AsyncOperationHandle<TextAsset> pdbHandle = Addressables.LoadAssetAsync<TextAsset>(PDBPATH);
+                    yield return pdbHandle;
+                    if (pdbHandle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        pdbMs = new MemoryStream(pdbHandle.Result.bytes);
+                    }
+                }
+                else {
+                    TextAsset dllText = ResourceManager.Instance.LoadResource<TextAsset>(DLLPATH);
+                    dllMs = new MemoryStream(dllText.bytes);
+                    TextAsset padText = ResourceManager.Instance.LoadResource<TextAsset>(PDBPATH);
+                    pdbMs = new MemoryStream(padText.bytes);
                 }
 
                 if (dllMs != null && pdbMs != null)

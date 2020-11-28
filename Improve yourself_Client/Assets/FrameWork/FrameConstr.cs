@@ -46,7 +46,7 @@ namespace Improve
         /// <summary>
         /// 资产来源
         /// </summary>
-        public const AssetAddress UseAssetAddress = AssetAddress.Addressable;
+        public const AssetAddress UseAssetAddress = AssetAddress.AssetBundle;
 
         /// <summary>
         /// 热更方式

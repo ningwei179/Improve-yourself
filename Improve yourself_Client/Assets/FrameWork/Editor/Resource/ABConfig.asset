@@ -23,7 +23,9 @@ MonoBehaviour:
     Path: Assets/GameData/Sounds
   - ABName: uisprite
     Path: Assets/GameData/UISprite
-  - ABName: InjectHotFix
+  - ABName: injecthotfix
     Path: Assets/GameData/Data/InjectHotFix
   - ABName: scene
     Path: Assets/GameData/Scenes
+  - ABName: ilruntimehotfix
+    Path: Assets/GameData/Data/ILRuntimeHotFix

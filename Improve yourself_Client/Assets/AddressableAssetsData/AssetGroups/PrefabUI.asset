@@ -21,17 +21,21 @@ MonoBehaviour:
     m_Address: Assets/GameData/Prefabs/UGUI/Panel/MenuPanel.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 9197308186830426379, guid: 1e96b5b783c48b643abcd3471de60f46,
-      type: 3}
-    m_TargetAsset: {fileID: 9197308186830426379, guid: 1e96b5b783c48b643abcd3471de60f46,
-      type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: 68b886efe47659e43ac35f7b258387f3
     m_Address: Assets/GameData/Prefabs/UGUI/Panel/LoadingPanel.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 1783211398265835475, guid: 68b886efe47659e43ac35f7b258387f3,
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: c7cae5a6895a2d242be833496e6fc8ff
+    m_Address: Assets/GameData/Prefabs/UGUI/Panel/MainPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2085956216855653866, guid: c7cae5a6895a2d242be833496e6fc8ff,
       type: 3}
-    m_TargetAsset: {fileID: 1783211398265835475, guid: 68b886efe47659e43ac35f7b258387f3,
+    m_TargetAsset: {fileID: 2085956216855653866, guid: c7cae5a6895a2d242be833496e6fc8ff,
       type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1e150252905fccf48be5744834c34d94, type: 2}

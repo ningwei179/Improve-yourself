@@ -5,14 +5,18 @@
     <ABDependce>shaders</ABDependce>
   </ABList>
   <ABList ABName="gamestart" AssetName="GameStart.prefab" Path="Assets/GameData/Prefabs/GameStart.prefab" Crc="661067300" />
+  <ABList ABName="ilruntimehotfix" AssetName="HotFixProject.dll.bytes" Path="Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes" Crc="2565448593" />
+  <ABList ABName="ilruntimehotfix" AssetName="HotFixProject.pdb.bytes" Path="Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes" Crc="3927953412" />
   <ABList ABName="injecthotfix" AssetName="Assembly-CSharp.patch.bytes" Path="Assets/GameData/Data/InjectHotFix/Assembly-CSharp.patch.bytes" Crc="288606441" />
   <ABList ABName="loadingpanel" AssetName="LoadingPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/LoadingPanel.prefab" Crc="968375833" />
   <ABList ABName="mainpanel" AssetName="MainPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/MainPanel.prefab" Crc="598175892" />
   <ABList ABName="menupanel" AssetName="MenuPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/MenuPanel.prefab" Crc="2681775694" />
   <ABList ABName="particletest" AssetName="ParticleTest.prefab" Path="Assets/GameData/Prefabs/Effect/ParticleTest.prefab" Crc="2693189025" />
+  <ABList ABName="popuppanel" AssetName="PopUpPanel.prefab" Path="Assets/GameData/Prefabs/UGUI/Panel/PopUpPanel.prefab" Crc="900266966" />
   <ABList ABName="scene" AssetName="Empty.unity" Path="Assets/GameData/Scenes/Empty.unity" Crc="2110044199" />
   <ABList ABName="scene" AssetName="Menu.unity" Path="Assets/GameData/Scenes/Menu.unity" Crc="4140252350" />
   <ABList ABName="scene" AssetName="Start.unity" Path="Assets/GameData/Scenes/Start.unity" Crc="4231996152">
+    <ABDependce>uisprite</ABDependce>
     <ABDependce>gamestart</ABDependce>
   </ABList>
   <ABList ABName="shaders" AssetName="Hero-Battle.shader" Path="Assets/GameData/Shaders/Hero-Battle.shader" Crc="3448524930" />

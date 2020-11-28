@@ -80,6 +80,9 @@
     <Compile Include="Assets\FrameWork\Editor\Resource\BundleEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\BundleHotFix.cs" />
     <Compile Include="Assets\FrameWork\Editor\Resource\OfflineDataEditor.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Tool\ILRuntimeCLRBinding.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Tool\ILRuntimeCrossBinding.cs" />
+    <Compile Include="Assets\FrameWork\Editor\Tool\MonoBehaviourAdapterEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Tool\ScriptsInfoRecoder.cs" />
     <Compile Include="Assets\FrameWork\Editor\Tool\ToolsEditor.cs" />
     <Compile Include="Assets\FrameWork\Editor\Tool\UnityToSVN.cs" />

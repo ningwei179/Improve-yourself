@@ -247,11 +247,8 @@
     <Compile Include="Assets\FrameWork\ConfigFrame\ConfigManager.cs" />
     <Compile Include="Assets\FrameWork\ConfigFrame\ExcelBase.cs" />
     <Compile Include="Assets\FrameWork\FrameConstr.cs" />
-    <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeCLRBinding.cs" />
-    <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeCrossBinding.cs" />
     <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeManager.cs" />
     <Compile Include="Assets\FrameWork\ILRuntimeFrame\ILRuntimeRegister.cs" />
-    <Compile Include="Assets\FrameWork\ILRuntimeFrame\MonoBehaviourAdapterEditor.cs" />
     <Compile Include="Assets\FrameWork\InjectFixFrame\InjectFixManager.cs" />
     <Compile Include="Assets\HotFixMain.cs" />
     <Compile Include="Assets\Script\Common\CommonEnum.cs" />
