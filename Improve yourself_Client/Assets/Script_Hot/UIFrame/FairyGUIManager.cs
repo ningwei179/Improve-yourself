@@ -14,10 +14,15 @@ namespace Improve
 {
     public class FairyGUIManager : HotSingleton<FairyGUIManager>
     {
-        //FairyGUI包列表
+        //FairyGUI所有的包列表
 
         public List<string> m_FairyGuiList = new List<string>() {
             "BackPack_fui",
+        };
+
+        //FairyGUI预加载的包的列表
+        public List<string> m_PreFairyGuiList = new List<string> {
+            "Common_fui",
         };
 
         internal void BindAll()
@@ -28,7 +33,9 @@ namespace Improve
 
         internal void PreAddPackage()
         {
-
+            for (int i = 0; i < m_PreFairyGuiList.Count; ++i) { 
+                
+            }
         }
     }
 }

@@ -4,6 +4,7 @@
 	日期：2020/09/07 11:34   	
 	功能：UI管理器
 *****************************************************/
+using FairyGUI;
 using HotFixProject;
 using System;
 using System.Collections.Generic;
@@ -151,29 +152,52 @@ namespace Improve
                 {
                     Debug.LogError("找不到窗口对应的脚本，注册的窗口名称是：" + name);
                 }
-                GameObject uiObj = null;
-                if (resource == AssetAddress.Resources)
+                //FGUI 用Addressable好困难,先用AssetBundle实现功能先，实现后看怎么优化让Addressable也能和FGUI融合
+                if (ui.m_UIType == UIType.FariyGUI)
                 {
-                    //从resource加载UI
-                    uiObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(ui.PrefabName.Replace(".prefab", ""))) as GameObject;
-                    InitPrefab(ui, uiObj, name, resource, paramList);
-                }
-                else if (resource == AssetAddress.AssetBundle)
-                {
-                    //从AssetBundle加载UI
-                    ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + ui.PrefabName, (string path, UnityEngine.Object obj, object[] paramArr) =>
+                    ui.wnd = new FairyGUI.Window();
+                    if (resource == AssetAddress.Resources)
                     {
-                        uiObj = obj as GameObject;
-                        InitPrefab(ui, uiObj, name, resource, paramList);
-                    }, LoadResPriority.RES_HIGHT, false, false);
-                }
-                else if (resource == AssetAddress.Addressable)
-                {
-                    AddressableManager.Instance.AsyncInstantiate(m_UIPrefabPath + ui.PrefabName, (GameObject obj) =>
+                        UIPackage.AddPackage(ui.PrefabName);
+                        InitFairyGUIPanel(ui, name, resource, paramList);
+                    }
+                    else if (resource == AssetAddress.AssetBundle)
                     {
-                        uiObj = obj;
+                        //AB加载FairyGUI
+                        //ObjectManager.Instance(m_UIPrefabPath + ui.PrefabName, (string path, UnityEngine.Object obj, object[] paramArr) =>
+                        //{
+                        //    uiObj = obj as GameObject;
+                        //    InitPrefab(ui, uiObj, name, resource, paramList);
+                        //    InitFairyGUIPanel(ui, name, resource, paramList);
+                        //}, LoadResPriority.RES_HIGHT, false, false);
+                    }
+                }
+                else
+                {
+                    GameObject uiObj = null;
+                    if (resource == AssetAddress.Resources)
+                    {
+                        //从resource加载UI
+                        uiObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(ui.PrefabName.Replace(".prefab", ""))) as GameObject;
                         InitPrefab(ui, uiObj, name, resource, paramList);
-                    });
+                    }
+                    else if (resource == AssetAddress.AssetBundle)
+                    {
+                        //从AssetBundle加载UI
+                        ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + ui.PrefabName, (string path, UnityEngine.Object obj, object[] paramArr) =>
+                        {
+                            uiObj = obj as GameObject;
+                            InitPrefab(ui, uiObj, name, resource, paramList);
+                        }, LoadResPriority.RES_HIGHT, false, false);
+                    }
+                    else if (resource == AssetAddress.Addressable)
+                    {
+                        AddressableManager.Instance.AsyncInstantiate(m_UIPrefabPath + ui.PrefabName, (GameObject obj) =>
+                        {
+                            uiObj = obj;
+                            InitPrefab(ui, uiObj, name, resource, paramList);
+                        });
+                    }
                 }
             }
             else
@@ -213,6 +237,30 @@ namespace Improve
 
             //设置UI的挂在节点
             SetUIRoot(ui);
+
+            //设置UI的显示模式
+            SetUIShowMode(ui);
+
+            ui.Awake(paramList);
+
+            ShowUI(ui, paramList);
+        }
+
+        /// <summary>
+        /// 初始化UIPrefab
+        /// </summary>
+        /// <param name="ui"></param>
+        /// <param name="uiObj"></param>
+        /// <param name="name"></param>
+        /// <param name="resource"></param>
+        /// <param name="paramList"></param>
+        void InitFairyGUIPanel(BaseUI ui, string name, AssetAddress resource = AssetAddress.AssetBundle, params object[] paramList)
+        {
+            //添加到所有UI字典中去
+            if (!m_AllUIDic.ContainsKey(name))
+            {
+                m_AllUIDic.Add(name, ui);
+            }
 
             //设置UI的显示模式
             SetUIShowMode(ui);
@@ -349,8 +397,14 @@ namespace Improve
         /// <param name="paramList"></param>
         public void ShowUI(BaseUI ui, params object[] paramList)
         {
-            ui.GameObject.SetActive(true);
-            ui.Transform.SetAsLastSibling();
+            if (ui.m_UIType == UIType.FariyGUI)
+            {
+                ui.wnd.Show();
+            }
+            else { 
+                ui.GameObject.SetActive(true);
+                ui.Transform.SetAsLastSibling();
+            }
             ui.OnShow(paramList);
             //UI的开启完毕后，关闭遮罩
             SetMask(false);
@@ -508,7 +562,12 @@ namespace Improve
         {
             if (ui != null)
             {
-                ui.GameObject.SetActive(false);
+                if (ui.m_UIType == UIType.FariyGUI) {
+                    ui.wnd.Hide();
+                }
+                else {
+                    ui.GameObject.SetActive(false);
+                }
                 ui.OnDisable();
             }
         }
