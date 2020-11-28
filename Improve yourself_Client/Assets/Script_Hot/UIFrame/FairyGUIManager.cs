@@ -7,15 +7,28 @@
 using FairyGUI.BackPack;
 using FairyGUI.Common;
 using HotFixProject;
+using System;
+using System.Collections.Generic;
 
 namespace Improve
 {
-    public class FairyGUIBinder : HotSingleton<FairyGUIBinder>
+    public class FairyGUIManager : HotSingleton<FairyGUIManager>
     {
+        //FairyGUI包列表
+
+        public List<string> m_FairyGuiList = new List<string>() {
+            "BackPack_fui",
+        };
+
         internal void BindAll()
         {
             CommonBinder.BindAll();
             BackPackBinder.BindAll();
+        }
+
+        internal void PreAddPackage()
+        {
+
         }
     }
 }
