@@ -36,7 +36,7 @@ namespace Improve
             Debug.Log("loading log LoadingWindow OnUpdate");
             if (m_Panel == null)
                 return;
-            Debug.Log("loading log LoadingWindow OnUpdate2");
+            Debug.Log("loading log LoadingWindow OnUpdate2"+ GameMapManager.LoadingProgress);
             m_Panel.m_Slider.value = GameMapManager.LoadingProgress / 100.0f;
             m_Panel.m_Text.text = string.Format("{0}%", GameMapManager.LoadingProgress);
 
