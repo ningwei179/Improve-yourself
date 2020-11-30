@@ -21,7 +21,7 @@ namespace Improve
             m_UIType = UIType.FariyGUI;
             m_UIRoot = UIRoot.Normal;
             m_ShowMode = UIShowMode.ReverseChange;
-            PrefabName = "Assets/GameData/FairyGUI/BackPack";
+            UIResourceName = "Assets/GameData/FairyGUI/BackPack";
         }
 
         public override void Awake(params object[] paralist)

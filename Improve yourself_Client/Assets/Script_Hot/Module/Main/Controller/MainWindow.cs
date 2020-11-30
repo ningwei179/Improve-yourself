@@ -9,7 +9,7 @@ namespace Improve
         {
             m_UIRoot = UIRoot.Normal;
             m_ShowMode = UIShowMode.Normal;
-            PrefabName = "MainPanel.prefab";
+            UIResourceName = "MainPanel.prefab";
         }
 
         public override void Awake(params object[] paramList)

@@ -206,10 +206,6 @@ namespace Improve
         /// <returns></returns>
         public bool LoadAssetBundleConfig(bool isInit = true)
         {
-            //#if UNITY_EDITOR
-            //        if (!ResourceManager.Instance.m_LoadFromAssetBundle)
-            //            return false;
-            //#endif
             //初始化时候的ab配置文件在streamingAssets文件夹中
             string configPath = Application.streamingAssetsPath + "/" + m_ABConfigABName;
             //非初始化，检查热更后进来的

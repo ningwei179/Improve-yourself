@@ -49,8 +49,8 @@ namespace Improve
         //UI的参数列表
         public object[] m_Params;
 
-        //Prefab的名称
-        public string PrefabName { get; set; }
+        //UI资源的名称，UGUI是PrefabName,FairyGUI是打出的BundleName
+        public string UIResourceName { get; set; }
 
         //是否是FairyGUI
         public UIType m_UIType = UIType.UGUI;

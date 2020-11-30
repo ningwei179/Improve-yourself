@@ -35,18 +35,24 @@ namespace Improve
             BackPackBinder.BindAll();
         }
 
+        /// <summary>
+        /// 预加载FairyGUI的包
+        /// </summary>
         internal void PreAddPackage()
         {
             foreach (var item in m_PreFairyGUIList)
             {
-                if (Application.platform == RuntimePlatform.WindowsEditor)
+                if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
                 {
-                    UIPackage.AddPackage(item.Key);
+                    //暂缺Addressable的加载方法
                 }
-                else
+                else if (FrameConstr.UseAssetAddress == AssetAddress.AssetBundle)
                 {
                     AssetBundle ab = AssetBundleManager.Instance.LoadAssetBundle(item.Value);
                     UIPackage.AddPackage(ab);
+                }
+                else { 
+                    UIPackage.AddPackage(item.Key);
                 }
             }
         }

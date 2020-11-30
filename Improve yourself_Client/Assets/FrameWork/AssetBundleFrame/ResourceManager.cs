@@ -179,7 +179,7 @@ namespace Improve
     public class ResourceManager : Singleton<ResourceManager>
     {
         protected long m_Guid = 0;
-        public bool m_LoadFromAssetBundle = true;      //是否从AssetBundle加载
+        public bool m_LoadFromAssetBundle = false;      //是否从AssetBundle加载
 
         /// <summary>
         /// 缓存已经使用的资源列表
@@ -930,8 +930,8 @@ namespace Improve
                             obj = LoadAssetByEditor<Object>(loadintItem.m_Path);
                         }
 
-                        //模拟异步加载
-                        yield return new WaitForSeconds(0.5f);
+                        //编辑器下模拟异步加载，等0.1f
+                        yield return new WaitForSeconds(0.1f);
 
                         abInfo = AssetBundleManager.Instance.FindAssetBundleInfo(loadintItem.m_Crc);
 

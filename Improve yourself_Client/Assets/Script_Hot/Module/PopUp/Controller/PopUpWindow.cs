@@ -21,7 +21,7 @@ namespace Improve
         {
             m_UIRoot = UIRoot.Normal;
             m_ShowMode = UIShowMode.Normal;
-            PrefabName = "PopUpPanel.prefab";
+            UIResourceName = "PopUpPanel.prefab";
         }
 
         PopUpPanelParams m_params;
