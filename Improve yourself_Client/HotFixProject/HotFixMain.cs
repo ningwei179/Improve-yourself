@@ -11,6 +11,12 @@ namespace HotFixProject
             //初始化UI管理器
             UIManager.Instance.Init(transform);
 
+            //FairyGUI在创建UI之前要先绑定
+            FairyGUIManager.Instance.BindAll();
+
+            //FairyGUI预加载某些包
+            FairyGUIManager.Instance.PreAddPackage();
+
             ////注册所有的UI
             UIRegister.Instance.RegisterAllUI();
         }

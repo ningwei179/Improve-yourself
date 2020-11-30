@@ -49,6 +49,7 @@ namespace Improve
 
             m_AppDomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
             m_AppDomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
+            m_AppDomain.RegisterCrossBindingAdaptor(new GComponentAdapter());
             m_AppDomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
 
             //CLR重定向的注册
