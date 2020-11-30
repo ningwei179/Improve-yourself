@@ -15,6 +15,7 @@ namespace Improve
         public const string LoadingPanel = "LoadingPanel";
         public const string PopUpPanel = "PopUpPanel";
         public const string MainPanel = "MainPanel";
+        public const string BackPackPanel = "BackPackPanel";
         #endregion
 
         #region 场景名称

@@ -695,23 +695,5 @@ namespace Improve
                 Debug.LogError("无法复制：" + srcPath + "  到" + targetPath);
             }
         }
-
-        /// <summary>
-        /// 获取所有的文件
-        /// </summary>
-        /// <param name="path">路径</param>
-        /// <param name="signStr">标记字符串</param>
-        /// <returns></returns>
-        public static List<string> GetAllFiles(string path,string signStr) {
-            List<string> files = new List<string>();
-            DirectoryInfo dir = new DirectoryInfo(path);
-            FileInfo[] file = dir.GetFiles();//获取所在目录的文件
-            foreach(FileInfo fileItem in file){
-                if (fileItem.Name.Contains(signStr) && !fileItem.Name.EndsWith("meta")) { 
-                    files.Add(string.Format("{0}/{1}", FairyGUIManager.Instance.FairyGUIPath, fileItem.Name));
-                }
-            }
-            return files;
-        }
     }
 }

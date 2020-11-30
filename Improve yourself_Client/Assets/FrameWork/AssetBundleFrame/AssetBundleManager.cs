@@ -316,7 +316,7 @@ namespace Improve
         /// </summary>
         /// <param name="name">AssetBundle名称</param>
         /// <returns></returns>
-        private AssetBundle LoadAssetBundle(string name)
+        public AssetBundle LoadAssetBundle(string name)
         {
             AssetBundleItem abItem = null;
             uint crc = Crc32.GetCrc32(name);    //根据名称获取Crc值

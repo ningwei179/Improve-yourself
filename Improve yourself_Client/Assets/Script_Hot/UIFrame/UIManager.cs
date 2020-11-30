@@ -155,22 +155,30 @@ namespace Improve
                 //FGUI 用Addressable好困难,先用AssetBundle实现功能先，实现后看怎么优化让Addressable也能和FGUI融合
                 if (ui.m_UIType == UIType.FariyGUI)
                 {
+                    GComponent view;
+                    if (!FairyGUIManager.Instance.m_PreFairyGUIList.ContainsKey(ui.PrefabName))
+                    {
+                        //没有预加载过的Fairy包,我们就加载这个包
+                        if (resource == AssetAddress.Resources)
+                        {
+                            UIPackage.AddPackage(ui.PrefabName);
+                        }
+                        else if (resource == AssetAddress.AssetBundle)
+                        {
+                            string abName;
+                            if (FairyGUIManager.Instance.m_FairyGUIList.TryGetValue(ui.PrefabName, out abName))
+                            {
+                                AssetBundle ab = AssetBundleManager.Instance.LoadAssetBundle(abName);
+                                UIPackage.AddPackage(ab);
+                            }
+                        }
+                        else if (resource == AssetAddress.Addressable)
+                        {
+
+                        }
+                    }
                     ui.wnd = new FairyGUI.Window();
-                    if (resource == AssetAddress.Resources)
-                    {
-                        UIPackage.AddPackage(ui.PrefabName);
-                        InitFairyGUIPanel(ui, name, resource, paramList);
-                    }
-                    else if (resource == AssetAddress.AssetBundle)
-                    {
-                        //AB加载FairyGUI
-                        //ObjectManager.Instance(m_UIPrefabPath + ui.PrefabName, (string path, UnityEngine.Object obj, object[] paramArr) =>
-                        //{
-                        //    uiObj = obj as GameObject;
-                        //    InitPrefab(ui, uiObj, name, resource, paramList);
-                        //    InitFairyGUIPanel(ui, name, resource, paramList);
-                        //}, LoadResPriority.RES_HIGHT, false, false);
-                    }
+                    InitFairyGUIPanel(ui, name, resource, paramList);
                 }
                 else
                 {
@@ -401,7 +409,8 @@ namespace Improve
             {
                 ui.wnd.Show();
             }
-            else { 
+            else
+            {
                 ui.GameObject.SetActive(true);
                 ui.Transform.SetAsLastSibling();
             }
@@ -562,10 +571,12 @@ namespace Improve
         {
             if (ui != null)
             {
-                if (ui.m_UIType == UIType.FariyGUI) {
+                if (ui.m_UIType == UIType.FariyGUI)
+                {
                     ui.wnd.Hide();
                 }
-                else {
+                else
+                {
                     ui.GameObject.SetActive(false);
                 }
                 ui.OnDisable();
