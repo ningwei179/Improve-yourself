@@ -7,12 +7,14 @@ namespace ILRuntime.Runtime.Generated
     class CLRBindings
     {
 
+        internal static ILRuntime.Runtime.Enviorment.ValueTypeBinder<UnityEngine.Vector3> s_UnityEngine_Vector3_Binding_Binder = null;
 
         /// <summary>
         /// Initialize the CLR binding, please invoke this AFTER CLR Redirection registration
         /// </summary>
         public static void Initialize(ILRuntime.Runtime.Enviorment.AppDomain app)
         {
+            FairyGUI_Window_Binding.Register(app);
             UnityEngine_Object_Binding.Register(app);
             Improve_Singleton_1_ResourceManager_Binding.Register(app);
             Improve_ResourceManager_Binding.Register(app);
@@ -32,14 +34,13 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_Debug_Binding.Register(app);
             UnityEngine_GameObject_Binding.Register(app);
             Improve_GameMapManager_Binding.Register(app);
-            UnityEngine_UI_Slider_Binding.Register(app);
+            System_Int32_Binding.Register(app);
             System_String_Binding.Register(app);
+            UnityEngine_UI_Slider_Binding.Register(app);
             UnityEngine_UI_Text_Binding.Register(app);
             System_Array_Binding.Register(app);
             UnityEngine_Component_Binding.Register(app);
             UnityEngine_Transform_Binding.Register(app);
-            Improve_Singleton_1_AddressableManager_Binding.Register(app);
-            Improve_AddressableManager_Binding.Register(app);
             UnityEngine_Input_Binding.Register(app);
             IYProtocal_NetMsg_Binding.Register(app);
             IYNet_IYMsg_Binding.Register(app);
@@ -49,6 +50,13 @@ namespace ILRuntime.Runtime.Generated
             Improve_Singleton_1_TimerController_Binding.Register(app);
             Improve_TimerController_Binding.Register(app);
             System_Action_Binding.Register(app);
+            System_Collections_Generic_Dictionary_2_String_String_Binding.Register(app);
+            System_Collections_Generic_Dictionary_2_String_String_Binding_Enumerator_Binding.Register(app);
+            UnityEngine_Application_Binding.Register(app);
+            System_Collections_Generic_KeyValuePair_2_String_String_Binding.Register(app);
+            FairyGUI_UIPackage_Binding.Register(app);
+            Improve_Singleton_1_AssetBundleManager_Binding.Register(app);
+            Improve_AssetBundleManager_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_String_Type_Binding.Register(app);
             System_Type_Binding.Register(app);
             UnityEngine_Screen_Binding.Register(app);
@@ -59,14 +67,20 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_Resources_Binding.Register(app);
             Improve_Singleton_1_ObjectManager_Binding.Register(app);
             Improve_ObjectManager_Binding.Register(app);
+            Improve_Singleton_1_AddressableManager_Binding.Register(app);
+            Improve_AddressableManager_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_String_ILTypeInstance_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_String_ILTypeInstance_Binding_ValueCollection_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_String_ILTypeInstance_Binding_ValueCollection_Binding_Enumerator_Binding.Register(app);
             UnityEngine_EventSystems_EventSystem_Binding.Register(app);
+            FairyGUI_UIObjectFactory_Binding.Register(app);
+            FairyGUI_GComponent_Binding.Register(app);
             UnityEngine_Time_Binding.Register(app);
             System_Single_Binding.Register(app);
 
             ILRuntime.CLR.TypeSystem.CLRType __clrType = null;
+            __clrType = (ILRuntime.CLR.TypeSystem.CLRType)app.GetType (typeof(UnityEngine.Vector3));
+            s_UnityEngine_Vector3_Binding_Binder = __clrType.ValueTypeBinder as ILRuntime.Runtime.Enviorment.ValueTypeBinder<UnityEngine.Vector3>;
         }
 
         /// <summary>
@@ -74,6 +88,7 @@ namespace ILRuntime.Runtime.Generated
         /// </summary>
         public static void Shutdown(ILRuntime.Runtime.Enviorment.AppDomain app)
         {
+            s_UnityEngine_Vector3_Binding_Binder = null;
         }
     }
 }

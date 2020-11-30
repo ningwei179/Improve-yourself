@@ -18,9 +18,8 @@ namespace Improve
             m_Panel = GameObject.GetComponent<MainPanel>();
             if (m_Panel == null)
                 m_Panel = GameObject.AddComponent<MainPanel>();
-            m_Panel.m_BackBtn = Transform.Find("Btn-Back").GetComponent<Button>();
-
             AddButtonClickListener(m_Panel.m_BackBtn, OnClose);
+            AddButtonClickListener(m_Panel.m_BackPackBtn, OnClickBackPack);
         }
 
         public override void OnUpdate()
@@ -32,6 +31,10 @@ namespace Improve
         {
             base.OnClose();
             UIManager.Instance.OpenUI<MenuWindow>(ConStr.MenuPanel);
+        }
+
+        void OnClickBackPack() {
+            UIManager.Instance.OpenUI<BackPackWindow>(ConStr.BackPackPanel);
         }
     }
 }

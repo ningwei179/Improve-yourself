@@ -4,6 +4,7 @@
 	日期：2020/09/07 11:34   	
 	功能：UI窗口基类
 *****************************************************/
+using FairyGUI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +14,11 @@ namespace Improve
 
     public class BaseUI
     {
+        /// <summary>
+        /// FairyGUI的窗口
+        /// </summary>
+        public Window wnd;
+
         /// <summary>
         /// 引用GameObject
         /// </summary>
@@ -98,7 +104,7 @@ namespace Improve
         /// <param name="image"></param>
         /// <param name="setNativeSize"></param>
         /// <returns></returns>
-        public bool ChangeImageSprite(string path, Image image, bool setNativeSize = false)
+        public bool ChangeImageSprite(string path, UnityEngine.UI.Image image, bool setNativeSize = false)
         {
             if (image == null)
                 return false;
@@ -125,7 +131,7 @@ namespace Improve
         /// <param name="paht"></param>
         /// <param name="image"></param>
         /// <param name="setNativeSize"></param>
-        public void ChangeImageSpriteAsync(string path, Image image, bool setNativeSize = false)
+        public void ChangeImageSpriteAsync(string path, UnityEngine.UI.Image image, bool setNativeSize = false)
         {
             if (image == null)
                 return;
@@ -135,7 +141,7 @@ namespace Improve
                 if (obj != null)
                 {
                     Sprite m_Sp = obj as Sprite;
-                    Image m_Imgae = paramArr[0] as Image;
+                    UnityEngine.UI.Image m_Imgae = paramArr[0] as UnityEngine.UI.Image;
                     bool m_SetNativeSize = (bool)paramArr[1];
 
                     if (m_Imgae.sprite != null)

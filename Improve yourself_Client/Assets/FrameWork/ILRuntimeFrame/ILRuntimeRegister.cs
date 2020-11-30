@@ -66,7 +66,7 @@ namespace Improve
             //在CLR绑定代码生成之后，需要将这些绑定代码注册到AppDomain中才能使CLR绑定生效，
             //但是一定要记得将CLR绑定的注册写在CLR重定向的注册后面，因为同一个方法只能被重定向一次，只有先注册的那个才能生效。
             //请在生成了绑定代码后解除下面的的注释,将这些绑定代码注册到AppDomain中
-            ILRuntime.Runtime.Generated.CLRBindings.Initialize(m_AppDomain);
+            //ILRuntime.Runtime.Generated.CLRBindings.Initialize(m_AppDomain);
         }
 
         //编写重定向方法对于刚接触ILRuntime的朋友可能比较困难，比较简单的方式是通过CLR绑定生成绑定代码，然后在这个基础上改，比如下面这个代码是从UnityEngine_Debug_Binding里面复制来改的

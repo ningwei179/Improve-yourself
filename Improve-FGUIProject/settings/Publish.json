@@ -9,7 +9,7 @@
   "compressPNG": false,
   "codeGeneration": {
     "allowGenCode": true,
-    "codePath": "D:\\GitHubWork\\Improve-yourself\\Improve yourself_Client\\Assets\\Script_Hot\\FairyGUI",
+    "codePath": "D:\\GitHubWork\\Improve-yourself\\Improve yourself_Client\\Assets\\Script_Hot\\FairyModel",
     "classNamePrefix": "UI_",
     "memberNamePrefix": "m_",
     "packageName": "FairyGUI",

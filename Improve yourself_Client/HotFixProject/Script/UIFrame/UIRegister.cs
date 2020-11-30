@@ -19,6 +19,7 @@ namespace Improve
             UIManager.Instance.Register<LoadingWindow>(ConStr.LoadingPanel);
             UIManager.Instance.Register<MenuWindow>(ConStr.MenuPanel);
             UIManager.Instance.Register<MainWindow>(ConStr.MainPanel);
+            UIManager.Instance.Register<BackPackWindow>(ConStr.BackPackPanel);
         }
     }
 }

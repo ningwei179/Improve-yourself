@@ -155,7 +155,6 @@ namespace Improve
                 //FGUI 用Addressable好困难,先用AssetBundle实现功能先，实现后看怎么优化让Addressable也能和FGUI融合
                 if (ui.m_UIType == UIType.FariyGUI)
                 {
-                    GComponent view;
                     if (!FairyGUIManager.Instance.m_PreFairyGUIList.ContainsKey(ui.PrefabName))
                     {
                         //没有预加载过的Fairy包,我们就加载这个包
@@ -174,10 +173,10 @@ namespace Improve
                         }
                         else if (resource == AssetAddress.Addressable)
                         {
-
+                            
                         }
                     }
-                    ui.wnd = new FairyGUI.Window();
+                    
                     InitFairyGUIPanel(ui, name, resource, paramList);
                 }
                 else
@@ -269,6 +268,8 @@ namespace Improve
             {
                 m_AllUIDic.Add(name, ui);
             }
+            //创建一个Window
+            ui.wnd = new FairyGUI.Window();
 
             //设置UI的显示模式
             SetUIShowMode(ui);
