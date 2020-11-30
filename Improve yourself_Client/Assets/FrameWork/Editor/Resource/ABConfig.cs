@@ -17,6 +17,9 @@ public class ABConfig : ScriptableObject
     public List<string> m_AllPrefabPath = new List<string>();
     public List<FileDirAbName> m_AllFileDirAB = new List<FileDirAbName>();
 
+    public string FairyABPath;
+    public List<string> m_AllFairyAB = new List<string>();
+
     [System.Serializable]
     public struct FileDirAbName
     {

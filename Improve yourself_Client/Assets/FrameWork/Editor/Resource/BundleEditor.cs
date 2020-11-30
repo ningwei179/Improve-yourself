@@ -12,6 +12,7 @@ using UnityEditor;
 using UnityEngine;
 namespace Improve
 {
+    //资源打包用的，场景打包的没有写
     public class BundleEditor
     {
         private static string m_BundleTargetPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString();
@@ -31,6 +32,9 @@ namespace Improve
 
         //key是ab包名，value是路径，所有文件夹ab包dic
         public static Dictionary<string, string> m_AllFileDir = new Dictionary<string, string>();
+
+        //Fairy文件的包，Key是包名，value是包所包含的文件列表
+        public static Dictionary<string, List<string>> m_FairyDir = new Dictionary<string, List<string>>();
 
         //单个prefab的ab包dic,单个prefab可能依赖很多其他资源，记录他自己的路径以及他依赖的路径，过滤掉依赖路径中
         //已经在m_AllFileDir中添加过的路径
@@ -99,6 +103,7 @@ namespace Improve
             m_AllFileAB.Clear();
             m_AllFileDir.Clear();
             m_AllPrefabDir.Clear();
+            m_FairyDir.Clear();
             m_ConfigFil.Clear();
 
             //加载ABConfig文件，该文件记录了所有需要打包的Prefab路径和文件夹路径
@@ -121,6 +126,31 @@ namespace Improve
                     //添加到有效路径列表
                     m_ConfigFil.Add(fileDir.Path);
                 }
+            }
+
+            //处理ABConfig中记录的需要打包的Fairy文件的包
+            DirectoryInfo dir = new DirectoryInfo(abConfig.FairyABPath);
+            //获取所有的Fairy文件
+            FileInfo[] file = dir.GetFiles();
+            foreach (string abPath in abConfig.m_AllFairyAB) {
+                //要打到一个AB包的Fairy文件列表
+                List<string> fariyList = new List<string>();
+                foreach (FileInfo fileItem in file)
+                {
+                    if (fileItem.Name.Contains(abPath) && !fileItem.Name.EndsWith("meta"))
+                    {
+                        string path = string.Format("{0}/{1}", abConfig.FairyABPath, fileItem.Name);
+
+                        fariyList.Add(path);
+                        
+                        //添加到有效路径列表
+                        m_ConfigFil.Add(path);
+
+                        //添加到过滤文件列表
+                        m_AllFileAB.Add(path);
+                    }
+                }
+                m_FairyDir.Add(abPath, fariyList);
             }
 
             //处理ABConfig中记录的需要单个打包的prefab文件
@@ -182,6 +212,12 @@ namespace Improve
             foreach (string name in m_AllPrefabDir.Keys)
             {
                 SetABName(name, m_AllPrefabDir[name]);
+            }
+
+            //给要打包的Fairy文件打包
+            foreach (string name in m_FairyDir.Keys)
+            {
+                SetABName(name, m_FairyDir[name]);
             }
 
             //执行打包代码
@@ -403,6 +439,9 @@ namespace Improve
             //加密AB包
             if (encrypt)
                 EncryptAB();
+
+            //将AB包拷贝到streamingAssetsPath
+            Copy(m_BundleTargetPath+ "/", Application.streamingAssetsPath);
         }
 
         static void DeleteMainfest()
@@ -610,10 +649,69 @@ namespace Improve
                 {
                     return true;
                 }
-
             }
             return false;
         }
 
+        /// <summary>
+        /// 拷贝文件到目标文件夹
+        /// </summary>
+        /// <param name="srcPath"></param>
+        /// <param name="targetPath"></param>
+
+        public static void Copy(string srcPath, string targetPath)
+        {
+            try
+            {
+                if (!Directory.Exists(targetPath))
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
+
+                string scrdir = Path.Combine(targetPath, Path.GetFileName(srcPath));
+                if (Directory.Exists(srcPath))
+                    scrdir += Path.DirectorySeparatorChar;
+                if (!Directory.Exists(scrdir))
+                {
+                    Directory.CreateDirectory(scrdir);
+                }
+
+                string[] files = Directory.GetFileSystemEntries(srcPath);
+                foreach (string file in files)
+                {
+                    if (Directory.Exists(file))
+                    {
+                        Copy(file, scrdir);
+                    }
+                    else
+                    {
+                        File.Copy(file, scrdir + Path.GetFileName(file), true);
+                    }
+                }
+
+            }
+            catch
+            {
+                Debug.LogError("无法复制：" + srcPath + "  到" + targetPath);
+            }
+        }
+
+        /// <summary>
+        /// 获取所有的文件
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="signStr">标记字符串</param>
+        /// <returns></returns>
+        public static List<string> GetAllFiles(string path,string signStr) {
+            List<string> files = new List<string>();
+            DirectoryInfo dir = new DirectoryInfo(path);
+            FileInfo[] file = dir.GetFiles();//获取所在目录的文件
+            foreach(FileInfo fileItem in file){
+                if (fileItem.Name.Contains(signStr) && !fileItem.Name.EndsWith("meta")) { 
+                    files.Add(string.Format("{0}/{1}", FairyGUIManager.Instance.FairyGUIPath, fileItem.Name));
+                }
+            }
+            return files;
+        }
     }
 }

@@ -2,6 +2,10 @@
 <packageDescription id="1cnrr7lv">
   <resources>
     <component id="g0910" name="BackPackPanel.xml" path="/" exported="true"/>
+    <image id="t7qs1" name="TaskIcon_603018.png" path="/Image/" exported="true"/>
+    <image id="t7qs2" name="TaskIcon_603019.png" path="/Image/" exported="true"/>
+    <image id="t7qs3" name="TaskIcon_603020.png" path="/Image/" exported="true"/>
+    <image id="t7qs4" name="TaskIcon_603021.png" path="/Image/" exported="true"/>
   </resources>
   <publish name="" genCode="true"/>
 </packageDescription>

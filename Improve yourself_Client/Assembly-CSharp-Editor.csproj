@@ -401,9 +401,6 @@
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
-    <Reference Include="HotFixProject">
-      <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/GitHubWork/Improve-yourself/Improve yourself_Client/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>

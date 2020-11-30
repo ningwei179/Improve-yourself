@@ -25,7 +25,9 @@ MonoBehaviour:
     Path: Assets/GameData/UISprite
   - ABName: injecthotfix
     Path: Assets/GameData/Data/InjectHotFix
-  - ABName: scene
-    Path: Assets/GameData/Scenes
   - ABName: ilruntimehotfix
     Path: Assets/GameData/Data/ILRuntimeHotFix
+  FairyABPath: Assets/GameData/FairyGUI
+  m_AllFairyAB:
+  - Common_
+  - BackPack_

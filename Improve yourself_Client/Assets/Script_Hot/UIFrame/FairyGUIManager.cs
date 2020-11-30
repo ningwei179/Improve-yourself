@@ -14,10 +14,12 @@ namespace Improve
 {
     public class FairyGUIManager : HotSingleton<FairyGUIManager>
     {
-        //FairyGUI所有的包列表
+        public string FairyGUIPath = "Assets/GameData/FairyGUI";
 
+        //FairyGUI所有的包列表
         public List<string> m_FairyGuiList = new List<string>() {
-            "BackPack_fui",
+            "Common",
+            "BackPack",
         };
 
         //FairyGUI预加载的包的列表
