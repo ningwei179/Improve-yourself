@@ -1,9 +1,12 @@
+using FairyGUI;
 using ILRuntime.CLR.Method;
 using ILRuntime.CLR.TypeSystem;
 using ILRuntime.CLR.Utils;
 using ILRuntime.Runtime.Intepreter;
 using ILRuntime.Runtime.Stack;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace Improve
@@ -18,7 +21,7 @@ namespace Improve
 #if DEBUG && (UNITY_EDITOR || UNITY_ANDROID || UNITY_IPHONE)
             //由于Unity的Profiler接口只允许在主线程使用，为了避免出异常，需要告诉ILRuntime主线程的线程ID才能正确将函数运行耗时报告给Profiler
             m_AppDomain.UnityMainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
-            //m_AppDomain.DebugService.StartDebugService(56000);
+            m_AppDomain.DebugService.StartDebugService(56000);
 #endif
             //这里做一些ILRuntime的注册,注册漏了的委托，运行的时候会报错提示的
 
@@ -53,12 +56,14 @@ namespace Improve
             m_AppDomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
 
             //CLR重定向的注册
+            //DebugLog的重定向
             var mi = typeof(Debug).GetMethod("Log", new System.Type[] { typeof(object) });
             m_AppDomain.RegisterCLRMethodRedirection(mi, Log_11);
 
             //GameObject的get,add Commponent的注册
             SetupCLRRedirectionAddGetComponent();
-
+            //FairyGUI的创建UI的重定向
+            SetupCLRRedirectionSetPackageItemExtension();
 
             //初始化CLR绑定请放在初始化的最后一步！！
             //CLR绑定借助了ILRuntime的CLR重定向机制来实现，因为实质上也是将对CLR方法的反射调用重定向到我们自己定义的方法里面来。
@@ -67,7 +72,7 @@ namespace Improve
             //在CLR绑定代码生成之后，需要将这些绑定代码注册到AppDomain中才能使CLR绑定生效，
             //但是一定要记得将CLR绑定的注册写在CLR重定向的注册后面，因为同一个方法只能被重定向一次，只有先注册的那个才能生效。
             //请在生成了绑定代码后解除下面的的注释,将这些绑定代码注册到AppDomain中
-            //ILRuntime.Runtime.Generated.CLRBindings.Initialize(m_AppDomain);
+            ILRuntime.Runtime.Generated.CLRBindings.Initialize(m_AppDomain);
         }
 
         //编写重定向方法对于刚接触ILRuntime的朋友可能比较困难，比较简单的方式是通过CLR绑定生成绑定代码，然后在这个基础上改，比如下面这个代码是从UnityEngine_Debug_Binding里面复制来改的
@@ -207,5 +212,39 @@ namespace Improve
             return __esp;
         }
 
+
+        unsafe void SetupCLRRedirectionSetPackageItemExtension()
+        {
+            BindingFlags flag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+            MethodBase method;
+            Type[] args;
+            Type type = typeof(FairyGUI.UIObjectFactory);
+            args = new Type[] { typeof(System.String), typeof(System.Type) };
+            method = type.GetMethod("SetPackageItemExtension", flag, null, args, null);
+            m_AppDomain.RegisterCLRMethodRedirection(method, SetPackageItemExtension_0);
+        }
+
+        unsafe static StackObject* SetPackageItemExtension_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 2);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.Type @type = (System.Type)typeof(System.Type).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            __intp.Free(ptr_of_this_method);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
+            System.String @url = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            __intp.Free(ptr_of_this_method);
+
+            FairyGUI.UIObjectFactory.SetPackageItemExtension(@url, () =>
+            {
+                return __domain.Instantiate<GComponent>(@type.FullName);
+            });
+            // FairyGUI.UIObjectFactory.SetPackageItemExtension (@url, @type);
+
+            return __ret;
+        }
     }
 }

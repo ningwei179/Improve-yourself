@@ -155,17 +155,13 @@ namespace Improve
                 //FGUI 用Addressable好困难,先用AssetBundle实现功能先，实现后看怎么优化让Addressable也能和FGUI融合
                 if (ui.m_UIType == UIType.FariyGUI)
                 {
-                    if (!FairyGUIManager.Instance.m_PreFairyGUIList.ContainsKey(ui.PrefabName))
+                    if (!FairyGUIManager.Instance.m_PreFairyGUIList.ContainsKey(ui.UIResourceName))
                     {
                         //没有预加载过的Fairy包,我们就加载这个包
-                        if (resource == AssetAddress.Resources)
-                        {
-                            UIPackage.AddPackage(ui.PrefabName);
-                        }
-                        else if (resource == AssetAddress.AssetBundle)
+                        if (resource == AssetAddress.AssetBundle)
                         {
                             string abName;
-                            if (FairyGUIManager.Instance.m_FairyGUIList.TryGetValue(ui.PrefabName, out abName))
+                            if (FairyGUIManager.Instance.m_FairyGUIList.TryGetValue(ui.UIResourceName, out abName))
                             {
                                 AssetBundle ab = AssetBundleManager.Instance.LoadAssetBundle(abName);
                                 UIPackage.AddPackage(ab);
@@ -173,10 +169,12 @@ namespace Improve
                         }
                         else if (resource == AssetAddress.Addressable)
                         {
-                            
+
+                        }
+                        else {  //其他模式从本地加载
+                            UIPackage.AddPackage(ui.UIResourceName);
                         }
                     }
-                    
                     InitFairyGUIPanel(ui, name, resource, paramList);
                 }
                 else
@@ -185,13 +183,13 @@ namespace Improve
                     if (resource == AssetAddress.Resources)
                     {
                         //从resource加载UI
-                        uiObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(ui.PrefabName.Replace(".prefab", ""))) as GameObject;
+                        uiObj = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(ui.UIResourceName.Replace(".prefab", ""))) as GameObject;
                         InitPrefab(ui, uiObj, name, resource, paramList);
                     }
                     else if (resource == AssetAddress.AssetBundle)
                     {
                         //从AssetBundle加载UI
-                        ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + ui.PrefabName, (string path, UnityEngine.Object obj, object[] paramArr) =>
+                        ObjectManager.Instance.InstantiateObjectAsync(m_UIPrefabPath + ui.UIResourceName, (string path, UnityEngine.Object obj, object[] paramArr) =>
                         {
                             uiObj = obj as GameObject;
                             InitPrefab(ui, uiObj, name, resource, paramList);
@@ -199,7 +197,7 @@ namespace Improve
                     }
                     else if (resource == AssetAddress.Addressable)
                     {
-                        AddressableManager.Instance.AsyncInstantiate(m_UIPrefabPath + ui.PrefabName, (GameObject obj) =>
+                        AddressableManager.Instance.AsyncInstantiate(m_UIPrefabPath + ui.UIResourceName, (GameObject obj) =>
                         {
                             uiObj = obj;
                             InitPrefab(ui, uiObj, name, resource, paramList);

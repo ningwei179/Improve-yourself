@@ -307,7 +307,6 @@
     <Compile Include="Assets\Script\ILRuntime\Generated\System_Single_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\System_String_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\System_Type_Binding.cs" />
-    <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Application_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Camera_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Component_Binding.cs" />
     <Compile Include="Assets\Script\ILRuntime\Generated\UnityEngine_Debug_Binding.cs" />

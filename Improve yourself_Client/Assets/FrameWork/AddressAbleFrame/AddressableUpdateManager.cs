@@ -7,6 +7,9 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 namespace Improve
 {
+    /// <summary>
+    /// Addressable检查资源更新
+    /// </summary>
     public class AddressableUpdateManager : Singleton<AddressableUpdateManager>
     {
         /// <summary>

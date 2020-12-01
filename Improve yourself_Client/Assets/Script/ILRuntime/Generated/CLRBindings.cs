@@ -52,11 +52,10 @@ namespace ILRuntime.Runtime.Generated
             System_Action_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_String_String_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_String_String_Binding_Enumerator_Binding.Register(app);
-            UnityEngine_Application_Binding.Register(app);
-            System_Collections_Generic_KeyValuePair_2_String_String_Binding.Register(app);
-            FairyGUI_UIPackage_Binding.Register(app);
             Improve_Singleton_1_AssetBundleManager_Binding.Register(app);
+            System_Collections_Generic_KeyValuePair_2_String_String_Binding.Register(app);
             Improve_AssetBundleManager_Binding.Register(app);
+            FairyGUI_UIPackage_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_String_Type_Binding.Register(app);
             System_Type_Binding.Register(app);
             UnityEngine_Screen_Binding.Register(app);

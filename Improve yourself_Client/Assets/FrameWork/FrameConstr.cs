@@ -28,20 +28,9 @@ namespace Improve
         Addressable         //从Addressable加载
     }
 
-    /// <summary>
-    /// 代码热更方式
-    /// 可以俩个一起用
-    /// 写demo先分开
-    /// </summary>
-    public enum CodeHotType
-    {
-        InjectFix,          //用InjectFix
-        ILRuntime,          //用ILRuntime
-    }
-
     public class FrameConstr
     {
-        public const ILRuntimeState ILState = ILRuntimeState.Close;
+        public const ILRuntimeState ILState = ILRuntimeState.Open;
 
         /// <summary>
         /// 资产来源

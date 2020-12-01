@@ -19,7 +19,7 @@ namespace Improve
         {
             m_UIRoot = UIRoot.Normal;
             m_ShowMode = UIShowMode.Normal;
-            PrefabName = "LoadingPanel.prefab";
+            UIResourceName = "LoadingPanel.prefab";
         }
 
         public override void Awake(params object[] paralist)

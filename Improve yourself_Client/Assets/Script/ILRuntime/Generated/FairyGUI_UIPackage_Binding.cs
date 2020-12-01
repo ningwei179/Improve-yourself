@@ -22,10 +22,10 @@ namespace ILRuntime.Runtime.Generated
             MethodBase method;
             Type[] args;
             Type type = typeof(FairyGUI.UIPackage);
-            args = new Type[]{typeof(System.String)};
+            args = new Type[]{typeof(UnityEngine.AssetBundle)};
             method = type.GetMethod("AddPackage", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, AddPackage_0);
-            args = new Type[]{typeof(UnityEngine.AssetBundle)};
+            args = new Type[]{typeof(System.String)};
             method = type.GetMethod("AddPackage", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, AddPackage_1);
             args = new Type[]{typeof(System.String), typeof(System.String)};
@@ -43,11 +43,11 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            System.String @descFilePath = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            UnityEngine.AssetBundle @bundle = (UnityEngine.AssetBundle)typeof(UnityEngine.AssetBundle).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
             __intp.Free(ptr_of_this_method);
 
 
-            var result_of_this_method = FairyGUI.UIPackage.AddPackage(@descFilePath);
+            var result_of_this_method = FairyGUI.UIPackage.AddPackage(@bundle);
 
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
@@ -59,11 +59,11 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            UnityEngine.AssetBundle @bundle = (UnityEngine.AssetBundle)typeof(UnityEngine.AssetBundle).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            System.String @descFilePath = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
             __intp.Free(ptr_of_this_method);
 
 
-            var result_of_this_method = FairyGUI.UIPackage.AddPackage(@bundle);
+            var result_of_this_method = FairyGUI.UIPackage.AddPackage(@descFilePath);
 
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }

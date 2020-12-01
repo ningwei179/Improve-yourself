@@ -179,7 +179,7 @@ namespace Improve
     public class ResourceManager : Singleton<ResourceManager>
     {
         protected long m_Guid = 0;
-        public bool m_LoadFromAssetBundle = false;      //是否从AssetBundle加载
+        public bool m_LoadFromAssetBundle = true;      //是否从AssetBundle加载
 
         /// <summary>
         /// 缓存已经使用的资源列表

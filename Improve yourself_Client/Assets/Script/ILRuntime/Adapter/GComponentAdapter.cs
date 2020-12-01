@@ -127,14 +127,6 @@ namespace Improve
 
             public ILTypeInstance ILInstance { get { return instance; } }
 
-            protected override void CreateDisplayObject()
-            {
-                if (mCreateDisplayObject_0.CheckShouldInvokeBase(this.instance))
-                    base.CreateDisplayObject();
-                else
-                    mCreateDisplayObject_0.Invoke(this.instance);
-            }
-
             public override void Dispose()
             {
                 if (mDispose_1.CheckShouldInvokeBase(this.instance))

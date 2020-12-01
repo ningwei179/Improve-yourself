@@ -5,6 +5,11 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 namespace Improve
 {
+    /// <summary>
+    /// Addressable加载资源或者实例化资源要导入命名空间
+    /// 再不同模块直接调用不方便，写个Manager方便使用，
+    /// 不用再导入命名空间了
+    /// </summary>
     public class AddressableManager : Singleton<AddressableManager>
     {
         /// <summary>
