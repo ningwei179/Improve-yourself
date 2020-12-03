@@ -1,20 +1,22 @@
 /****************************************************
     文件：FrameConstr.cs
-	作者：NingWei
+    作者：NingWei
     日期：2020/10/10 14:42:12
-	功能：框架用的常量字符串
+    功能：框架用的常量字符串
 *****************************************************/
 namespace Improve
 {
     /// <summary>
     /// UI类型
     /// </summary>
-    public enum UIType { 
+    public enum UIType
+    {
         UGUI,
         FariyGUI,
     }
 
-    public enum ILRuntimeState { 
+    public enum ILRuntimeState
+    {
         Open,
         Close
     }
@@ -30,12 +32,12 @@ namespace Improve
 
     public class FrameConstr
     {
-        public const ILRuntimeState ILState = ILRuntimeState.Open;
+        public const ILRuntimeState ILState = ILRuntimeState.Close;
 
         /// <summary>
         /// 资产来源
         /// </summary>
-        public const AssetAddress UseAssetAddress = AssetAddress.AssetBundle;
+        public const AssetAddress UseAssetAddress = AssetAddress.Addressable;
 
         /// <summary>
         /// AB包的加密秘钥

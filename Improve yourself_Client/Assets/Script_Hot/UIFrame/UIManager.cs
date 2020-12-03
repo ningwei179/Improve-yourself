@@ -1,8 +1,8 @@
 /****************************************************
-	文件：UIManager.cs
-	作者：NingWei
-	日期：2020/09/07 11:34   	
-	功能：UI管理器
+    文件：UIManager.cs
+    作者：NingWei
+    日期：2020/09/07 11:34      
+    功能：UI管理器
 *****************************************************/
 using FairyGUI;
 using HotFixProject;
@@ -137,6 +137,7 @@ namespace Improve
         /// <returns></returns>
         public void OpenUI<T>(string name, Action<bool, T> callback = null, AssetAddress resource = FrameConstr.UseAssetAddress, params object[] paramList) where T : BaseUI
         {
+            Debug.Log(string.Format("UIName:{0}，AssetAddress:{1},paramList:{2}", name, resource, paramList));
             //开启遮罩避免开启UI的时候接收了操作出现异常
             SetMask(true);
             BaseUI ui = FindUIByName<BaseUI>(name);
@@ -165,17 +166,43 @@ namespace Improve
                             {
                                 AssetBundle ab = AssetBundleManager.Instance.LoadAssetBundle(abName);
                                 UIPackage.AddPackage(ab);
+                                InitFairyGUIPanel(ui, name, resource, paramList);
                             }
                         }
                         else if (resource == AssetAddress.Addressable)
                         {
+                            string abName;
+                            //没有预加载过的Fairy包,我们就加载这个包
+                            if (FairyGUIManager.Instance.m_FairyGUIList.TryGetValue(ui.UIResourceName, out abName))
+                            {
+                                string desname = ui.UIResourceName + "_fui.bytes";
+                                Debug.Log("desname" + desname);
+                                //加载FairyGUI Package
+                                AddressableManager.Instance.AsyncLoadResource<TextAsset>(desname, (TextAsset text) =>
+                                {
+                                    Debug.Log("desLoadSuc");
+                                    UIPackage.AddPackage(
+                                        text.bytes,
+                                        "BackPack",
+                                        async (string fairyname, string extension, Type type, PackageItem ite) =>
+                                        {
+                                            Debug.Log($"{fairyname}, {extension}, {type.ToString()}, {ite.ToString()}");
 
+                                            AddressableManager.Instance.AsyncLoadResource<Texture>(fairyname, (Texture tex) =>
+                                            {
+                                                ite.owner.SetItemAsset(ite, tex, DestroyMethod.Custom);
+                                                InitFairyGUIPanel(ui, name, resource, paramList);
+                                            });
+                                        });
+                                });
+                            }
                         }
-                        else {  //其他模式从本地加载
+                        else
+                        {  //其他模式从本地加载
                             UIPackage.AddPackage(ui.UIResourceName);
+                            InitFairyGUIPanel(ui, name, resource, paramList);
                         }
                     }
-                    InitFairyGUIPanel(ui, name, resource, paramList);
                 }
                 else
                 {

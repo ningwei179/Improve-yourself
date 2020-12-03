@@ -1,8 +1,8 @@
 /****************************************************
-	文件：UIManager.cs
-	作者：NingWei
-	日期：2020/09/07 11:34   	
-	功能：UI管理器
+    文件：UIManager.cs
+    作者：NingWei
+    日期：2020/09/07 11:34      
+    功能：UI管理器
 *****************************************************/
 using FairyGUI;
 using HotFixProject;
@@ -137,6 +137,7 @@ namespace Improve
         /// <returns></returns>
         public void OpenUI<T>(string name, Action<bool, T> callback = null, AssetAddress resource = FrameConstr.UseAssetAddress, params object[] paramList) where T : BaseUI
         {
+            Debug.Log(string.Format("UIName:{0}，AssetAddress:{1},paramList:{2}", name, resource, paramList));
             //开启遮罩避免开启UI的时候接收了操作出现异常
             SetMask(true);
             BaseUI ui = FindUIByName<BaseUI>(name);
@@ -171,7 +172,8 @@ namespace Improve
                         {
 
                         }
-                        else {  //其他模式从本地加载
+                        else
+                        {  //其他模式从本地加载
                             UIPackage.AddPackage(ui.UIResourceName);
                         }
                     }
