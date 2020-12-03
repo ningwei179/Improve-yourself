@@ -1,16 +1,15 @@
-using UnityEditor;
-using UnityEngine;
+ï»¿using UnityEditor;
 namespace Improve
 {
     /// <summary>
-    /// ILRuntimeÀïÃæÓĞÕâ¸ö½Å±¾£¬»á³åÍ»ËùÒÔ¸Ä¸öÃû³Æ
+    /// ILRuntimeé‡Œé¢æœ‰è¿™ä¸ªè„šæœ¬ï¼Œä¼šå†²çªæ‰€ä»¥æ”¹ä¸ªåç§°
     /// </summary>
     public class ILRuntimeCLRBinding
     {
-        [MenuItem("IYILRuntime/Í¨¹ı×Ô¶¯·ÖÎöÈÈ¸üDLLÉú³ÉCLR°ó¶¨")]
+        [MenuItem("IYILRuntime/é€šè¿‡è‡ªåŠ¨åˆ†æçƒ­æ›´DLLç”ŸæˆCLRç»‘å®š")]
         static void GenerateCLRBindingByAnalysis()
         {
-            //ÓÃĞÂµÄ·ÖÎöÈÈ¸üdllµ÷ÓÃÒıÓÃÀ´Éú³É°ó¶¨´úÂë
+            //ç”¨æ–°çš„åˆ†æçƒ­æ›´dllè°ƒç”¨å¼•ç”¨æ¥ç”Ÿæˆç»‘å®šä»£ç 
             ILRuntime.Runtime.Enviorment.AppDomain domain = new ILRuntime.Runtime.Enviorment.AppDomain();
             using (System.IO.FileStream fs = new System.IO.FileStream("Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes", System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
@@ -26,11 +25,11 @@ namespace Improve
 
         static void InitILRuntime(ILRuntime.Runtime.Enviorment.AppDomain domain)
         {
-            //ÕâÀïĞèÒª×¢²áËùÓĞÈÈ¸üDLLÖĞÓÃµ½µÄ¿çÓò¼Ì³ĞAdapter£¬·ñÔòÎŞ·¨ÕıÈ·×¥È¡ÒıÓÃ
+            //è¿™é‡Œéœ€è¦æ³¨å†Œæ‰€æœ‰çƒ­æ›´DLLä¸­ç”¨åˆ°çš„è·¨åŸŸç»§æ‰¿Adapterï¼Œå¦åˆ™æ— æ³•æ­£ç¡®æŠ“å–å¼•ç”¨
             domain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
             domain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
             domain.RegisterCrossBindingAdaptor(new GComponentAdapter());
-            domain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
+            //domain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
         }
     }
 }

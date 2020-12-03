@@ -1,4 +1,4 @@
-using FairyGUI;
+ï»¿using FairyGUI;
 using ILRuntime.CLR.Method;
 using ILRuntime.CLR.TypeSystem;
 using ILRuntime.CLR.Utils;
@@ -19,13 +19,13 @@ namespace Improve
         {
             m_AppDomain = AppDomain;
 #if DEBUG && (UNITY_EDITOR || UNITY_ANDROID || UNITY_IPHONE)
-            //ÓÉÓÚUnityµÄProfiler½Ó¿ÚÖ»ÔÊĞíÔÚÖ÷Ïß³ÌÊ¹ÓÃ£¬ÎªÁË±ÜÃâ³öÒì³££¬ĞèÒª¸æËßILRuntimeÖ÷Ïß³ÌµÄÏß³ÌID²ÅÄÜÕıÈ·½«º¯ÊıÔËĞĞºÄÊ±±¨¸æ¸øProfiler
+            //ç”±äºUnityçš„Profileræ¥å£åªå…è®¸åœ¨ä¸»çº¿ç¨‹ä½¿ç”¨ï¼Œä¸ºäº†é¿å…å‡ºå¼‚å¸¸ï¼Œéœ€è¦å‘Šè¯‰ILRuntimeä¸»çº¿ç¨‹çš„çº¿ç¨‹IDæ‰èƒ½æ­£ç¡®å°†å‡½æ•°è¿è¡Œè€—æ—¶æŠ¥å‘Šç»™Profiler
             m_AppDomain.UnityMainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
             m_AppDomain.DebugService.StartDebugService(56000);
 #endif
-            //ÕâÀï×öÒ»Ğ©ILRuntimeµÄ×¢²á,×¢²áÂ©ÁËµÄÎ¯ÍĞ£¬ÔËĞĞµÄÊ±ºò»á±¨´íÌáÊ¾µÄ
+            //è¿™é‡Œåšä¸€äº›ILRuntimeçš„æ³¨å†Œ,æ³¨å†Œæ¼äº†çš„å§”æ‰˜ï¼Œè¿è¡Œçš„æ—¶å€™ä¼šæŠ¥é”™æç¤ºçš„
 
-            //Î¯ÍĞ£¬ÊÊÅäÆ÷£¬£¬ÖµÀàĞÍ°ó¶¨µÈµÈµÄ×¢²á
+            //å§”æ‰˜ï¼Œé€‚é…å™¨ï¼Œï¼Œå€¼ç±»å‹ç»‘å®šç­‰ç­‰çš„æ³¨å†Œ
             m_AppDomain.DelegateManager.RegisterMethodDelegate<GameObject>();
 
             m_AppDomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Sprite>();
@@ -48,54 +48,52 @@ namespace Improve
                 });
             });
 
-
-
+            //m_AppDomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
             m_AppDomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
             m_AppDomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
             m_AppDomain.RegisterCrossBindingAdaptor(new GComponentAdapter());
-            m_AppDomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
 
-            //CLRÖØ¶¨ÏòµÄ×¢²á
-            //DebugLogµÄÖØ¶¨Ïò
+            //CLRé‡å®šå‘çš„æ³¨å†Œ
+            //DebugLogçš„é‡å®šå‘
             var mi = typeof(Debug).GetMethod("Log", new System.Type[] { typeof(object) });
             m_AppDomain.RegisterCLRMethodRedirection(mi, Log_11);
 
-            //GameObjectµÄget,add CommponentµÄ×¢²á
+            //GameObjectçš„get,add Commponentçš„æ³¨å†Œ
             SetupCLRRedirectionAddGetComponent();
-            //FairyGUIµÄ´´½¨UIµÄÖØ¶¨Ïò
+            //FairyGUIçš„åˆ›å»ºUIçš„é‡å®šå‘
             SetupCLRRedirectionSetPackageItemExtension();
 
-            //³õÊ¼»¯CLR°ó¶¨Çë·ÅÔÚ³õÊ¼»¯µÄ×îºóÒ»²½£¡£¡
-            //CLR°ó¶¨½èÖúÁËILRuntimeµÄCLRÖØ¶¨Ïò»úÖÆÀ´ÊµÏÖ£¬ÒòÎªÊµÖÊÉÏÒ²ÊÇ½«¶ÔCLR·½·¨µÄ·´Éäµ÷ÓÃÖØ¶¨Ïòµ½ÎÒÃÇ×Ô¼º¶¨ÒåµÄ·½·¨ÀïÃæÀ´¡£
-            //µ«ÊÇÊÖ¶¯±àĞ´CLRÖØ¶¨Ïò·½·¨ÊÇ¸ö¹¤×÷Á¿·Ç³£¾Ş´óµÄÊÂ£¬¶øÇÒÒªÇó¶ÔILRuntimeµ×²ã»úÖÆ·Ç³£ÁË½â£¨±ÈÈçÈçºÎ×°²ğÏä»ù´¡ÀàĞÍ£¬ÔõÃ´´¦ÀíRef/OutÒıÓÃµÈµÈ£©£¬
-            //Òò´ËILRuntimeÌá¹©ÁËÒ»¸ö´úÂëÉú³É¹¤¾ßÀ´×Ô¶¯Éú³ÉCLR°ó¶¨´úÂë¡£
-            //ÔÚCLR°ó¶¨´úÂëÉú³ÉÖ®ºó£¬ĞèÒª½«ÕâĞ©°ó¶¨´úÂë×¢²áµ½AppDomainÖĞ²ÅÄÜÊ¹CLR°ó¶¨ÉúĞ§£¬
-            //µ«ÊÇÒ»¶¨Òª¼ÇµÃ½«CLR°ó¶¨µÄ×¢²áĞ´ÔÚCLRÖØ¶¨ÏòµÄ×¢²áºóÃæ£¬ÒòÎªÍ¬Ò»¸ö·½·¨Ö»ÄÜ±»ÖØ¶¨ÏòÒ»´Î£¬Ö»ÓĞÏÈ×¢²áµÄÄÇ¸ö²ÅÄÜÉúĞ§¡£
-            //ÇëÔÚÉú³ÉÁË°ó¶¨´úÂëºó½â³ıÏÂÃæµÄµÄ×¢ÊÍ,½«ÕâĞ©°ó¶¨´úÂë×¢²áµ½AppDomainÖĞ
+            //åˆå§‹åŒ–CLRç»‘å®šè¯·æ”¾åœ¨åˆå§‹åŒ–çš„æœ€åä¸€æ­¥ï¼ï¼
+            //CLRç»‘å®šå€ŸåŠ©äº†ILRuntimeçš„CLRé‡å®šå‘æœºåˆ¶æ¥å®ç°ï¼Œå› ä¸ºå®è´¨ä¸Šä¹Ÿæ˜¯å°†å¯¹CLRæ–¹æ³•çš„åå°„è°ƒç”¨é‡å®šå‘åˆ°æˆ‘ä»¬è‡ªå·±å®šä¹‰çš„æ–¹æ³•é‡Œé¢æ¥ã€‚
+            //ä½†æ˜¯æ‰‹åŠ¨ç¼–å†™CLRé‡å®šå‘æ–¹æ³•æ˜¯ä¸ªå·¥ä½œé‡éå¸¸å·¨å¤§çš„äº‹ï¼Œè€Œä¸”è¦æ±‚å¯¹ILRuntimeåº•å±‚æœºåˆ¶éå¸¸äº†è§£ï¼ˆæ¯”å¦‚å¦‚ä½•è£…æ‹†ç®±åŸºç¡€ç±»å‹ï¼Œæ€ä¹ˆå¤„ç†Ref/Outå¼•ç”¨ç­‰ç­‰ï¼‰ï¼Œ
+            //å› æ­¤ILRuntimeæä¾›äº†ä¸€ä¸ªä»£ç ç”Ÿæˆå·¥å…·æ¥è‡ªåŠ¨ç”ŸæˆCLRç»‘å®šä»£ç ã€‚
+            //åœ¨CLRç»‘å®šä»£ç ç”Ÿæˆä¹‹åï¼Œéœ€è¦å°†è¿™äº›ç»‘å®šä»£ç æ³¨å†Œåˆ°AppDomainä¸­æ‰èƒ½ä½¿CLRç»‘å®šç”Ÿæ•ˆï¼Œ
+            //ä½†æ˜¯ä¸€å®šè¦è®°å¾—å°†CLRç»‘å®šçš„æ³¨å†Œå†™åœ¨CLRé‡å®šå‘çš„æ³¨å†Œåé¢ï¼Œå› ä¸ºåŒä¸€ä¸ªæ–¹æ³•åªèƒ½è¢«é‡å®šå‘ä¸€æ¬¡ï¼Œåªæœ‰å…ˆæ³¨å†Œçš„é‚£ä¸ªæ‰èƒ½ç”Ÿæ•ˆã€‚
+            //è¯·åœ¨ç”Ÿæˆäº†ç»‘å®šä»£ç åè§£é™¤ä¸‹é¢çš„çš„æ³¨é‡Š,å°†è¿™äº›ç»‘å®šä»£ç æ³¨å†Œåˆ°AppDomainä¸­
             ILRuntime.Runtime.Generated.CLRBindings.Initialize(m_AppDomain);
         }
 
-        //±àĞ´ÖØ¶¨Ïò·½·¨¶ÔÓÚ¸Õ½Ó´¥ILRuntimeµÄÅóÓÑ¿ÉÄÜ±È½ÏÀ§ÄÑ£¬±È½Ï¼òµ¥µÄ·½Ê½ÊÇÍ¨¹ıCLR°ó¶¨Éú³É°ó¶¨´úÂë£¬È»ºóÔÚÕâ¸ö»ù´¡ÉÏ¸Ä£¬±ÈÈçÏÂÃæÕâ¸ö´úÂëÊÇ´ÓUnityEngine_Debug_BindingÀïÃæ¸´ÖÆÀ´¸ÄµÄ
-        //ÈçºÎÊ¹ÓÃCLR°ó¶¨Çë¿´Ïà¹Ø½Ì³ÌºÍÎÄµµ
+        //ç¼–å†™é‡å®šå‘æ–¹æ³•å¯¹äºåˆšæ¥è§¦ILRuntimeçš„æœ‹å‹å¯èƒ½æ¯”è¾ƒå›°éš¾ï¼Œæ¯”è¾ƒç®€å•çš„æ–¹å¼æ˜¯é€šè¿‡CLRç»‘å®šç”Ÿæˆç»‘å®šä»£ç ï¼Œç„¶ååœ¨è¿™ä¸ªåŸºç¡€ä¸Šæ”¹ï¼Œæ¯”å¦‚ä¸‹é¢è¿™ä¸ªä»£ç æ˜¯ä»UnityEngine_Debug_Bindingé‡Œé¢å¤åˆ¶æ¥æ”¹çš„
+        //å¦‚ä½•ä½¿ç”¨CLRç»‘å®šè¯·çœ‹ç›¸å…³æ•™ç¨‹å’Œæ–‡æ¡£
         unsafe static StackObject* Log_11(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
-            //ILRuntimeµÄµ÷ÓÃÔ¼¶¨Îª±»µ÷ÓÃÕßÇåÀí¶ÑÕ»£¬Òò´ËÖ´ĞĞÕâ¸öº¯ÊıºóĞèÒª½«²ÎÊı´Ó¶ÑÕ»ÇåÀí¸É¾»£¬²¢°Ñ·µ»ØÖµ·ÅÔÚÕ»¶¥£¬¾ßÌåÇë¿´ILRuntimeÊµÏÖÔ­ÀíÎÄµµ
+            //ILRuntimeçš„è°ƒç”¨çº¦å®šä¸ºè¢«è°ƒç”¨è€…æ¸…ç†å †æ ˆï¼Œå› æ­¤æ‰§è¡Œè¿™ä¸ªå‡½æ•°åéœ€è¦å°†å‚æ•°ä»å †æ ˆæ¸…ç†å¹²å‡€ï¼Œå¹¶æŠŠè¿”å›å€¼æ”¾åœ¨æ ˆé¡¶ï¼Œå…·ä½“è¯·çœ‹ILRuntimeå®ç°åŸç†æ–‡æ¡£
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
-            //Õâ¸öÊÇ×îºó·½·¨·µ»ØºóespÕ»Ö¸ÕëµÄÖµ£¬Ó¦¸Ã·µ»ØÇåÀíÍê²ÎÊı²¢Ö¸Ïò·µ»ØÖµ£¬ÕâÀïÊÇÖ»ĞèÒª·µ»ØÇåÀíÍê²ÎÊıµÄÖµ¼´¿É
+            //è¿™ä¸ªæ˜¯æœ€åæ–¹æ³•è¿”å›åespæ ˆæŒ‡é’ˆçš„å€¼ï¼Œåº”è¯¥è¿”å›æ¸…ç†å®Œå‚æ•°å¹¶æŒ‡å‘è¿”å›å€¼ï¼Œè¿™é‡Œæ˜¯åªéœ€è¦è¿”å›æ¸…ç†å®Œå‚æ•°çš„å€¼å³å¯
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
-            //È¡Log·½·¨µÄ²ÎÊı£¬Èç¹ûÓĞÁ½¸ö²ÎÊıµÄ»°£¬µÚÒ»¸ö²ÎÊıÊÇesp - 2,µÚ¶ş¸ö²ÎÊıÊÇesp -1, ÒòÎªMonoµÄbug£¬Ö±½Ó-2Öµ»á´íÎó£¬ËùÒÔÒªµ÷ÓÃILIntepreter.Minus
+            //å–Logæ–¹æ³•çš„å‚æ•°ï¼Œå¦‚æœæœ‰ä¸¤ä¸ªå‚æ•°çš„è¯ï¼Œç¬¬ä¸€ä¸ªå‚æ•°æ˜¯esp - 2,ç¬¬äºŒä¸ªå‚æ•°æ˜¯esp -1, å› ä¸ºMonoçš„bugï¼Œç›´æ¥-2å€¼ä¼šé”™è¯¯ï¼Œæ‰€ä»¥è¦è°ƒç”¨ILIntepreter.Minus
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
 
-            //ÕâÀïÊÇ½«Õ»Ö¸ÕëÉÏµÄÖµ×ª»»³Éobject£¬Èç¹ûÊÇ»ù´¡ÀàĞÍ¿ÉÖ±½ÓÍ¨¹ıptr->ValueºÍptr->ValueLow·ÃÎÊµ½Öµ£¬¾ßÌåÇë¿´ILRuntimeÊµÏÖÔ­ÀíÎÄµµ
+            //è¿™é‡Œæ˜¯å°†æ ˆæŒ‡é’ˆä¸Šçš„å€¼è½¬æ¢æˆobjectï¼Œå¦‚æœæ˜¯åŸºç¡€ç±»å‹å¯ç›´æ¥é€šè¿‡ptr->Valueå’Œptr->ValueLowè®¿é—®åˆ°å€¼ï¼Œå…·ä½“è¯·çœ‹ILRuntimeå®ç°åŸç†æ–‡æ¡£
             object message = typeof(object).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
-            //ËùÓĞ·Ç»ù´¡ÀàĞÍ¶¼µÃµ÷ÓÃFreeÀ´ÊÍ·ÅÍĞ¹Ü¶ÑÕ»
+            //æ‰€æœ‰éåŸºç¡€ç±»å‹éƒ½å¾—è°ƒç”¨Freeæ¥é‡Šæ”¾æ‰˜ç®¡å †æ ˆ
             __intp.Free(ptr_of_this_method);
 
-            //ÔÚÕæÊµµ÷ÓÃDebug.LogÇ°£¬ÎÒÃÇÏÈ»ñÈ¡DLLÄÚµÄ¶ÑÕ»
+            //åœ¨çœŸå®è°ƒç”¨Debug.Logå‰ï¼Œæˆ‘ä»¬å…ˆè·å–DLLå†…çš„å †æ ˆ
             var stacktrace = __domain.DebugService.GetStackTrace(__intp);
 
-            //ÎÒÃÇÔÚÊä³öĞÅÏ¢ºóÃæ¼ÓÉÏDLL¶ÑÕ»
+            //æˆ‘ä»¬åœ¨è¾“å‡ºä¿¡æ¯åé¢åŠ ä¸ŠDLLå †æ ˆ
             UnityEngine.Debug.Log(message + "\n" + stacktrace);
 
             return __ret;
@@ -104,7 +102,7 @@ namespace Improve
 
         unsafe void SetupCLRRedirectionAddGetComponent()
         {
-            //ÕâÀïÃæµÄÍ¨³£Ó¦¸ÃĞ´ÔÚInitializeILRuntime£¬ÕâÀïÎªÁËÑİÊ¾Ğ´ÕâÀï
+            //è¿™é‡Œé¢çš„é€šå¸¸åº”è¯¥å†™åœ¨InitializeILRuntimeï¼Œè¿™é‡Œä¸ºäº†æ¼”ç¤ºå†™è¿™é‡Œ
             var arr = typeof(GameObject).GetMethods();
             foreach (var i in arr)
             {
@@ -121,42 +119,42 @@ namespace Improve
 
         unsafe static StackObject* AddComponent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
-            //CLRÖØ¶¨ÏòµÄËµÃ÷Çë¿´Ïà¹ØÎÄµµºÍ½Ì³Ì£¬ÕâÀï²»¶à×ö½âÊÍ
+            //CLRé‡å®šå‘çš„è¯´æ˜è¯·çœ‹ç›¸å…³æ–‡æ¡£å’Œæ•™ç¨‹ï¼Œè¿™é‡Œä¸å¤šåšè§£é‡Š
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
 
             var ptr = __esp - 1;
-            //³ÉÔ±·½·¨µÄµÚÒ»¸ö²ÎÊıÎªthis
+            //æˆå‘˜æ–¹æ³•çš„ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºthis
             GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
             if (instance == null)
                 throw new System.NullReferenceException();
             __intp.Free(ptr);
 
             var genericArgument = __method.GenericArguments;
-            //AddComponentÓ¦¸ÃÓĞÇÒÖ»ÓĞ1¸ö·ºĞÍ²ÎÊı
+            //AddComponentåº”è¯¥æœ‰ä¸”åªæœ‰1ä¸ªæ³›å‹å‚æ•°
             if (genericArgument != null && genericArgument.Length == 1)
             {
                 var type = genericArgument[0];
                 object res;
                 if (type is CLRType)
                 {
-                    //UnityÖ÷¹¤³ÌµÄÀà²»ĞèÒªÈÎºÎÌØÊâ´¦Àí£¬Ö±½Óµ÷ÓÃUnity½Ó¿Ú
+                    //Unityä¸»å·¥ç¨‹çš„ç±»ä¸éœ€è¦ä»»ä½•ç‰¹æ®Šå¤„ç†ï¼Œç›´æ¥è°ƒç”¨Unityæ¥å£
                     res = instance.AddComponent(type.TypeForCLR);
                 }
                 else
                 {
-                    //ÈÈ¸üDLLÄÚµÄÀàĞÍ±È½ÏÂé·³¡£Ê×ÏÈÎÒÃÇµÃ×Ô¼ºÊÖ¶¯´´½¨ÊµÀı
-                    var ilInstance = new ILTypeInstance(type as ILType, false);//ÊÖ¶¯´´½¨ÊµÀıÊÇÒòÎªÄ¬ÈÏ·½Ê½»ánew MonoBehaviour£¬ÕâÔÚUnityÀï²»ÔÊĞí
-                                                                               //½ÓÏÂÀ´´´½¨AdapterÊµÀı
+                    //çƒ­æ›´DLLå†…çš„ç±»å‹æ¯”è¾ƒéº»çƒ¦ã€‚é¦–å…ˆæˆ‘ä»¬å¾—è‡ªå·±æ‰‹åŠ¨åˆ›å»ºå®ä¾‹
+                    var ilInstance = new ILTypeInstance(type as ILType, false);//æ‰‹åŠ¨åˆ›å»ºå®ä¾‹æ˜¯å› ä¸ºé»˜è®¤æ–¹å¼ä¼šnew MonoBehaviourï¼Œè¿™åœ¨Unityé‡Œä¸å…è®¸
+                                                                               //æ¥ä¸‹æ¥åˆ›å»ºAdapterå®ä¾‹
                     var clrInstance = instance.AddComponent<MonoBehaviourAdapter.Adaptor>();
-                    //unity´´½¨µÄÊµÀı²¢Ã»ÓĞÈÈ¸üDLLÀïÃæµÄÊµÀı£¬ËùÒÔĞèÒªÊÖ¶¯¸³Öµ
+                    //unityåˆ›å»ºçš„å®ä¾‹å¹¶æ²¡æœ‰çƒ­æ›´DLLé‡Œé¢çš„å®ä¾‹ï¼Œæ‰€ä»¥éœ€è¦æ‰‹åŠ¨èµ‹å€¼
                     clrInstance.ILInstance = ilInstance;
                     clrInstance.AppDomain = __domain;
-                    //Õâ¸öÊµÀıÄ¬ÈÏ´´½¨µÄCLRInstance²»ÊÇÍ¨¹ıAddComponent³öÀ´µÄÓĞĞ§ÊµÀı£¬ËùÒÔµÃÊÖ¶¯Ìæ»»
+                    //è¿™ä¸ªå®ä¾‹é»˜è®¤åˆ›å»ºçš„CLRInstanceä¸æ˜¯é€šè¿‡AddComponentå‡ºæ¥çš„æœ‰æ•ˆå®ä¾‹ï¼Œæ‰€ä»¥å¾—æ‰‹åŠ¨æ›¿æ¢
                     ilInstance.CLRInstance = clrInstance;
 
-                    res = clrInstance.ILInstance;//½»¸øILRuntimeµÄÊµÀıÓ¦¸ÃÎªILInstance
+                    res = clrInstance.ILInstance;//äº¤ç»™ILRuntimeçš„å®ä¾‹åº”è¯¥ä¸ºILInstance
 
-                    clrInstance.Awake();//ÒòÎªUnityµ÷ÓÃÕâ¸ö·½·¨Ê±»¹Ã»×¼±¸ºÃËùÒÔÕâÀï²¹µ÷Ò»´Î
+                    clrInstance.Awake();//å› ä¸ºUnityè°ƒç”¨è¿™ä¸ªæ–¹æ³•æ—¶è¿˜æ²¡å‡†å¤‡å¥½æ‰€ä»¥è¿™é‡Œè¡¥è°ƒä¸€æ¬¡
                 }
 
                 return ILIntepreter.PushObject(ptr, __mStack, res);
@@ -167,39 +165,39 @@ namespace Improve
 
         unsafe static StackObject* GetComponent(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
-            //CLRÖØ¶¨ÏòµÄËµÃ÷Çë¿´Ïà¹ØÎÄµµºÍ½Ì³Ì£¬ÕâÀï²»¶à×ö½âÊÍ
+            //CLRé‡å®šå‘çš„è¯´æ˜è¯·çœ‹ç›¸å…³æ–‡æ¡£å’Œæ•™ç¨‹ï¼Œè¿™é‡Œä¸å¤šåšè§£é‡Š
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
 
             var ptr = __esp - 1;
-            //³ÉÔ±·½·¨µÄµÚÒ»¸ö²ÎÊıÎªthis
+            //æˆå‘˜æ–¹æ³•çš„ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºthis
             GameObject instance = StackObject.ToObject(ptr, __domain, __mStack) as GameObject;
             if (instance == null)
                 throw new System.NullReferenceException();
             __intp.Free(ptr);
 
             var genericArgument = __method.GenericArguments;
-            //AddComponentÓ¦¸ÃÓĞÇÒÖ»ÓĞ1¸ö·ºĞÍ²ÎÊı
+            //AddComponentåº”è¯¥æœ‰ä¸”åªæœ‰1ä¸ªæ³›å‹å‚æ•°
             if (genericArgument != null && genericArgument.Length == 1)
             {
                 var type = genericArgument[0];
                 object res = null;
                 if (type is CLRType)
                 {
-                    //UnityÖ÷¹¤³ÌµÄÀà²»ĞèÒªÈÎºÎÌØÊâ´¦Àí£¬Ö±½Óµ÷ÓÃUnity½Ó¿Ú
+                    //Unityä¸»å·¥ç¨‹çš„ç±»ä¸éœ€è¦ä»»ä½•ç‰¹æ®Šå¤„ç†ï¼Œç›´æ¥è°ƒç”¨Unityæ¥å£
                     res = instance.GetComponent(type.TypeForCLR);
                 }
                 else
                 {
-                    //ÒòÎªËùÓĞDLLÀïÃæµÄMonoBehaviourÊµ¼Ê¶¼ÊÇÕâ¸öComponent£¬ËùÒÔÎÒÃÇÖ»ÄÜÈ«È¡³öÀ´±éÀú²éÕÒ
+                    //å› ä¸ºæ‰€æœ‰DLLé‡Œé¢çš„MonoBehaviourå®é™…éƒ½æ˜¯è¿™ä¸ªComponentï¼Œæ‰€ä»¥æˆ‘ä»¬åªèƒ½å…¨å–å‡ºæ¥éå†æŸ¥æ‰¾
                     var clrInstances = instance.GetComponents<MonoBehaviourAdapter.Adaptor>();
                     for (int i = 0; i < clrInstances.Length; i++)
                     {
                         var clrInstance = clrInstances[i];
-                        if (clrInstance.ILInstance != null)//ILInstanceÎªnull, ±íÊ¾ÊÇÎŞĞ§µÄMonoBehaviour£¬ÒªÂÔ¹ı
+                        if (clrInstance.ILInstance != null)//ILInstanceä¸ºnull, è¡¨ç¤ºæ˜¯æ— æ•ˆçš„MonoBehaviourï¼Œè¦ç•¥è¿‡
                         {
                             if (clrInstance.ILInstance.Type == type)
                             {
-                                res = clrInstance.ILInstance;//½»¸øILRuntimeµÄÊµÀıÓ¦¸ÃÎªILInstance
+                                res = clrInstance.ILInstance;//äº¤ç»™ILRuntimeçš„å®ä¾‹åº”è¯¥ä¸ºILInstance
                                 break;
                             }
                         }

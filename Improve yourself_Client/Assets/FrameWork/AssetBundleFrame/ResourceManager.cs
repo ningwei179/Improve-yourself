@@ -1,8 +1,8 @@
 /****************************************************
-	文件：ResourceManager.cs
-	作者：NingWei
-	日期：2020/09/19 15:37   	
-	功能：资源管理器
+    文件：ResourceManager.cs
+    作者：NingWei
+    日期：2020/09/19 15:37      
+    功能：资源管理器
 *****************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -179,6 +179,7 @@ namespace Improve
     public class ResourceManager : Singleton<ResourceManager>
     {
         protected long m_Guid = 0;
+
         public bool m_LoadFromAssetBundle = true;      //是否从AssetBundle加载
 
         /// <summary>
@@ -769,7 +770,7 @@ namespace Improve
         /// <param name="path"></param>
         /// <returns></returns>
 #if UNITY_EDITOR
-        protected T LoadAssetByEditor<T>(string path) where T : UnityEngine.Object
+        public T LoadAssetByEditor<T>(string path) where T : UnityEngine.Object
         {
             return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
         }
@@ -1031,4 +1032,3 @@ namespace Improve
 
     }
 }
-

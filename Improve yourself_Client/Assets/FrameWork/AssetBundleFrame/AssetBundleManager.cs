@@ -1,13 +1,15 @@
 /****************************************************
-	文件：AssetBundleManager.cs
-	作者：NingWei
-	日期：2020/09/19 15:37   	
-	功能：AB管理器
+    文件：AssetBundleManager.cs
+    作者：NingWei
+    日期：2020/09/19 15:37      
+    功能：AB管理器
 *****************************************************/
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using System.Xml;
+using System.Xml.Serialization;
 namespace Improve
 {
     /// <summary>
@@ -206,54 +208,72 @@ namespace Improve
         /// <returns></returns>
         public bool LoadAssetBundleConfig(bool isInit = true)
         {
-            //初始化时候的ab配置文件在streamingAssets文件夹中
-            string configPath = Application.streamingAssetsPath + "/" + m_ABConfigABName;
-            //非初始化，检查热更后进来的
-            if (!isInit)
+            AssetBundleConfig abConfig = null;
+
+#if UNITY_EDITOR
+
+            if (ResourceManager.Instance.m_LoadFromAssetBundle)
             {
-                //热更完毕后检查配置文件是否热更了
-                string hotABPath = HotPatchManager.Instance.ComputeABPath(m_ABConfigABName);
-                if (string.IsNullOrEmpty(hotABPath))
-                    return true;
-                else
+#endif
+                //初始化时候的ab配置文件在streamingAssets文件夹中
+                string configPath = Application.streamingAssetsPath + "/" + m_ABConfigABName;
+                //非初始化，检查热更后进来的
+                if (!isInit)
                 {
-                    //文件改变了，卸载本地的ab包，从热更路径下下载新的ab包
-                    if (configAB != null)
+                    //热更完毕后检查配置文件是否热更了
+                    string hotABPath = HotPatchManager.Instance.ComputeABPath(m_ABConfigABName);
+                    if (string.IsNullOrEmpty(hotABPath))
+                        return true;
+                    else
                     {
-                        configAB.Unload(true);
-                        configPath = hotABPath;
+                        //文件改变了，卸载本地的ab包，从热更路径下下载新的ab包
+                        if (configAB != null)
+                        {
+                            configAB.Unload(true);
+                            configPath = hotABPath;
+                        }
                     }
                 }
-            }
-            m_AssetBundleInfoDic.Clear();
 
-            //加密后的ab包要先解密，才能加载
-            if (Encrypt)
-            {
-                byte[] bytes = AES.AESFileByteDecrypt(configPath, FrameConstr.m_ABSecretKey);
+                m_AssetBundleInfoDic.Clear();
 
-                configAB = AssetBundle.LoadFromMemory(bytes);
+                //加密后的ab包要先解密，才能加载
+                if (Encrypt)
+                {
+                    byte[] bytes = AES.AESFileByteDecrypt(configPath, FrameConstr.m_ABSecretKey);
+
+                    configAB = AssetBundle.LoadFromMemory(bytes);
+                }
+                else
+                {
+                    configAB = AssetBundle.LoadFromFile(configPath);
+                }
+
+                TextAsset textAsset = configAB.LoadAsset<TextAsset>(m_ABConfigABName);
+                if (textAsset == null)
+                {
+                    Debug.LogError("AssetBundleConfig is no exist!");
+                    return false;
+                }
+                //创建一个内存流
+                MemoryStream stream = new MemoryStream(textAsset.bytes);
+                //二进制序列化对象
+                BinaryFormatter bf = new BinaryFormatter();
+                abConfig = (AssetBundleConfig)bf.Deserialize(stream);
+                //关闭内存流
+                stream.Close();
+#if UNITY_EDITOR
             }
             else
             {
-                configAB = AssetBundle.LoadFromFile(configPath);
+                m_AssetBundleInfoDic.Clear();
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(Application.dataPath + "/AssetBundleConfig.xml");
+                XmlSerializer xs = new XmlSerializer(typeof(AssetBundleConfig));
+                StringReader sr = new StringReader(xmlDoc.InnerXml);
+                abConfig = (AssetBundleConfig)xs.Deserialize(sr);
             }
-
-            TextAsset textAsset = configAB.LoadAsset<TextAsset>(m_ABConfigABName);
-            if (textAsset == null)
-            {
-                Debug.LogError("AssetBundleConfig is no exist!");
-                return false;
-            }
-            //创建一个内存流
-            MemoryStream stream = new MemoryStream(textAsset.bytes);
-            //二进制序列化对象
-            BinaryFormatter bf = new BinaryFormatter();
-
-            AssetBundleConfig abConfig = (AssetBundleConfig)bf.Deserialize(stream);
-            //关闭内存流
-            stream.Close();
-
+#endif
             for (int i = 0; i < abConfig.ABList.Count; ++i)
             {
                 ABBase abBase = abConfig.ABList[i];
@@ -543,6 +563,3 @@ namespace Improve
         }
     }
 }
-
-
-

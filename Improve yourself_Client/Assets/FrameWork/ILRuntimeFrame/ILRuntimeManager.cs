@@ -1,4 +1,9 @@
-/****************************************************     文件：ILRuntimeManager.cs 	作者：NingWei     日期：2020/10/13 15:49:48 	功能：ILRuntime热更管理类 *****************************************************/
+/****************************************************
+    文件：ILRuntimeManager.cs
+    作者：NingWei
+    日期：2020/10/13 15:49:48
+    功能：ILRuntime热更管理类
+*****************************************************/
 using ILRuntime.Runtime.Enviorment;
 using System.Collections;
 using System.IO;
@@ -40,8 +45,9 @@ namespace Improve
                         pdbMs = new MemoryStream(pdbHandle.Result.bytes);
                     }
                 }
-                else {
-                    
+                else
+                {
+
                     TextAsset dllText = ResourceManager.Instance.LoadResource<TextAsset>(DLLPATH);
                     dllMs = new MemoryStream(dllText.bytes);
                     TextAsset padText = ResourceManager.Instance.LoadResource<TextAsset>(PDBPATH);
@@ -61,7 +67,8 @@ namespace Improve
                     OnHotFixLoaded(obj, transform);
                 }
             }
-            else {
+            else
+            {
                 OnHotFixLoaded(obj, transform);
             }
             yield return null;
@@ -75,7 +82,8 @@ namespace Improve
                 Debug.Log("启动热更DLL的Main方法");
                 m_AppDomain.Invoke("HotFixProject.HotFixMain", "Main", null, obj, transform);
             }
-            else {
+            else
+            {
                 Debug.Log("启动本地模拟的Main方法");
                 HotFixMain.Main(obj, transform);
             }
@@ -88,7 +96,8 @@ namespace Improve
                 Debug.Log("启动热更DLL的Loading界面");
                 m_AppDomain.Invoke("HotFixProject.HotFixMain", "OpenLoadingUI", null, name);
             }
-            else {
+            else
+            {
                 Debug.Log("启动本地模拟的Loading界面");
                 HotFixMain.OpenLoadingUI(name);
             }

@@ -1,8 +1,8 @@
 /****************************************************
-	文件：MenuWindow.cs
-	作者：NingWei
-	日期：2020/09/07 11:31   	
-	功能：处理菜单界面的逻辑
+    文件：MenuWindow.cs
+    作者：NingWei
+    日期：2020/09/07 11:31      
+    功能：处理菜单界面的逻辑
 *****************************************************/
 
 using IYProtocal;
@@ -70,6 +70,9 @@ namespace Improve
                     }
                 }, LoadResPriority.RES_HIGHT, true);
             }
+
+            Vector3 v3 = Camera.main.ScreenToWorldPoint(m_Panel.Test2.transform.position);
+            Debug.Log("转换后的世界坐标" + v3);
         }
 
         public override void OnUpdate()

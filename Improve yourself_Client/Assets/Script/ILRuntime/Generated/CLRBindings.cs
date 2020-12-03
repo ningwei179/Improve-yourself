@@ -7,7 +7,6 @@ namespace ILRuntime.Runtime.Generated
     class CLRBindings
     {
 
-        internal static ILRuntime.Runtime.Enviorment.ValueTypeBinder<UnityEngine.Vector3> s_UnityEngine_Vector3_Binding_Binder = null;
 
         /// <summary>
         /// Initialize the CLR binding, please invoke this AFTER CLR Redirection registration
@@ -41,6 +40,7 @@ namespace ILRuntime.Runtime.Generated
             System_Array_Binding.Register(app);
             UnityEngine_Component_Binding.Register(app);
             UnityEngine_Transform_Binding.Register(app);
+            UnityEngine_Camera_Binding.Register(app);
             UnityEngine_Input_Binding.Register(app);
             IYProtocal_NetMsg_Binding.Register(app);
             IYNet_IYMsg_Binding.Register(app);
@@ -59,7 +59,6 @@ namespace ILRuntime.Runtime.Generated
             System_Collections_Generic_Dictionary_2_String_Type_Binding.Register(app);
             System_Type_Binding.Register(app);
             UnityEngine_Screen_Binding.Register(app);
-            UnityEngine_Camera_Binding.Register(app);
             System_Collections_Generic_List_1_ILTypeInstance_Binding.Register(app);
             System_Collections_Generic_Stack_1_ILTypeInstance_Binding.Register(app);
             System_Activator_Binding.Register(app);
@@ -78,8 +77,6 @@ namespace ILRuntime.Runtime.Generated
             System_Single_Binding.Register(app);
 
             ILRuntime.CLR.TypeSystem.CLRType __clrType = null;
-            __clrType = (ILRuntime.CLR.TypeSystem.CLRType)app.GetType (typeof(UnityEngine.Vector3));
-            s_UnityEngine_Vector3_Binding_Binder = __clrType.ValueTypeBinder as ILRuntime.Runtime.Enviorment.ValueTypeBinder<UnityEngine.Vector3>;
         }
 
         /// <summary>
@@ -87,7 +84,6 @@ namespace ILRuntime.Runtime.Generated
         /// </summary>
         public static void Shutdown(ILRuntime.Runtime.Enviorment.AppDomain app)
         {
-            s_UnityEngine_Vector3_Binding_Binder = null;
         }
     }
 }
