@@ -335,6 +335,17 @@
     <Compile Include="Assets\Script\NetWork\MessagePublisher.cs" />
     <Compile Include="Assets\Script\NetWork\NetMessage\MessageContext_Login.cs" />
     <Compile Include="Assets\Script\NetWork\NetWorkManager.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\Controller\Controller.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\Entity\EntityBase.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\FMS\IState.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\FMS\StateAttack.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\FMS\StateBorn.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\FMS\StateDie.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\FMS\StateHit.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\FMS\StateIdle.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\FMS\StateMove.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\Manager\BattleMgr.cs" />
+    <Compile Include="Assets\Script_Hot\Battle\Manager\StateMgr.cs" />
     <Compile Include="Assets\Script_Hot\FairyModel\BackPack\BackPackBinder.cs" />
     <Compile Include="Assets\Script_Hot\FairyModel\BackPack\UI_BackPackPanel.cs" />
     <Compile Include="Assets\Script_Hot\FairyModel\Common\CommonBinder.cs" />
