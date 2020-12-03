@@ -1,8 +1,8 @@
 /****************************************************
-	文件：UIBinder
-	作者：ningwei
-	日期：2020/11/27 17:56:49
-	功能：xxx
+    文件：UIBinder
+    作者：ningwei
+    日期：2020/11/27 17:56:49
+    功能：xxx
 *****************************************************/
 using FairyGUI;
 using FairyGUI.BackPack;
@@ -44,14 +44,37 @@ namespace Improve
             {
                 if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
                 {
-                    //暂缺Addressable的加载方法
+                    //加载FairyGUI Package
+                    //string desname = item.Key + "_fui.bytes";
+                    //AddressableManager.Instance.AsyncLoadResource<TextAsset>(desname, (TextAsset text) =>
+                    //{
+                    //    Debug.Log("desLoadSuc");
+                    //    UIPackage.AddPackage(
+                    //        text.bytes,
+                    //        "Common",
+                    //        async (string fairyname, string extension, Type type, PackageItem ite) =>
+                    //        {
+                    //            Debug.Log($"{fairyname}, {extension}, {type.ToString()}, {ite.ToString()}");
+
+                    //            string texturePath = "Assets/GameData/FairyGUI/" + fairyname + extension;
+
+                    //            if (type == typeof(Texture))
+                    //            {
+                    //                AddressableManager.Instance.AsyncLoadResource<Texture>(fairyname, (Texture tex) =>
+                    //                {
+                    //                    ite.owner.SetItemAsset(ite, tex, DestroyMethod.Custom);
+                    //                });
+                    //            }
+                    //        });
+                    //});
                 }
                 else if (FrameConstr.UseAssetAddress == AssetAddress.AssetBundle)
                 {
                     AssetBundle ab = AssetBundleManager.Instance.LoadAssetBundle(item.Value);
                     UIPackage.AddPackage(ab);
                 }
-                else { 
+                else
+                {
                     UIPackage.AddPackage(item.Key);
                 }
             }

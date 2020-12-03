@@ -8,7 +8,6 @@ using FairyGUI;
 using FairyGUI.BackPack;
 using FairyGUI.Common;
 using HotFixProject;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,26 +45,28 @@ namespace Improve
                 if (FrameConstr.UseAssetAddress == AssetAddress.Addressable)
                 {
                     //加载FairyGUI Package
-                    string desname = item.Key + "_fui.bytes";
-                    AddressableManager.Instance.AsyncLoadResource<TextAsset>(desname, (TextAsset text) =>
-                    {
-                        Debug.Log("desLoadSuc");
-                        UIPackage.AddPackage(
-                            text.bytes,
-                            "Common",
-                            async (string fairyname, string extension, Type type, PackageItem ite) =>
-                            {
-                                Debug.Log($"{fairyname}, {extension}, {type.ToString()}, {ite.ToString()}");
+                    //string desname = item.Key + "_fui.bytes";
+                    //AddressableManager.Instance.AsyncLoadResource<TextAsset>(desname, (TextAsset text) =>
+                    //{
+                    //    Debug.Log("desLoadSuc");
+                    //    UIPackage.AddPackage(
+                    //        text.bytes,
+                    //        "Common",
+                    //        async (string fairyname, string extension, Type type, PackageItem ite) =>
+                    //        {
+                    //            Debug.Log($"{fairyname}, {extension}, {type.ToString()}, {ite.ToString()}");
 
-                                if (type == typeof(Texture))
-                                {
-                                    AddressableManager.Instance.AsyncLoadResource<Texture>(fairyname, (Texture tex) =>
-                                    {
-                                        ite.owner.SetItemAsset(ite, tex, DestroyMethod.Custom);
-                                    });
-                                }
-                            });
-                    });
+                    //            string texturePath = "Assets/GameData/FairyGUI/" + fairyname + extension;
+
+                    //            if (type == typeof(Texture))
+                    //            {
+                    //                AddressableManager.Instance.AsyncLoadResource<Texture>(fairyname, (Texture tex) =>
+                    //                {
+                    //                    ite.owner.SetItemAsset(ite, tex, DestroyMethod.Custom);
+                    //                });
+                    //            }
+                    //        });
+                    //});
                 }
                 else if (FrameConstr.UseAssetAddress == AssetAddress.AssetBundle)
                 {

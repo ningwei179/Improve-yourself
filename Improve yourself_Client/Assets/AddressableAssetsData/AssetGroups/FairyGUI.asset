@@ -10,14 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Packed Assets
+  m_Name: FairyGUI
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: FairyGUI
   m_Data:
     m_SerializedData: []
   m_GUID: 9da88a44e98946f45bb2d51cdc947b4e
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: e02faf1b53c5e004d942fda043cdee2d
+    m_Address: Assets/GameData/FairyGUI/BackPack_atlas0.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2800000, guid: e02faf1b53c5e004d942fda043cdee2d, type: 3}
+    m_TargetAsset: {fileID: 2800000, guid: e02faf1b53c5e004d942fda043cdee2d, type: 3}
+  - m_GUID: 5d18a3e1296170a48a3803eeefb6caf7
+    m_Address: Assets/GameData/FairyGUI/BackPack_fui.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 4900000, guid: 5d18a3e1296170a48a3803eeefb6caf7, type: 3}
+    m_TargetAsset: {fileID: 4900000, guid: 5d18a3e1296170a48a3803eeefb6caf7, type: 3}
+  - m_GUID: 7a4de73da37a21c4eaace6068a7f6a01
+    m_Address: Assets/GameData/FairyGUI/Common_fui.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 4900000, guid: 7a4de73da37a21c4eaace6068a7f6a01, type: 3}
+    m_TargetAsset: {fileID: 4900000, guid: 7a4de73da37a21c4eaace6068a7f6a01, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1e150252905fccf48be5744834c34d94, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: 07d57080cbe65644e843385d6948486f, type: 2}
+    - {fileID: 11400000, guid: b660c0ab9cc36744780524b2bd90fcab, type: 2}

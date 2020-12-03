@@ -166,18 +166,43 @@ namespace Improve
                             {
                                 AssetBundle ab = AssetBundleManager.Instance.LoadAssetBundle(abName);
                                 UIPackage.AddPackage(ab);
+                                InitFairyGUIPanel(ui, name, resource, paramList);
                             }
                         }
                         else if (resource == AssetAddress.Addressable)
                         {
+                            //string abName;
+                            //没有预加载过的Fairy包,我们就加载这个包
+                            //if (FairyGUIManager.Instance.m_FairyGUIList.TryGetValue(ui.UIResourceName, out abName))
+                            //{
+                            //string desname = ui.UIResourceName + "_fui.bytes";
+                            //Debug.Log("desname" + desname);
+                            //加载FairyGUI Package
+                            //AddressableManager.Instance.AsyncLoadResource<TextAsset>(desname, (TextAsset text) =>
+                            //{
+                            //    Debug.Log("desLoadSuc");
+                            //    UIPackage.AddPackage(
+                            //        text.bytes,
+                            //        "BackPack",
+                            //        async (string fairyname, string extension, Type type, PackageItem ite) =>
+                            //        {
+                            //            Debug.Log($"{fairyname}, {extension}, {type.ToString()}, {ite.ToString()}");
 
+                            //            AddressableManager.Instance.AsyncLoadResource<Texture>(fairyname, (Texture tex) =>
+                            //            {
+                            //                ite.owner.SetItemAsset(ite, tex, DestroyMethod.Custom);
+                            //                InitFairyGUIPanel(ui, name, resource, paramList);
+                            //            });
+                            //        });
+                            //});
+                            //}
                         }
                         else
                         {  //其他模式从本地加载
                             UIPackage.AddPackage(ui.UIResourceName);
+                            InitFairyGUIPanel(ui, name, resource, paramList);
                         }
                     }
-                    InitFairyGUIPanel(ui, name, resource, paramList);
                 }
                 else
                 {

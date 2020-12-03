@@ -32,12 +32,12 @@ namespace Improve
 
     public class FrameConstr
     {
-        public const ILRuntimeState ILState = ILRuntimeState.Close;
+        public const ILRuntimeState ILState = ILRuntimeState.Open;
 
         /// <summary>
         /// 资产来源
         /// </summary>
-        public const AssetAddress UseAssetAddress = AssetAddress.Addressable;
+        public const AssetAddress UseAssetAddress = AssetAddress.AssetBundle;
 
         /// <summary>
         /// AB包的加密秘钥

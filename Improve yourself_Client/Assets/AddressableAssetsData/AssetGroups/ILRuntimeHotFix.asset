@@ -17,14 +17,14 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: c563cea149610ee458a6fd0ff82f5927
   m_SerializeEntries:
-  - m_GUID: b58db3afab5ebb945ad46096c3d077d1
-    m_Address: Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes
+  - m_GUID: b2cc278d455e983428440ad43cd02450
+    m_Address: Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: b2cc278d455e983428440ad43cd02450
-    m_Address: Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.dll.bytes
+  - m_GUID: b58db3afab5ebb945ad46096c3d077d1
+    m_Address: Assets/GameData/Data/ILRuntimeHotFix/HotFixProject.pdb.bytes
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
